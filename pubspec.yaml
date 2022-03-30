@@ -22,7 +22,16 @@ dependencies:
 
   # State Management, Dependency Injection & Routing
   flutter_riverpod: ^1.0.3
-  # auto_route: ^3.2.4
+  auto_route: ^3.2.4
+
+  # Utils
+  uuid: ^3.0.6
+  cached_network_image: ^3.2.0
+  google_fonts: ^2.3.1
+  cross_connectivity: ^3.0.5
+
+
+
 
 dev_dependencies:
   flutter_test:
@@ -53,8 +62,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+    - assets/
   #   - images/a_dot_ham.jpeg
 
  
