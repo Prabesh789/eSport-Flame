@@ -57,12 +57,13 @@ class CustomButton extends StatelessWidget {
           child: Text(
             buttonText.toString().trim(),
             textAlign: TextAlign.center,
-            style: GoogleFonts.average(
-              textStyle: Theme.of(context).textTheme.bodyText1?.copyWith(
-                    color: AppColors.whiteColor,
-                    fontWeight: FontWeight.w500,
-                  ),
-            ),
+            style: buttontextStyle ??
+                GoogleFonts.average(
+                  textStyle: Theme.of(context).textTheme.bodyText1?.copyWith(
+                        color: AppColors.whiteColor,
+                        fontWeight: FontWeight.w500,
+                      ),
+                ),
           ),
         ),
       ),

@@ -2,6 +2,7 @@ import 'package:esport_flame/core/app_colors.dart';
 import 'package:esport_flame/core/widgets/custom_body.dart';
 import 'package:esport_flame/core/widgets/custom_bottun.dart';
 import 'package:esport_flame/core/widgets/custom_textfield.dart';
+import 'package:esport_flame/feature/auth_screen/signup_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -69,12 +70,19 @@ class _SigninScreenState extends State<SigninScreen> {
                     const SizedBox(height: 30),
                     Align(
                       alignment: Alignment.centerRight,
-                      child: Text(
-                        'New signup',
-                        style: Theme.of(context).textTheme.subtitle1?.copyWith(
-                              color: AppColors.redColor,
-                              fontStyle: FontStyle.italic,
-                            ),
+                      child: InkWell(
+                        onTap: () {
+                          SignupAlertBox.showAlert(
+                              context: context, mediaQuery: mediaQuery);
+                        },
+                        child: Text(
+                          'New signup',
+                          style:
+                              Theme.of(context).textTheme.subtitle1?.copyWith(
+                                    color: AppColors.redColor,
+                                    fontStyle: FontStyle.italic,
+                                  ),
+                        ),
                       ),
                     )
                   ],
