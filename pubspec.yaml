@@ -29,6 +29,7 @@ dependencies:
   cached_network_image: ^3.2.0
   google_fonts: ^2.3.1
   cross_connectivity: ^3.0.5
+  flutter_svg: ^1.0.3
 
 
 

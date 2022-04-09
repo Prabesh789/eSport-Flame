@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'E-sport flame',
       theme: ThemeData(
-        scaffoldBackgroundColor: AppColors.blackColor,
+        // scaffoldBackgroundColor: AppColors.blackColor,
         appBarTheme: AppBarTheme(
           backgroundColor: AppColors.blackColor,
           titleTextStyle: GoogleFonts.average(

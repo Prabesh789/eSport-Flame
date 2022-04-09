@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.esport.esport_flame">
    <application
-        android:label="ESport Flame"
+        android:label="E-Sport Flame"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

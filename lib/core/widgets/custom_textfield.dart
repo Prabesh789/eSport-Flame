@@ -135,7 +135,9 @@ class CustomTextField extends StatelessWidget {
         labelText: labelText,
         prefixText: prefixText,
         prefixStyle: Theme.of(context).textTheme.bodyText2,
-        labelStyle: Theme.of(context).textTheme.bodyText2,
+        labelStyle: Theme.of(context).textTheme.bodyText2?.copyWith(
+              color: AppColors.greyColor,
+            ),
       ),
     );
   }

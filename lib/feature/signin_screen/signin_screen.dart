@@ -3,7 +3,7 @@ import 'package:esport_flame/core/widgets/custom_body.dart';
 import 'package:esport_flame/core/widgets/custom_bottun.dart';
 import 'package:esport_flame/core/widgets/custom_textfield.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class SigninScreen extends StatefulWidget {
   const SigninScreen({Key? key}) : super(key: key);
@@ -20,6 +20,7 @@ class _SigninScreenState extends State<SigninScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Login to E-sport Flame'),
@@ -28,25 +29,19 @@ class _SigninScreenState extends State<SigninScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Image.asset(
-                'assets/login_img.jpg',
-              ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Username',
-                      style: GoogleFonts.average(
-                        textStyle: Theme.of(context)
-                            .textTheme
-                            .bodyText2
-                            ?.copyWith(color: AppColors.whiteColor),
-                      ),
+                    const SizedBox(height: 25),
+                    SizedBox(
+                      height: mediaQuery.height / 4,
+                      child: SvgPicture.asset('assets/login.svg'),
                     ),
-                    const SizedBox(height: 12),
+                    SizedBox(height: mediaQuery.width / 4),
                     CustomTextField(
+                      labelText: 'Username',
                       context: context,
                       controller: _userNameController,
                       prefixIcon: const Icon(Icons.person),
@@ -56,17 +51,8 @@ class _SigninScreenState extends State<SigninScreen> {
                       },
                     ),
                     const SizedBox(height: 12),
-                    Text(
-                      'Password',
-                      style: GoogleFonts.average(
-                        textStyle: Theme.of(context)
-                            .textTheme
-                            .bodyText2
-                            ?.copyWith(color: AppColors.whiteColor),
-                      ),
-                    ),
-                    const SizedBox(height: 12),
                     CustomTextField(
+                      labelText: 'Password',
                       context: context,
                       controller: _passwordController,
                       prefixIcon: const Icon(Icons.lock),
@@ -80,6 +66,17 @@ class _SigninScreenState extends State<SigninScreen> {
                       buttonText: 'Login',
                       onPressed: () {},
                     ),
+                    const SizedBox(height: 30),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        'New signup',
+                        style: Theme.of(context).textTheme.subtitle1?.copyWith(
+                              color: AppColors.redColor,
+                              fontStyle: FontStyle.italic,
+                            ),
+                      ),
+                    )
                   ],
                 ),
               ),
