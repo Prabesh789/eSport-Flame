@@ -3,6 +3,7 @@ import 'package:esport_flame/core/widgets/custom_body.dart';
 import 'package:esport_flame/core/widgets/custom_bottun.dart';
 import 'package:esport_flame/core/widgets/custom_textfield.dart';
 import 'package:esport_flame/feature/auth_screen/signup_dialog.dart';
+import 'package:esport_flame/feature/bottom_nav_bar/bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -65,7 +66,13 @@ class _SigninScreenState extends State<SigninScreen> {
                     const SizedBox(height: 30),
                     CustomButton(
                       buttonText: 'Login',
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => const BottomNavBar(),
+                          ),
+                        );
+                      },
                     ),
                     const SizedBox(height: 30),
                     Align(

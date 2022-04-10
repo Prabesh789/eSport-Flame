@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "750136314549",
+    "project_id": "e-sport-flame",
+    "storage_bucket": "e-sport-flame.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:750136314549:android:767c8b2553acc05ed9ccfc",
+        "android_client_info": {
+          "package_name": "com.esport.esport_flame"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "750136314549-v474khn9icfbuegj6dtlarvmf5qtgdi1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5hL7ZahX0tww9sxQOwejxej24JWEgb80"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "750136314549-v474khn9icfbuegj6dtlarvmf5qtgdi1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

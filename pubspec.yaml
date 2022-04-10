@@ -15,6 +15,12 @@ dependencies:
 
   cupertino_icons: ^1.0.2
 
+  # Firebase services
+  firebase_core: ^1.14.0
+  firebase_auth: ^3.3.13
+  cloud_firestore: ^3.1.11
+  firebase_storage: ^10.2.11
+
   # Data Class & Functional Programming
   dartz: ^0.10.1
   freezed_annotation: ^1.1.0
@@ -30,6 +36,10 @@ dependencies:
   google_fonts: ^2.3.1
   cross_connectivity: ^3.0.5
   flutter_svg: ^1.0.3
+  fluttertoast: ^8.0.9
+
+  # HTTP & Connectivity
+  dio: ^4.0.6
 
 
 
