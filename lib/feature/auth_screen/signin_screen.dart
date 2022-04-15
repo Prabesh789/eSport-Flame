@@ -79,6 +79,12 @@ class _SigninScreenState extends State<SigninScreen> {
                       alignment: Alignment.centerRight,
                       child: InkWell(
                         onTap: () {
+                          // Navigator.of(context).push(
+                          //   MaterialPageRoute(
+                          //     builder: (_) =>
+                          //         SignupScreen(mediaQuery: mediaQuery),
+                          //   ),
+                          // );
                           SignupAlertBox.showAlert(
                               context: context, mediaQuery: mediaQuery);
                         },

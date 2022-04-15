@@ -36,7 +36,7 @@ dependencies:
   google_fonts: ^2.3.1
   cross_connectivity: ^3.0.5
   flutter_svg: ^1.0.3
-  fluttertoast: ^8.0.9
+  
 
   # HTTP & Connectivity
   dio: ^4.0.6

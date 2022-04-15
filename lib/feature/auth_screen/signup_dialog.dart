@@ -1,5 +1,6 @@
 import 'package:esport_flame/core/app_colors.dart';
 import 'package:esport_flame/core/entities/base_state.dart';
+import 'package:esport_flame/core/extension/snackbar_extension.dart';
 import 'package:esport_flame/core/widgets/custom_body.dart';
 import 'package:esport_flame/core/widgets/custom_bottun.dart';
 import 'package:esport_flame/core/widgets/custom_textfield.dart';
@@ -83,20 +84,26 @@ class _SignupSectionState extends ConsumerState<SignupSection> {
 
   @override
   Widget build(BuildContext context) {
-    ref.watch<BaseState>(signupController).maybeMap(
-          success: (_) {
-            Navigator.of(context).pop();
-          },
-          orElse: () => const LinearProgressIndicator(
-            backgroundColor: AppColors.blueColor,
-          ),
-          loading: (_) => const LinearProgressIndicator(
-            backgroundColor: AppColors.blueColor,
-          ),
-          error: (_) {
-            Navigator.of(context).pop();
-          },
-        );
+    ref.listen<BaseState>(signupController, (oldState, state) {
+      state.maybeWhen(
+        success: (_) {
+          Navigator.of(context).pop();
+          context.showSnackBar('Successfully registered.', Icons.check_circle,
+              AppColors.greencolor);
+        },
+        error: (_) {
+          context.showSnackBar(
+              'Something went wrong !!!', Icons.error, AppColors.redColor);
+          Navigator.of(context).pop();
+        },
+        orElse: () => const LinearProgressIndicator(
+          backgroundColor: AppColors.blueColor,
+        ),
+      );
+    });
+    final state = ref.watch(signupController);
+    final isLoading = state == const BaseState<void>.loading();
+
     return Form(
       key: _formKey,
       child: Padding(
@@ -104,143 +111,146 @@ class _SignupSectionState extends ConsumerState<SignupSection> {
         child: SizedBox(
           height: widget.mediaQuery.height / 2.3,
           child: CustomBodyWidget(
-            child: Column(
-              children: [
-                SizedBox(height: widget.mediaQuery.width * 0.02),
-                CustomTextField(
-                  contentPadding: const EdgeInsets.symmetric(vertical: 8),
-                  labelText: 'Email',
-                  context: context,
-                  controller: _emailController,
-                  prefixIcon: const Icon(
-                    Icons.email,
-                    size: 18,
-                  ),
-                  focusNode: _emialFocusNode,
-                  keyboardType: TextInputType.emailAddress,
-                  onEditingComplete: () {
-                    FocusScope.of(context).requestFocus(_contactNoFocusNode);
-                  },
-                  validator: (String? value) {
-                    /**regex for email validation */
-                    final regex = RegExp(
-                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
-                    if (value!.isEmpty) {
-                      return 'Email invalid';
-                    } else if (!regex.hasMatch(value)) {
-                      return 'Email invalid';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 10),
-                CustomTextField(
-                  contentPadding: const EdgeInsets.symmetric(vertical: 8),
-                  keyboardType: TextInputType.number,
-                  labelText: 'Contact',
-                  context: context,
-                  controller: _contactNocontroller,
-                  prefixIcon: const Icon(
-                    Icons.phone,
-                    size: 18,
-                  ),
-                  focusNode: _contactNoFocusNode,
-                  onEditingComplete: () {
-                    FocusScope.of(context).requestFocus(_nickNameFocusNode);
-                  },
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Contact No. required';
-                    } else {
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  SizedBox(height: widget.mediaQuery.width * 0.02),
+                  CustomTextField(
+                    contentPadding: const EdgeInsets.symmetric(vertical: 8),
+                    labelText: 'Email',
+                    context: context,
+                    controller: _emailController,
+                    prefixIcon: const Icon(
+                      Icons.email,
+                      size: 18,
+                    ),
+                    focusNode: _emialFocusNode,
+                    keyboardType: TextInputType.emailAddress,
+                    onEditingComplete: () {
+                      FocusScope.of(context).requestFocus(_contactNoFocusNode);
+                    },
+                    validator: (String? value) {
+                      /**regex for email validation */
+                      final regex = RegExp(
+                          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+                      if (value!.isEmpty) {
+                        return 'Email invalid';
+                      } else if (!regex.hasMatch(value)) {
+                        return 'Email invalid';
+                      }
                       return null;
-                    }
-                  },
-                ),
-                const SizedBox(height: 10),
-                CustomTextField(
-                  contentPadding: const EdgeInsets.symmetric(vertical: 8),
-                  labelText: 'Nick name',
-                  context: context,
-                  controller: _nickNamecontroller,
-                  prefixIcon: const Icon(
-                    Icons.near_me,
-                    size: 18,
+                    },
                   ),
-                  focusNode: _nickNameFocusNode,
-                  onEditingComplete: () {
-                    FocusScope.of(context).requestFocus(_passwordFocusNode);
-                  },
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Nick name required';
-                    } else {
-                      return null;
-                    }
-                  },
-                ),
-                const SizedBox(height: 10),
-                CustomTextField(
-                  obscureText: obscureText,
-                  contentPadding: const EdgeInsets.symmetric(vertical: 8),
-                  labelText: 'Password',
-                  context: context,
-                  controller: _passwordController,
-                  prefixIcon: const Icon(
-                    Icons.lock,
-                    size: 18,
+                  const SizedBox(height: 10),
+                  CustomTextField(
+                    contentPadding: const EdgeInsets.symmetric(vertical: 8),
+                    keyboardType: TextInputType.number,
+                    labelText: 'Contact',
+                    context: context,
+                    controller: _contactNocontroller,
+                    prefixIcon: const Icon(
+                      Icons.phone,
+                      size: 18,
+                    ),
+                    focusNode: _contactNoFocusNode,
+                    onEditingComplete: () {
+                      FocusScope.of(context).requestFocus(_nickNameFocusNode);
+                    },
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Contact No. required';
+                      } else {
+                        return null;
+                      }
+                    },
                   ),
-                  focusNode: _passwordFocusNode,
-                  onEditingComplete: () {
-                    FocusScope.of(context).unfocus();
-                  },
-                  validator: (value) {
-                    if (value!.isEmpty && value.length < 8) {
-                      return 'Password must have 8 character.';
-                    } else {
-                      return null;
-                    }
-                  },
-                  suffixIcon: Padding(
-                    padding: const EdgeInsets.only(top: 20),
-                    child: InkWell(
-                      onTap: _togglevisibility,
-                      child: Text(
-                        obscureText ? 'show' : 'hide',
-                        style: GoogleFonts.ptSerif(
-                          textStyle: const TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.bold,
-                            overflow: TextOverflow.ellipsis,
-                            color: Colors.grey,
+                  const SizedBox(height: 10),
+                  CustomTextField(
+                    contentPadding: const EdgeInsets.symmetric(vertical: 8),
+                    labelText: 'Nick name',
+                    context: context,
+                    controller: _nickNamecontroller,
+                    prefixIcon: const Icon(
+                      Icons.near_me,
+                      size: 18,
+                    ),
+                    focusNode: _nickNameFocusNode,
+                    onEditingComplete: () {
+                      FocusScope.of(context).requestFocus(_passwordFocusNode);
+                    },
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Nick name required';
+                      } else {
+                        return null;
+                      }
+                    },
+                  ),
+                  const SizedBox(height: 10),
+                  CustomTextField(
+                    obscureText: obscureText,
+                    contentPadding: const EdgeInsets.symmetric(vertical: 8),
+                    labelText: 'Password',
+                    context: context,
+                    controller: _passwordController,
+                    prefixIcon: const Icon(
+                      Icons.lock,
+                      size: 18,
+                    ),
+                    focusNode: _passwordFocusNode,
+                    onEditingComplete: () {
+                      FocusScope.of(context).unfocus();
+                    },
+                    validator: (value) {
+                      if (value!.isEmpty && value.length < 8) {
+                        return 'Password must have 8 character.';
+                      } else {
+                        return null;
+                      }
+                    },
+                    suffixIcon: Padding(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: InkWell(
+                        onTap: _togglevisibility,
+                        child: Text(
+                          obscureText ? 'show' : 'hide',
+                          style: GoogleFonts.ptSerif(
+                            textStyle: const TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                              overflow: TextOverflow.ellipsis,
+                              color: Colors.grey,
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 30),
-                SizedBox(
-                  height: 45,
-                  child: CustomButton(
-                    buttontextStyle: Theme.of(context)
-                        .textTheme
-                        .bodyText2
-                        ?.copyWith(color: AppColors.whiteColor),
-                    buttonText: 'Signup',
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        ref.read(signupController.notifier).signupUser(
-                              contactNo: _contactNocontroller.text,
-                              email: _emailController.text,
-                              isAdmin: false,
-                              nickName: _nickNamecontroller.text,
-                              password: _passwordController.text,
-                            );
-                      }
-                    },
+                  const SizedBox(height: 30),
+                  SizedBox(
+                    height: 48,
+                    child: CustomButton(
+                      isLoading: isLoading,
+                      buttontextStyle: Theme.of(context)
+                          .textTheme
+                          .bodyText2
+                          ?.copyWith(color: AppColors.whiteColor),
+                      buttonText: 'Signup',
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          ref.read(signupController.notifier).signupUser(
+                                contactNo: _contactNocontroller.text,
+                                email: _emailController.text,
+                                isAdmin: false,
+                                nickName: _nickNamecontroller.text,
+                                password: _passwordController.text,
+                              );
+                        }
+                      },
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

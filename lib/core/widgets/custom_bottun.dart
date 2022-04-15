@@ -54,17 +54,29 @@ class CustomButton extends StatelessWidget {
           borderRadius: borderRadiusGeometry ?? BorderRadius.circular(8),
         ),
         child: Center(
-          child: Text(
-            buttonText.toString().trim(),
-            textAlign: TextAlign.center,
-            style: buttontextStyle ??
-                GoogleFonts.average(
-                  textStyle: Theme.of(context).textTheme.bodyText1?.copyWith(
-                        color: AppColors.whiteColor,
-                        fontWeight: FontWeight.w500,
+          child: isLoading
+              ? const SizedBox(
+                  height: 22,
+                  width: 22,
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                      AppColors.whiteColor,
+                    ),
+                    strokeWidth: 2.0,
+                  ),
+                )
+              : Text(
+                  buttonText.toString().trim(),
+                  textAlign: TextAlign.center,
+                  style: buttontextStyle ??
+                      GoogleFonts.average(
+                        textStyle:
+                            Theme.of(context).textTheme.bodyText1?.copyWith(
+                                  color: AppColors.whiteColor,
+                                  fontWeight: FontWeight.w500,
+                                ),
                       ),
                 ),
-          ),
         ),
       ),
     );
