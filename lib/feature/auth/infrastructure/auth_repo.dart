@@ -80,13 +80,39 @@ class AuthRepository implements IAuthRepository {
 
   @override
   Future<Either<LoginResponse, Failure>> loginUser(
-      {required LoginRequest loginRequest}) {
-    throw UnimplementedError();
+      {required LoginRequest loginRequest}) async {
+    try {
+      final response = await _auth.signInWithEmailAndPassword(
+        email: loginRequest.email,
+        password: loginRequest.password,
+      );
+
+      final user =
+          await _firestore.collection('users').doc(response.user?.uid).get();
+      final data = user.data();
+      data?.putIfAbsent('userId', () => user.id);
+
+      final result = LoginResponse.fromJson(data as Map<String, dynamic>);
+      return Left(result);
+    } on FirebaseAuthException catch (e) {
+      return Right(
+        Failure(
+          errorMessage:
+              e.message ?? 'Something went wrong, try in few moments !',
+        ),
+      );
+    } catch (e) {
+      return Right(
+        Failure(
+          errorMessage: e.toString(),
+        ),
+      );
+    }
   }
 
   @override
-  Future<Either<Unit, Failure>> logout() {
-    // TODO: implement logout
-    throw UnimplementedError();
+  Future<Either<Unit, Failure>> logout() async {
+    await FirebaseAuth.instance.signOut();
+    return const Left(unit);
   }
 }

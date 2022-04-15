@@ -13,6 +13,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: const SizedBox(),
         title: const Text('E-sport Flame'),
       ),
     );

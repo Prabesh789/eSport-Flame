@@ -44,12 +44,12 @@ class _BottomNavBarState extends State<BottomNavBar> {
             onTap: _onTap,
             elevation: 10.0,
             type: BottomNavigationBarType.fixed,
-            backgroundColor: AppColors.blueColor,
+            backgroundColor: AppColors.blackColor,
             iconSize: 27,
             showSelectedLabels: true,
             showUnselectedLabels: true,
-            selectedItemColor: AppColors.whiteColor,
-            unselectedItemColor: AppColors.deepblueColor,
+            selectedItemColor: AppColors.redColor,
+            unselectedItemColor: AppColors.greyColor,
             unselectedLabelStyle:
                 Theme.of(context).textTheme.bodyText1?.copyWith(
                       fontSize: 12,
@@ -62,15 +62,15 @@ class _BottomNavBarState extends State<BottomNavBar> {
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                 icon: Icon(
-                  Icons.shop_2_outlined,
+                  Icons.home,
                 ),
                 label: 'Home page',
               ),
               BottomNavigationBarItem(
                 icon: Icon(
-                  Icons.shopping_cart,
+                  Icons.gamepad,
                 ),
-                label: 'Profile',
+                label: 'My games',
               ),
             ],
           ),

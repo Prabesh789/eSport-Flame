@@ -76,6 +76,19 @@ class _SignupSectionState extends ConsumerState<SignupSection> {
 
   bool obscureText = true;
 
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _contactNocontroller.dispose();
+    _passwordController.dispose();
+    _nickNamecontroller.dispose();
+    _emialFocusNode.dispose();
+    _contactNoFocusNode.dispose();
+    _passwordFocusNode.dispose();
+    _nickNameFocusNode.dispose();
+    super.dispose();
+  }
+
   void _togglevisibility() {
     setState(() {
       obscureText = !obscureText;
