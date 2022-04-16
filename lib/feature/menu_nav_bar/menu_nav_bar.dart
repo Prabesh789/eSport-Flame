@@ -58,7 +58,7 @@ class _MenuNavBarState extends ConsumerState<MenuNavBar> {
                         backgroundColor: AppColors.greyColor,
                         child: Text(
                           '${userData['nickName'][0]}'.toUpperCase(),
-                          style: GoogleFonts.average(
+                          style: GoogleFonts.playball(
                             textStyle:
                                 Theme.of(context).textTheme.headline1?.copyWith(
                                       color: AppColors.whiteColor,

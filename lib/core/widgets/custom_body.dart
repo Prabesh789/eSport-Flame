@@ -25,7 +25,7 @@ class CustomBodyWidget extends StatelessWidget {
             bottom: false,
             maintainBottomViewPadding: false,
             child: SizedBox(
-              height: 20,
+              height: 15,
               child: AnimatedContainer(
                 margin: EdgeInsets.zero,
                 padding: EdgeInsets.zero,

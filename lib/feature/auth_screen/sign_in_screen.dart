@@ -10,6 +10,7 @@ import 'package:esport_flame/feature/auth_screen/signup_dialog.dart';
 import 'package:esport_flame/feature/bottom_nav_bar/bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final signInController =
@@ -29,6 +30,14 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
   final _userNameFocusNode = FocusNode();
   final _passwordFocusNode = FocusNode();
   final _formKey = GlobalKey<FormState>();
+
+  bool obscureText = true;
+
+  void _togglevisibility() {
+    setState(() {
+      obscureText = !obscureText;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -96,21 +105,42 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                       ),
                       const SizedBox(height: 12),
                       CustomTextField(
+                        obscureText: obscureText,
                         labelText: 'Password',
                         context: context,
                         controller: _passwordController,
-                        prefixIcon: const Icon(Icons.lock),
+                        prefixIcon: const Icon(
+                          Icons.lock,
+                          size: 18,
+                        ),
                         focusNode: _passwordFocusNode,
                         onEditingComplete: () {
                           FocusScope.of(context).unfocus();
                         },
                         validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'required';
+                          if (value!.isEmpty && value.length < 8) {
+                            return 'Password must have 8 character.';
                           } else {
                             return null;
                           }
                         },
+                        suffixIcon: Padding(
+                          padding: const EdgeInsets.only(top: 20),
+                          child: InkWell(
+                            onTap: _togglevisibility,
+                            child: Text(
+                              obscureText ? 'show' : 'hide',
+                              style: GoogleFonts.ptSerif(
+                                textStyle: const TextStyle(
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.bold,
+                                  overflow: TextOverflow.ellipsis,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
                       const SizedBox(height: 30),
                       CustomButton(
