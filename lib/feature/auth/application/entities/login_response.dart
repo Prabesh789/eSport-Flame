@@ -10,6 +10,7 @@ class LoginResponse with _$LoginResponse {
     required String email,
     required String nickName,
     required String contactNo,
+    required bool isAdmin,
   }) = _LoginResponse;
   factory LoginResponse.fromJson(Map<String, dynamic> json) =>
       _$LoginResponseFromJson(json);

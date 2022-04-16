@@ -26,12 +26,14 @@ class _$LoginResponseTearOff {
       {required String userId,
       required String email,
       required String nickName,
-      required String contactNo}) {
+      required String contactNo,
+      required bool isAdmin}) {
     return _LoginResponse(
       userId: userId,
       email: email,
       nickName: nickName,
       contactNo: contactNo,
+      isAdmin: isAdmin,
     );
   }
 
@@ -49,6 +51,7 @@ mixin _$LoginResponse {
   String get email => throw _privateConstructorUsedError;
   String get nickName => throw _privateConstructorUsedError;
   String get contactNo => throw _privateConstructorUsedError;
+  bool get isAdmin => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -61,7 +64,12 @@ abstract class $LoginResponseCopyWith<$Res> {
   factory $LoginResponseCopyWith(
           LoginResponse value, $Res Function(LoginResponse) then) =
       _$LoginResponseCopyWithImpl<$Res>;
-  $Res call({String userId, String email, String nickName, String contactNo});
+  $Res call(
+      {String userId,
+      String email,
+      String nickName,
+      String contactNo,
+      bool isAdmin});
 }
 
 /// @nodoc
@@ -79,6 +87,7 @@ class _$LoginResponseCopyWithImpl<$Res>
     Object? email = freezed,
     Object? nickName = freezed,
     Object? contactNo = freezed,
+    Object? isAdmin = freezed,
   }) {
     return _then(_value.copyWith(
       userId: userId == freezed
@@ -97,6 +106,10 @@ class _$LoginResponseCopyWithImpl<$Res>
           ? _value.contactNo
           : contactNo // ignore: cast_nullable_to_non_nullable
               as String,
+      isAdmin: isAdmin == freezed
+          ? _value.isAdmin
+          : isAdmin // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -108,7 +121,12 @@ abstract class _$LoginResponseCopyWith<$Res>
           _LoginResponse value, $Res Function(_LoginResponse) then) =
       __$LoginResponseCopyWithImpl<$Res>;
   @override
-  $Res call({String userId, String email, String nickName, String contactNo});
+  $Res call(
+      {String userId,
+      String email,
+      String nickName,
+      String contactNo,
+      bool isAdmin});
 }
 
 /// @nodoc
@@ -128,6 +146,7 @@ class __$LoginResponseCopyWithImpl<$Res>
     Object? email = freezed,
     Object? nickName = freezed,
     Object? contactNo = freezed,
+    Object? isAdmin = freezed,
   }) {
     return _then(_LoginResponse(
       userId: userId == freezed
@@ -146,6 +165,10 @@ class __$LoginResponseCopyWithImpl<$Res>
           ? _value.contactNo
           : contactNo // ignore: cast_nullable_to_non_nullable
               as String,
+      isAdmin: isAdmin == freezed
+          ? _value.isAdmin
+          : isAdmin // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -157,7 +180,8 @@ class _$_LoginResponse implements _LoginResponse {
       {required this.userId,
       required this.email,
       required this.nickName,
-      required this.contactNo});
+      required this.contactNo,
+      required this.isAdmin});
 
   factory _$_LoginResponse.fromJson(Map<String, dynamic> json) =>
       _$$_LoginResponseFromJson(json);
@@ -170,10 +194,12 @@ class _$_LoginResponse implements _LoginResponse {
   final String nickName;
   @override
   final String contactNo;
+  @override
+  final bool isAdmin;
 
   @override
   String toString() {
-    return 'LoginResponse(userId: $userId, email: $email, nickName: $nickName, contactNo: $contactNo)';
+    return 'LoginResponse(userId: $userId, email: $email, nickName: $nickName, contactNo: $contactNo, isAdmin: $isAdmin)';
   }
 
   @override
@@ -184,7 +210,8 @@ class _$_LoginResponse implements _LoginResponse {
             const DeepCollectionEquality().equals(other.userId, userId) &&
             const DeepCollectionEquality().equals(other.email, email) &&
             const DeepCollectionEquality().equals(other.nickName, nickName) &&
-            const DeepCollectionEquality().equals(other.contactNo, contactNo));
+            const DeepCollectionEquality().equals(other.contactNo, contactNo) &&
+            const DeepCollectionEquality().equals(other.isAdmin, isAdmin));
   }
 
   @override
@@ -193,7 +220,8 @@ class _$_LoginResponse implements _LoginResponse {
       const DeepCollectionEquality().hash(userId),
       const DeepCollectionEquality().hash(email),
       const DeepCollectionEquality().hash(nickName),
-      const DeepCollectionEquality().hash(contactNo));
+      const DeepCollectionEquality().hash(contactNo),
+      const DeepCollectionEquality().hash(isAdmin));
 
   @JsonKey(ignore: true)
   @override
@@ -211,7 +239,8 @@ abstract class _LoginResponse implements LoginResponse {
       {required String userId,
       required String email,
       required String nickName,
-      required String contactNo}) = _$_LoginResponse;
+      required String contactNo,
+      required bool isAdmin}) = _$_LoginResponse;
 
   factory _LoginResponse.fromJson(Map<String, dynamic> json) =
       _$_LoginResponse.fromJson;
@@ -224,6 +253,8 @@ abstract class _LoginResponse implements LoginResponse {
   String get nickName;
   @override
   String get contactNo;
+  @override
+  bool get isAdmin;
   @override
   @JsonKey(ignore: true)
   _$LoginResponseCopyWith<_LoginResponse> get copyWith =>

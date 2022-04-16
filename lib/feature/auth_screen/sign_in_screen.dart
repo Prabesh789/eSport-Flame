@@ -1,9 +1,11 @@
 import 'package:esport_flame/core/app_colors.dart';
+import 'package:esport_flame/core/const/const.dart';
 import 'package:esport_flame/core/entities/base_state.dart';
 import 'package:esport_flame/core/extension/snackbar_extension.dart';
 import 'package:esport_flame/core/widgets/custom_body.dart';
 import 'package:esport_flame/core/widgets/custom_bottun.dart';
 import 'package:esport_flame/core/widgets/custom_textfield.dart';
+import 'package:esport_flame/feature/admin/admin_dashboard_screen.dart';
 import 'package:esport_flame/feature/auth/application/controller/auth_controller.dart';
 import 'package:esport_flame/feature/auth/application/entities/login_request.dart';
 import 'package:esport_flame/feature/auth_screen/signup_dialog.dart';
@@ -42,16 +44,27 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context).size;
+    final useStatus = ref.watch(isUserAdminProvider);
     ref.listen<BaseState>(signInController, (oldState, state) {
       state.maybeWhen(
         success: (_) {
-          context.showSnackBar(
-              'Login Successfull.', Icons.check_circle, AppColors.greencolor);
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (_) => const BottomNavBar(),
-            ),
-          );
+          if (useStatus == AccountType.admin) {
+            context.showSnackBar(
+                'Login Successfull', Icons.check_circle, AppColors.greencolor);
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => const AdminDashboardScreen(),
+              ),
+            );
+          } else if (useStatus == AccountType.general) {
+            context.showSnackBar(
+                'Login Successfull', Icons.check_circle, AppColors.greencolor);
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => const BottomNavBar(),
+              ),
+            );
+          }
         },
         error: (_) {
           context.showSnackBar(
@@ -66,8 +79,10 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
     });
     final state = ref.watch(signInController);
     final isLoading = state == const BaseState<void>.loading();
+
     return Scaffold(
       appBar: AppBar(
+        leading: const SizedBox(),
         title: const Text('Login to E-sport Flame'),
       ),
       body: Form(

@@ -12,6 +12,7 @@ _$_LoginResponse _$$_LoginResponseFromJson(Map<String, dynamic> json) =>
       email: json['email'] as String,
       nickName: json['nickName'] as String,
       contactNo: json['contactNo'] as String,
+      isAdmin: json['isAdmin'] as bool,
     );
 
 Map<String, dynamic> _$$_LoginResponseToJson(_$_LoginResponse instance) =>
@@ -20,4 +21,5 @@ Map<String, dynamic> _$$_LoginResponseToJson(_$_LoginResponse instance) =>
       'email': instance.email,
       'nickName': instance.nickName,
       'contactNo': instance.contactNo,
+      'isAdmin': instance.isAdmin,
     };
