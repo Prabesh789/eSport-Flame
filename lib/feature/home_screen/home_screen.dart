@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:esport_flame/core/app_colors.dart';
 import 'package:esport_flame/core/widgets/custom_body.dart';
+import 'package:esport_flame/feature/home_screen/section/live_streem.dart';
 import 'package:esport_flame/feature/home_screen/section/popular_section.dart';
 import 'package:esport_flame/feature/menu_nav_bar/menu_nav_bar.dart';
 import 'package:flutter/material.dart';
@@ -133,7 +134,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       ),
                       const SizedBox(width: 15),
                       Buttons(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (_) => const LiveStreem()));
+                        },
                         text: 'Live Streems',
                       ),
                     ],

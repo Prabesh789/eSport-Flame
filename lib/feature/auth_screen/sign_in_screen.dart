@@ -56,6 +56,8 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
         error: (_) {
           context.showSnackBar(
               'Something went wrong !!!', Icons.error, AppColors.redColor);
+          _userNameController.clear();
+          _passwordController.clear();
         },
         orElse: () => const LinearProgressIndicator(
           backgroundColor: AppColors.blueColor,
