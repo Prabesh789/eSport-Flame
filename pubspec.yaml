@@ -38,7 +38,10 @@ dependencies:
   flutter_svg: ^1.0.3
   card_swiper: ^2.0.3
   shimmer: ^2.0.0
-  # youtube_player_iframe: ^2.2.2
+  image_picker: ^0.8.5
+  intl: ^0.17.0
+
+  # youtube video player
   youtube_plyr_iframe: ^2.0.7
 
   # page refersher

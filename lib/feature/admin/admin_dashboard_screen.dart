@@ -4,6 +4,11 @@ import 'package:esport_flame/core/app_colors.dart';
 import 'package:esport_flame/core/const/const.dart';
 import 'package:esport_flame/core/entities/base_state.dart';
 import 'package:esport_flame/core/extension/snackbar_extension.dart';
+import 'package:esport_flame/feature/admin/sections/add_ads.dart';
+import 'package:esport_flame/feature/admin/sections/add_games.dart';
+import 'package:esport_flame/feature/admin/sections/add_tournaments.dart';
+import 'package:esport_flame/feature/admin/sections/add_videos.dart';
+import 'package:esport_flame/feature/admin/sections/user_list.dart';
 import 'package:esport_flame/feature/auth/application/controller/auth_controller.dart';
 import 'package:esport_flame/feature/auth_screen/sign_in_screen.dart';
 import 'package:esport_flame/feature/menu_nav_bar/menu_nav_bar.dart';
@@ -58,22 +63,6 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
                   ),
             ),
           ),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 20),
-              child: InkWell(
-                onTap: () async {
-                  // await FirebaseAuth.instance.signOut().then((value) {
-                  ref.read(logOutAdminController.notifier).logOutUser();
-                  // });
-                },
-                child: const Icon(
-                  Icons.logout,
-                  color: Colors.black,
-                ),
-              ),
-            )
-          ],
         ),
         body: GridView.builder(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
@@ -92,6 +81,26 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
               mediaQuery: mediaQuery,
               onTap: () {
                 log('$index');
+                if (index == 0) {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (_) => AddAds(
+                            mediaQuery: mediaQuery,
+                          )));
+                } else if (index == 1) {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (_) => AddGames(
+                            mediaQuery: mediaQuery,
+                          )));
+                } else if (index == 2) {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (_) => const AddATournaments()));
+                } else if (index == 3) {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (_) => const AddAVideos()));
+                } else if (index == 4) {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (_) => const UserList()));
+                }
               },
               text: data['buttonText'],
             );
