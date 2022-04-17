@@ -2,10 +2,18 @@ import 'dart:developer';
 
 import 'package:esport_flame/core/app_colors.dart';
 import 'package:esport_flame/core/const/const.dart';
+import 'package:esport_flame/core/entities/base_state.dart';
+import 'package:esport_flame/core/extension/snackbar_extension.dart';
+import 'package:esport_flame/feature/auth/application/controller/auth_controller.dart';
+import 'package:esport_flame/feature/auth_screen/sign_in_screen.dart';
 import 'package:esport_flame/feature/menu_nav_bar/menu_nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+final logOutAdminController =
+    StateNotifierProvider.autoDispose<AuthController, BaseState>(
+        authController);
 
 class AdminDashboardScreen extends ConsumerStatefulWidget {
   const AdminDashboardScreen({Key? key}) : super(key: key);
@@ -19,6 +27,21 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context).size;
+    ref.listen<BaseState>(logOutAdminController, (oldState, state) {
+      state.maybeWhen(
+        success: (_) {
+          context.showSnackBar(
+              'Logout', Icons.check_circle, AppColors.greencolor);
+          Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (_) => const SignInScreen()));
+        },
+        error: (_) {
+          context.showSnackBar(
+              'Something went wrong !!!', Icons.error, AppColors.redColor);
+        },
+        orElse: () {},
+      );
+    });
     return Scaffold(
         drawer: const Drawer(
           backgroundColor: AppColors.redColor,
@@ -35,6 +58,22 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
                   ),
             ),
           ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 20),
+              child: InkWell(
+                onTap: () async {
+                  // await FirebaseAuth.instance.signOut().then((value) {
+                  ref.read(logOutAdminController.notifier).logOutUser();
+                  // });
+                },
+                child: const Icon(
+                  Icons.logout,
+                  color: Colors.black,
+                ),
+              ),
+            )
+          ],
         ),
         body: GridView.builder(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),

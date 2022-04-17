@@ -1,5 +1,6 @@
+import 'dart:developer';
+
 import 'package:esport_flame/core/app_colors.dart';
-import 'package:esport_flame/core/const/const.dart';
 import 'package:esport_flame/core/entities/base_state.dart';
 import 'package:esport_flame/core/extension/snackbar_extension.dart';
 import 'package:esport_flame/core/widgets/custom_body.dart';
@@ -44,21 +45,19 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context).size;
-    final useStatus = ref.watch(isUserAdminProvider);
+
     ref.listen<BaseState>(signInController, (oldState, state) {
+      final useStatus = ref.watch(isUserAdminProvider);
+      log('$useStatus');
       state.maybeWhen(
         success: (_) {
-          if (useStatus == AccountType.admin) {
-            context.showSnackBar(
-                'Login Successfull', Icons.check_circle, AppColors.greencolor);
+          if (useStatus) {
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (_) => const AdminDashboardScreen(),
               ),
             );
-          } else if (useStatus == AccountType.general) {
-            context.showSnackBar(
-                'Login Successfull', Icons.check_circle, AppColors.greencolor);
+          } else {
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (_) => const BottomNavBar(),

@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-final logOutController =
+final logOutUserController =
     StateNotifierProvider.autoDispose<AuthController, BaseState>(
         authController);
 
@@ -28,17 +28,18 @@ class _MenuNavBarState extends ConsumerState<MenuNavBar> {
 
   @override
   void initState() {
-    if (mounted) {
-      auth.authStateChanges().listen(
-        (User? user) async {
-          if (user != null) {
+    auth.authStateChanges().listen(
+      (User? user) async {
+        if (user != null) {
+          if (mounted) {
             setState(() {
               userId = user.uid;
             });
           }
-        },
-      );
-    }
+        }
+      },
+    );
+
     super.initState();
   }
 
@@ -50,7 +51,7 @@ class _MenuNavBarState extends ConsumerState<MenuNavBar> {
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context).size;
-    ref.listen<BaseState>(logOutController, (oldState, state) {
+    ref.listen<BaseState>(logOutUserController, (oldState, state) {
       state.maybeWhen(
         success: (_) {
           context.showSnackBar(
@@ -208,7 +209,7 @@ class _MenuNavBarState extends ConsumerState<MenuNavBar> {
                       child: Icon(Icons.logout),
                     ),
                     onTap: () async {
-                      ref.read(logOutController.notifier).logOutUser();
+                      ref.read(logOutUserController.notifier).logOutUser();
                     },
                     title: Text(
                       'Logout',

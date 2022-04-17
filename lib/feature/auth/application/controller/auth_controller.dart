@@ -1,5 +1,4 @@
 import 'package:esport_flame/app/entitiles/failure.dart';
-import 'package:esport_flame/core/const/const.dart';
 import 'package:esport_flame/core/entities/base_state.dart';
 import 'package:esport_flame/feature/auth/application/entities/login_request.dart';
 import 'package:esport_flame/feature/auth/application/entities/login_response.dart';
@@ -15,9 +14,9 @@ AuthController<T> authController<T>(Ref ref) {
   );
 }
 
-final isUserAdminProvider = StateProvider<AccountType>(
+final isUserAdminProvider = StateProvider<bool>(
   (ref) {
-    return AccountType.none;
+    return false;
   },
 );
 
@@ -64,8 +63,7 @@ class AuthController<T> extends StateNotifier<BaseState> {
     final response = await _repo.loginUser(loginRequest: requestData);
     state = response.fold(
       (success) {
-        _read(isUserAdminProvider.notifier).state =
-            success.isAdmin ? AccountType.admin : AccountType.general;
+        _read(isUserAdminProvider.notifier).state = success.isAdmin;
         return BaseState<LoginResponse>.success(data: success);
       },
       (error) => BaseState<Failure>.error(error),
