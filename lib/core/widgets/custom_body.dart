@@ -24,44 +24,39 @@ class CustomBodyWidget extends StatelessWidget {
             top: true,
             bottom: false,
             maintainBottomViewPadding: false,
-            child: AnimatedContainer(
-              margin: EdgeInsets.zero,
-              padding: EdgeInsets.zero,
-              duration: const Duration(milliseconds: 350),
-              color: connected ?? true
-                  ? const Color(0xFF03fcbe)
-                  : const Color(0xFFEE4400),
-              height: connected ?? true ? 0 : 30,
-              child: AnimatedSwitcher(
+            child: SizedBox(
+              height: 15,
+              child: AnimatedContainer(
+                margin: EdgeInsets.zero,
+                padding: EdgeInsets.zero,
                 duration: const Duration(milliseconds: 350),
-                child: connected ?? true
-                    ? Text(
-                        'Connection Restored',
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyText1
-                            ?.copyWith(color: AppColors.whiteColor),
-                      )
-                    : Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          const Icon(
-                            Icons.wifi_off_sharp,
-                            color: AppColors.whiteColor,
-                            size: 12,
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          Text(
-                            'No Internet Connection',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyText1
-                                ?.copyWith(color: AppColors.whiteColor),
-                          ),
-                        ],
-                      ),
+                color: connected ?? true
+                    ? AppColors.greyColor
+                    : AppColors.redColor,
+                height: connected ?? true ? 0 : 30,
+                child: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 350),
+                  child: connected ?? true
+                      ? const SizedBox()
+                      : Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            const Icon(
+                              Icons.wifi_off_sharp,
+                              color: AppColors.whiteColor,
+                              size: 12,
+                            ),
+                            const SizedBox(width: 5),
+                            Text(
+                              'No Internet Connection',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .subtitle1
+                                  ?.copyWith(color: AppColors.whiteColor),
+                            ),
+                          ],
+                        ),
+                ),
               ),
             ),
           ),

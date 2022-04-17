@@ -12,4 +12,5 @@ class AppColors {
   static const deepblueColor = Color(0xFF01579B);
   static const deemBlueColor = Color(0xFFE3F2FD);
   static const transparent = Colors.transparent;
+  static const greencolor = Colors.green;
 }

@@ -1,13 +1,14 @@
 import 'package:esport_flame/app_setup/app_init/app_init.dart';
 import 'package:esport_flame/core/app_colors.dart';
-import 'package:esport_flame/feature/signin_screen/signin_screen.dart';
+import 'package:esport_flame/feature/auth_screen/sign_in_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 void main() async {
   await AppInit.initialize();
   runApp(
-    const MyApp(),
+    const ProviderScope(child: MyApp()),
   );
 }
 
@@ -66,7 +67,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const SigninScreen(),
+      home: const SignInScreen(),
     );
   }
 }

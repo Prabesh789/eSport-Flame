@@ -40,6 +40,7 @@ class CustomTextField extends StatelessWidget {
     this.enabledBorder,
     this.autofillHints,
     this.textCapitalization,
+    this.maxLines = 1,
   }) : super(key: key);
 
   final BuildContext context;
@@ -78,10 +79,12 @@ class CustomTextField extends StatelessWidget {
   final InputBorder? enabledBorder;
   final Iterable<String>? autofillHints;
   final TextCapitalization? textCapitalization;
+  final int? maxLines;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      maxLines: maxLines,
       autofillHints: autofillHints,
       textCapitalization: textCapitalization ?? TextCapitalization.sentences,
       showCursor: showCursor,
@@ -131,7 +134,10 @@ class CustomTextField extends StatelessWidget {
               ),
             ),
         hintText: hintText,
-        hintStyle: Theme.of(context).textTheme.bodyText2,
+        hintStyle: Theme.of(context)
+            .textTheme
+            .subtitle1
+            ?.copyWith(color: AppColors.greyColor),
         labelText: labelText,
         prefixText: prefixText,
         prefixStyle: Theme.of(context).textTheme.bodyText2,
