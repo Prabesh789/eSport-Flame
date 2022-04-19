@@ -93,10 +93,14 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
                           )));
                 } else if (index == 2) {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (_) => const AddATournaments()));
+                      builder: (_) => AddATournaments(
+                            mediaQuery: mediaQuery,
+                          )));
                 } else if (index == 3) {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (_) => const AddAVideos()));
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (_) => AddVideos(
+                            mediaQuery: mediaQuery,
+                          )));
                 } else if (index == 4) {
                   Navigator.of(context).push(
                       MaterialPageRoute(builder: (_) => const UserList()));
