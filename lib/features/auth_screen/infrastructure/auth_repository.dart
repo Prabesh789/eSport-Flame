@@ -2,10 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:esport_flame/app/entitiles/failure.dart';
-import 'package:esport_flame/feature/auth/application/entities/login_request.dart';
-import 'package:esport_flame/feature/auth/application/entities/login_response.dart';
-import 'package:esport_flame/feature/auth/application/entities/signup_request.dart';
-import 'package:esport_flame/feature/auth/application/entities/signup_response.dart';
+import 'package:esport_flame/features/auth_screen/infrastructure/entities/login_request.dart';
+import 'package:esport_flame/features/auth_screen/infrastructure/entities/login_response.dart';
+import 'package:esport_flame/features/auth_screen/infrastructure/entities/signup_request.dart';
+import 'package:esport_flame/features/auth_screen/infrastructure/entities/signup_response.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

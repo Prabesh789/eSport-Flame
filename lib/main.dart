@@ -1,6 +1,6 @@
 import 'package:esport_flame/app_setup/app_init/app_init.dart';
 import 'package:esport_flame/core/app_colors.dart';
-import 'package:esport_flame/feature/auth_screen/sign_in_screen.dart';
+import 'package:esport_flame/features/auth_screen/presentation/sign_in_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';

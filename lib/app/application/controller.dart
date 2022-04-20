@@ -1,5 +1,5 @@
 import 'package:esport_flame/app/entitiles/app_state.dart';
-import 'package:esport_flame/feature/auth/infrastructure/auth_repo.dart';
+import 'package:esport_flame/features/auth_screen/infrastructure/auth_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 ///

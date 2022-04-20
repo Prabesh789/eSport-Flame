@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:esport_flame/feature/admin/widgets/dialog_box.dart';
+import 'package:esport_flame/features/admin/presentation/widgets/dialog_box.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

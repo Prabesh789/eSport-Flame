@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:esport_flame/core/app_colors.dart';
 import 'package:esport_flame/core/widgets/custom_bottun.dart';
 import 'package:esport_flame/core/widgets/custom_textfield.dart';
-import 'package:esport_flame/feature/admin/notifiers/image_picked_notifier.dart';
+import 'package:esport_flame/features/admin/notifiers/image_picked_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

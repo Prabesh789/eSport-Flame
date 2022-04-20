@@ -1,5 +1,5 @@
 import 'package:esport_flame/core/app_colors.dart';
-import 'package:esport_flame/feature/menu_nav_bar/menu_nav_bar.dart';
+import 'package:esport_flame/features/menu_nav_bar/menu_nav_bar.dart';
 import 'package:flutter/material.dart';
 
 class MyGamesScreen extends StatefulWidget {

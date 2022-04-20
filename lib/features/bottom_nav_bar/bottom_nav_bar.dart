@@ -1,6 +1,6 @@
 import 'package:esport_flame/core/app_colors.dart';
-import 'package:esport_flame/feature/home_screen/home_screen.dart';
-import 'package:esport_flame/feature/my_game_screen/my_game_screen.dart';
+import 'package:esport_flame/features/home_screen/home_screen.dart';
+import 'package:esport_flame/features/my_game_screen/my_game_screen.dart';
 import 'package:flutter/material.dart';
 
 class BottomNavBar extends StatefulWidget {

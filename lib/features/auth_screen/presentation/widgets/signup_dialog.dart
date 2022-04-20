@@ -4,7 +4,7 @@ import 'package:esport_flame/core/extension/snackbar_extension.dart';
 import 'package:esport_flame/core/widgets/custom_body.dart';
 import 'package:esport_flame/core/widgets/custom_bottun.dart';
 import 'package:esport_flame/core/widgets/custom_textfield.dart';
-import 'package:esport_flame/feature/auth/application/controller/auth_controller.dart';
+import 'package:esport_flame/features/auth_screen/application/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';

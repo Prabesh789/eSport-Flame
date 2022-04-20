@@ -1,10 +1,10 @@
 import 'package:esport_flame/app/entitiles/failure.dart';
 import 'package:esport_flame/core/entities/base_state.dart';
-import 'package:esport_flame/feature/auth/application/entities/login_request.dart';
-import 'package:esport_flame/feature/auth/application/entities/login_response.dart';
-import 'package:esport_flame/feature/auth/application/entities/signup_request.dart';
-import 'package:esport_flame/feature/auth/application/entities/signup_response.dart';
-import 'package:esport_flame/feature/auth/infrastructure/auth_repo.dart';
+import 'package:esport_flame/features/auth_screen/infrastructure/auth_repository.dart';
+import 'package:esport_flame/features/auth_screen/infrastructure/entities/login_request.dart';
+import 'package:esport_flame/features/auth_screen/infrastructure/entities/login_response.dart';
+import 'package:esport_flame/features/auth_screen/infrastructure/entities/signup_request.dart';
+import 'package:esport_flame/features/auth_screen/infrastructure/entities/signup_response.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
