@@ -52,13 +52,13 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
       state.maybeWhen(
         success: (_) {
           if (useStatus) {
-            Navigator.of(context).push(
+            Navigator.of(context).pushReplacement(
               MaterialPageRoute(
                 builder: (_) => const AdminDashboardScreen(),
               ),
             );
           } else {
-            Navigator.of(context).push(
+            Navigator.of(context).pushReplacement(
               MaterialPageRoute(
                 builder: (_) => const BottomNavBar(),
               ),

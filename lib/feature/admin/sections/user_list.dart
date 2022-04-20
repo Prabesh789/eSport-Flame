@@ -75,7 +75,7 @@ class _UserListState extends ConsumerState<UserList> {
                                 ],
                               ),
                               const Spacer(),
-                              (userData[index]['email'] != 'admin@gmail.com')
+                              (userData[index]['isAdmin'])
                                   ? IconButton(
                                       onPressed: () {
                                         DialogBox.showAlert(context,
