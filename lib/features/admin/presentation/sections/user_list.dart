@@ -75,7 +75,7 @@ class _UserListState extends ConsumerState<UserList> {
                                 ],
                               ),
                               const Spacer(),
-                              (userData[index]['isAdmin'])
+                              (!userData[index]['isAdmin'])
                                   ? IconButton(
                                       onPressed: () {
                                         DialogBox.showAlert(context,
