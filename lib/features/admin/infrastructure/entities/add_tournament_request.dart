@@ -1,18 +1,16 @@
 import 'dart:io';
 
-class AddAdsRequest {
-  AddAdsRequest({
+class AddTournament {
+  AddTournament({
     required this.gameTitle,
     required this.gameDescpription,
-    required this.adsImage,
-    required this.gameDescription,
+    required this.gamePosterImage,
     required this.matchDate,
     required this.winnerPrize,
   });
   final String gameTitle;
   final String gameDescpription;
-  final File adsImage;
+  final File gamePosterImage;
   final String matchDate;
   final String winnerPrize;
-  final String gameDescription;
 }
