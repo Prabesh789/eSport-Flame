@@ -5,7 +5,7 @@ import 'package:esport_flame/core/const/const.dart';
 import 'package:esport_flame/core/entities/base_state.dart';
 import 'package:esport_flame/core/extension/snackbar_extension.dart';
 import 'package:esport_flame/features/admin/presentation/sections/add_ads.dart';
-import 'package:esport_flame/features/admin/presentation/sections/add_games.dart';
+import 'package:esport_flame/features/admin/presentation/sections/add_popluar_game.dart';
 import 'package:esport_flame/features/admin/presentation/sections/add_tournaments.dart';
 import 'package:esport_flame/features/admin/presentation/sections/add_videos.dart';
 import 'package:esport_flame/features/admin/presentation/sections/user_list.dart';

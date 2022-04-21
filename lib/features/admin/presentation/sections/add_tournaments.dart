@@ -8,24 +8,46 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
-class AddATournaments extends ConsumerStatefulWidget {
-  const AddATournaments({Key? key, this.mediaQuery}) : super(key: key);
+class AddGames extends ConsumerStatefulWidget {
+  const AddGames({Key? key, this.mediaQuery}) : super(key: key);
   final Size? mediaQuery;
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      _AddATournamentsState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _AddGamesState();
 }
 
-class _AddATournamentsState extends ConsumerState<AddATournaments> {
+class _AddGamesState extends ConsumerState<AddGames> {
+  DateTime selectedDate = DateTime.now();
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
+  final _dateController = TextEditingController();
+  final _prizeController = TextEditingController();
   final _titleFocusNode = FocusNode();
   final _descriptionFocusNode = FocusNode();
+  final _dateFocusNode = FocusNode();
+  final _prizeFocusNode = FocusNode();
   late File _imageFile = File('');
   final ImagePicker _picker = ImagePicker();
   final _formKey = GlobalKey<FormState>();
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? _datePicker = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime.now(),
+        lastDate: DateTime(2101));
+    if (_datePicker != null && _datePicker != selectedDate) {
+      setState(() {
+        selectedDate = _datePicker;
+
+        final _date = DateFormat('MMM dd,yyyy').format(_datePicker);
+        _dateController.text = _date;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final isImgPicked = ref.watch(adsImagePickedNotifier).value;
@@ -47,6 +69,9 @@ class _AddATournamentsState extends ConsumerState<AddATournaments> {
           child: SingleChildScrollView(
             child: Column(
               children: [
+                const SizedBox(
+                  height: 10,
+                ),
                 CustomTextField(
                   labelText: 'Title',
                   context: context,
@@ -57,7 +82,7 @@ class _AddATournamentsState extends ConsumerState<AddATournaments> {
                   ),
                   focusNode: _titleFocusNode,
                   onEditingComplete: () {
-                    FocusScope.of(context).requestFocus(_descriptionFocusNode);
+                    FocusScope.of(context).unfocus();
                   },
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -66,6 +91,67 @@ class _AddATournamentsState extends ConsumerState<AddATournaments> {
                       return null;
                     }
                   },
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  children: [
+                    Expanded(
+                      child: InkWell(
+                        onTap: () {
+                          _selectDate(context);
+                        },
+                        child: CustomTextField(
+                          isEnabled: false,
+                          labelText: 'Match Date',
+                          context: context,
+                          controller: _dateController,
+                          prefixIcon: const Icon(
+                            Icons.date_range,
+                            size: 18,
+                          ),
+                          focusNode: _dateFocusNode,
+                          onEditingComplete: () {
+                            FocusScope.of(context).unfocus();
+                          },
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Date is empty';
+                            } else {
+                              return null;
+                            }
+                          },
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    Expanded(
+                      child: CustomTextField(
+                        keyboardType: TextInputType.number,
+                        labelText: 'Winner prize',
+                        hintText: '\$',
+                        context: context,
+                        controller: _prizeController,
+                        prefixIcon: const Icon(
+                          Icons.price_change,
+                          size: 18,
+                        ),
+                        focusNode: _prizeFocusNode,
+                        onEditingComplete: () {
+                          FocusScope.of(context)
+                              .requestFocus(_descriptionFocusNode);
+                        },
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'title required';
+                          } else {
+                            return null;
+                          }
+                        },
+                      ),
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 20),
                 CustomTextField(
@@ -93,7 +179,7 @@ class _AddATournamentsState extends ConsumerState<AddATournaments> {
                   height: 20,
                 ),
                 Text(
-                  'Choose Ads Image',
+                  'Choose Game Poster',
                   style: GoogleFonts.baskervville(
                     textStyle: Theme.of(context)
                         .textTheme
@@ -149,7 +235,7 @@ class _AddATournamentsState extends ConsumerState<AddATournaments> {
                   ),
                 ),
                 SizedBox(
-                  height: widget.mediaQuery!.height / 5,
+                  height: widget.mediaQuery!.width / 4,
                 ),
                 CustomButton(
                   // isLoading: isLoading,
