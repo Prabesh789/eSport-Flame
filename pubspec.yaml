@@ -40,6 +40,7 @@ dependencies:
   shimmer: ^2.0.0
   image_picker: ^0.8.5
   intl: ^0.17.0
+  jumping_dot: ^0.0.4
 
   # youtube video player
   youtube_plyr_iframe: ^2.0.7
