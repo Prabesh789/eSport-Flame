@@ -9,7 +9,6 @@ import 'package:esport_flame/core/widgets/custom_bottun.dart';
 import 'package:esport_flame/core/widgets/custom_textfield.dart';
 import 'package:esport_flame/features/admin/application/admin_controller.dart';
 import 'package:esport_flame/features/admin/infrastructure/entities/add_ads_request.dart';
-import 'package:esport_flame/features/admin/notifiers/image_picked_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -48,7 +47,6 @@ class _AddAdsState extends ConsumerState<AddAds> {
 
   @override
   Widget build(BuildContext context) {
-    final isImgPicked = ref.watch(adsImagePickedNotifier).value;
     ref.listen<BaseState>(addAdsController, (oldState, state) {
       state.maybeWhen(
         success: (_) {
@@ -73,7 +71,7 @@ class _AddAdsState extends ConsumerState<AddAds> {
       );
     });
     final state = ref.watch(addAdsController);
-    final isLoading = state == const BaseState<void>.loading();
+    final _isLoading = state == const BaseState<void>.loading();
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -168,38 +166,36 @@ class _AddAdsState extends ConsumerState<AddAds> {
                       onTap: () {
                         chooseImg(ImageSource.gallery);
                       },
-                      child: !isImgPicked
-                          ? Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  const Icon(
-                                    Icons.image,
-                                    color: AppColors.blackColor,
-                                  ),
-                                  Text(
-                                    'From Gallery',
-                                    style: GoogleFonts.baskervville(
-                                      textStyle: Theme.of(context)
-                                          .textTheme
-                                          .bodyText1
-                                          ?.copyWith(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 14),
-                                    ),
-                                  )
-                                ],
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            const Icon(
+                              Icons.image,
+                              color: AppColors.blackColor,
+                            ),
+                            Text(
+                              'From Gallery',
+                              style: GoogleFonts.baskervville(
+                                textStyle: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1
+                                    ?.copyWith(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14),
                               ),
                             )
-                          : const SizedBox(),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                   SizedBox(
                     height: widget.mediaQuery!.height / 5,
                   ),
                   CustomButton(
-                    isLoading: isLoading,
+                    isLoading: _isLoading,
                     buttonText: 'Add +',
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {

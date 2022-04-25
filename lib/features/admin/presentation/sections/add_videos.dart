@@ -1,8 +1,19 @@
+import 'dart:developer';
+
+import 'package:esport_flame/core/app_colors.dart';
+import 'package:esport_flame/core/entities/base_state.dart';
+import 'package:esport_flame/core/extension/snackbar_extension.dart';
 import 'package:esport_flame/core/widgets/custom_bottun.dart';
 import 'package:esport_flame/core/widgets/custom_textfield.dart';
+import 'package:esport_flame/features/admin/application/admin_controller.dart';
+import 'package:esport_flame/features/admin/infrastructure/entities/add_videos.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+final addVideosController =
+    StateNotifierProvider.autoDispose<AdminController, BaseState>(
+        adminController);
 
 class AddVideos extends ConsumerStatefulWidget {
   const AddVideos({Key? key, this.mediaQuery}) : super(key: key);
@@ -14,13 +25,38 @@ class AddVideos extends ConsumerStatefulWidget {
 
 class _AddVideosState extends ConsumerState<AddVideos> {
   final _titleController = TextEditingController();
-  final _descriptionController = TextEditingController();
+  final _videoLinkController = TextEditingController();
   final _titleFocusNode = FocusNode();
   final _descriptionFocusNode = FocusNode();
 
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    ref.listen<BaseState>(addVideosController, (oldState, state) {
+      state.maybeWhen(
+        success: (_) {
+          context.showSnackBar(
+            'Videos Successfully Added !!!',
+            Icons.check_circle,
+            AppColors.greencolor,
+          );
+          _titleController.clear();
+          _videoLinkController.clear();
+
+          log('==>>data cleared.');
+          Navigator.of(context).pop();
+        },
+        error: (_) {
+          context.showSnackBar(
+              'Something went wrong !!!', Icons.error, AppColors.redColor);
+        },
+        orElse: () => const LinearProgressIndicator(
+          backgroundColor: AppColors.blueColor,
+        ),
+      );
+    });
+    final state = ref.watch(addVideosController);
+    final _isLoading = state == const BaseState<void>.loading();
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -64,7 +100,7 @@ class _AddVideosState extends ConsumerState<AddVideos> {
                   maxLines: 5,
                   labelText: 'Description',
                   context: context,
-                  controller: _descriptionController,
+                  controller: _videoLinkController,
                   prefixIcon: const Icon(
                     Icons.description,
                     size: 18,
@@ -85,10 +121,18 @@ class _AddVideosState extends ConsumerState<AddVideos> {
                   height: widget.mediaQuery!.height / 5,
                 ),
                 CustomButton(
-                  // isLoading: isLoading,
+                  isLoading: _isLoading,
                   buttonText: 'Add +',
                   onPressed: () {
-                    if (_formKey.currentState!.validate()) {}
+                    if (_formKey.currentState!.validate()) {
+                      ref.read(addVideosController.notifier).postVideos(
+                            AddVideoRequest(
+                              videotitle: _titleController.text.trim(),
+                              videoDescpription:
+                                  _videoLinkController.text.trim(),
+                            ),
+                          );
+                    }
                   },
                 ),
               ],

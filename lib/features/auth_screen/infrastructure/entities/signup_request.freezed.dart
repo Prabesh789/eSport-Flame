@@ -12,38 +12,11 @@ part of 'signup_request.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 SignupRequest _$SignupRequestFromJson(Map<String, dynamic> json) {
   return _SignupRequest.fromJson(json);
 }
-
-/// @nodoc
-class _$SignupRequestTearOff {
-  const _$SignupRequestTearOff();
-
-  _SignupRequest call(
-      {required String email,
-      required String nickName,
-      required String password,
-      required String contactNo,
-      required bool isAdmin}) {
-    return _SignupRequest(
-      email: email,
-      nickName: nickName,
-      password: password,
-      contactNo: contactNo,
-      isAdmin: isAdmin,
-    );
-  }
-
-  SignupRequest fromJson(Map<String, Object?> json) {
-    return SignupRequest.fromJson(json);
-  }
-}
-
-/// @nodoc
-const $SignupRequest = _$SignupRequestTearOff();
 
 /// @nodoc
 mixin _$SignupRequest {
@@ -214,6 +187,7 @@ class _$_SignupRequest implements _SignupRequest {
             const DeepCollectionEquality().equals(other.isAdmin, isAdmin));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -236,25 +210,25 @@ class _$_SignupRequest implements _SignupRequest {
 
 abstract class _SignupRequest implements SignupRequest {
   const factory _SignupRequest(
-      {required String email,
-      required String nickName,
-      required String password,
-      required String contactNo,
-      required bool isAdmin}) = _$_SignupRequest;
+      {required final String email,
+      required final String nickName,
+      required final String password,
+      required final String contactNo,
+      required final bool isAdmin}) = _$_SignupRequest;
 
   factory _SignupRequest.fromJson(Map<String, dynamic> json) =
       _$_SignupRequest.fromJson;
 
   @override
-  String get email;
+  String get email => throw _privateConstructorUsedError;
   @override
-  String get nickName;
+  String get nickName => throw _privateConstructorUsedError;
   @override
-  String get password;
+  String get password => throw _privateConstructorUsedError;
   @override
-  String get contactNo;
+  String get contactNo => throw _privateConstructorUsedError;
   @override
-  bool get isAdmin;
+  bool get isAdmin => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$SignupRequestCopyWith<_SignupRequest> get copyWith =>

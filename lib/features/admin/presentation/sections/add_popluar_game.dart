@@ -1,13 +1,21 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:esport_flame/core/app_colors.dart';
+import 'package:esport_flame/core/entities/base_state.dart';
+import 'package:esport_flame/core/extension/snackbar_extension.dart';
 import 'package:esport_flame/core/widgets/custom_bottun.dart';
 import 'package:esport_flame/core/widgets/custom_textfield.dart';
-import 'package:esport_flame/features/admin/notifiers/image_picked_notifier.dart';
+import 'package:esport_flame/features/admin/application/admin_controller.dart';
+import 'package:esport_flame/features/admin/infrastructure/entities/add_ads_request.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+
+final addPopularGamesController =
+    StateNotifierProvider.autoDispose<AdminController, BaseState>(
+        adminController);
 
 class AddATournaments extends ConsumerStatefulWidget {
   const AddATournaments({Key? key, this.mediaQuery}) : super(key: key);
@@ -28,7 +36,31 @@ class _AddATournamentsState extends ConsumerState<AddATournaments> {
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    final isImgPicked = ref.watch(adsImagePickedNotifier).value;
+    ref.listen<BaseState>(addPopularGamesController, (oldState, state) {
+      state.maybeWhen(
+        success: (_) {
+          context.showSnackBar(
+            'Games Successfully Added !!!',
+            Icons.check_circle,
+            AppColors.greencolor,
+          );
+          _titleController.clear();
+          _descriptionController.clear();
+          _imageFile.delete();
+          log('==>>data cleared.');
+          Navigator.of(context).pop();
+        },
+        error: (_) {
+          context.showSnackBar(
+              'Something went wrong !!!', Icons.error, AppColors.redColor);
+        },
+        orElse: () => const LinearProgressIndicator(
+          backgroundColor: AppColors.blueColor,
+        ),
+      );
+    });
+    final state = ref.watch(addPopularGamesController);
+    final _isLoading = state == const BaseState<void>.loading();
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -118,44 +150,52 @@ class _AddATournamentsState extends ConsumerState<AddATournaments> {
                     ),
                   ),
                   child: InkWell(
-                    onTap: () {
-                      chooseImg(ImageSource.gallery);
-                    },
-                    child: !isImgPicked
-                        ? Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                const Icon(
-                                  Icons.image,
-                                  color: AppColors.blackColor,
-                                ),
-                                Text(
-                                  'From Gallery',
-                                  style: GoogleFonts.baskervville(
-                                    textStyle: Theme.of(context)
-                                        .textTheme
-                                        .bodyText1
-                                        ?.copyWith(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 14),
-                                  ),
-                                )
-                              ],
+                      onTap: () {
+                        chooseImg(ImageSource.gallery);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            const Icon(
+                              Icons.image,
+                              color: AppColors.blackColor,
                             ),
-                          )
-                        : const SizedBox(),
-                  ),
+                            Text(
+                              'From Gallery',
+                              style: GoogleFonts.baskervville(
+                                textStyle: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1
+                                    ?.copyWith(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14),
+                              ),
+                            )
+                          ],
+                        ),
+                      )),
                 ),
                 SizedBox(
                   height: widget.mediaQuery!.height / 5,
                 ),
                 CustomButton(
-                  // isLoading: isLoading,
+                  isLoading: _isLoading,
                   buttonText: 'Add +',
                   onPressed: () {
-                    if (_formKey.currentState!.validate()) {}
+                    if (_formKey.currentState!.validate()) {
+                      ref
+                          .read(addPopularGamesController.notifier)
+                          .postPopularGames(
+                            AddAdsRequest(
+                              adsDescpription:
+                                  _descriptionController.text.trim(),
+                              adsTitle: _titleController.text.trim(),
+                              adsImage: _imageFile,
+                            ),
+                          );
+                    }
                   },
                 ),
               ],

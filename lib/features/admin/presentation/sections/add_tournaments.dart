@@ -1,14 +1,22 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:esport_flame/core/app_colors.dart';
+import 'package:esport_flame/core/entities/base_state.dart';
+import 'package:esport_flame/core/extension/snackbar_extension.dart';
 import 'package:esport_flame/core/widgets/custom_bottun.dart';
 import 'package:esport_flame/core/widgets/custom_textfield.dart';
-import 'package:esport_flame/features/admin/notifiers/image_picked_notifier.dart';
+import 'package:esport_flame/features/admin/application/admin_controller.dart';
+import 'package:esport_flame/features/admin/infrastructure/entities/add_tournament_request.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+
+final addTournamentsController =
+    StateNotifierProvider.autoDispose<AdminController, BaseState>(
+        adminController);
 
 class AddGames extends ConsumerStatefulWidget {
   const AddGames({Key? key, this.mediaQuery}) : super(key: key);
@@ -50,7 +58,31 @@ class _AddGamesState extends ConsumerState<AddGames> {
 
   @override
   Widget build(BuildContext context) {
-    final isImgPicked = ref.watch(adsImagePickedNotifier).value;
+    ref.listen<BaseState>(addTournamentsController, (oldState, state) {
+      state.maybeWhen(
+        success: (_) {
+          context.showSnackBar(
+            'Tournaments Successfully Added !!!',
+            Icons.check_circle,
+            AppColors.greencolor,
+          );
+          _titleController.clear();
+          _descriptionController.clear();
+          _imageFile.delete();
+          log('==>>data cleared.');
+          Navigator.of(context).pop();
+        },
+        error: (_) {
+          context.showSnackBar(
+              'Something went wrong !!!', Icons.error, AppColors.redColor);
+        },
+        orElse: () => const LinearProgressIndicator(
+          backgroundColor: AppColors.blueColor,
+        ),
+      );
+    });
+    final state = ref.watch(addTournamentsController);
+    final _isLoading = state == const BaseState<void>.loading();
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -86,7 +118,7 @@ class _AddGamesState extends ConsumerState<AddGames> {
                   },
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return 'title required';
+                      return 'Title required';
                     } else {
                       return null;
                     }
@@ -130,7 +162,8 @@ class _AddGamesState extends ConsumerState<AddGames> {
                       child: CustomTextField(
                         keyboardType: TextInputType.number,
                         labelText: 'Winner prize',
-                        hintText: '\$',
+                        prefixText: '\$',
+                        hintText: '000.0',
                         context: context,
                         controller: _prizeController,
                         prefixIcon: const Icon(
@@ -207,41 +240,52 @@ class _AddGamesState extends ConsumerState<AddGames> {
                     onTap: () {
                       chooseImg(ImageSource.gallery);
                     },
-                    child: !isImgPicked
-                        ? Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                const Icon(
-                                  Icons.image,
-                                  color: AppColors.blackColor,
-                                ),
-                                Text(
-                                  'From Gallery',
-                                  style: GoogleFonts.baskervville(
-                                    textStyle: Theme.of(context)
-                                        .textTheme
-                                        .bodyText1
-                                        ?.copyWith(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 14),
-                                  ),
-                                )
-                              ],
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          const Icon(
+                            Icons.image,
+                            color: AppColors.blackColor,
+                          ),
+                          Text(
+                            'From Gallery',
+                            style: GoogleFonts.baskervville(
+                              textStyle: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1
+                                  ?.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14),
                             ),
                           )
-                        : const SizedBox(),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
                 SizedBox(
                   height: widget.mediaQuery!.width / 4,
                 ),
                 CustomButton(
-                  // isLoading: isLoading,
+                  isLoading: _isLoading,
                   buttonText: 'Add +',
                   onPressed: () {
-                    if (_formKey.currentState!.validate()) {}
+                    if (_formKey.currentState!.validate()) {
+                      ref
+                          .read(addTournamentsController.notifier)
+                          .postTournaments(
+                            AddTournament(
+                              gameTitle: _titleController.text.trim(),
+                              gameDescpription:
+                                  _descriptionController.text.trim(),
+                              gamePosterImage: _imageFile,
+                              matchDate: _dateController.text.trim(),
+                              winnerPrize: _prizeController.text.trim(),
+                            ),
+                          );
+                    }
                   },
                 ),
               ],

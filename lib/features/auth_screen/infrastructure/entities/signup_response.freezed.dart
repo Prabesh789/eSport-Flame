@@ -12,36 +12,11 @@ part of 'signup_response.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 SignupResponse _$SignupResponseFromJson(Map<String, dynamic> json) {
   return _SignupResponse.fromJson(json);
 }
-
-/// @nodoc
-class _$SignupResponseTearOff {
-  const _$SignupResponseTearOff();
-
-  _SignupResponse call(
-      {required String email,
-      required String nickName,
-      required String contactNo,
-      required String message}) {
-    return _SignupResponse(
-      email: email,
-      nickName: nickName,
-      contactNo: contactNo,
-      message: message,
-    );
-  }
-
-  SignupResponse fromJson(Map<String, Object?> json) {
-    return SignupResponse.fromJson(json);
-  }
-}
-
-/// @nodoc
-const $SignupResponse = _$SignupResponseTearOff();
 
 /// @nodoc
 mixin _$SignupResponse {
@@ -187,6 +162,7 @@ class _$_SignupResponse implements _SignupResponse {
             const DeepCollectionEquality().equals(other.message, message));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -208,22 +184,22 @@ class _$_SignupResponse implements _SignupResponse {
 
 abstract class _SignupResponse implements SignupResponse {
   const factory _SignupResponse(
-      {required String email,
-      required String nickName,
-      required String contactNo,
-      required String message}) = _$_SignupResponse;
+      {required final String email,
+      required final String nickName,
+      required final String contactNo,
+      required final String message}) = _$_SignupResponse;
 
   factory _SignupResponse.fromJson(Map<String, dynamic> json) =
       _$_SignupResponse.fromJson;
 
   @override
-  String get email;
+  String get email => throw _privateConstructorUsedError;
   @override
-  String get nickName;
+  String get nickName => throw _privateConstructorUsedError;
   @override
-  String get contactNo;
+  String get contactNo => throw _privateConstructorUsedError;
   @override
-  String get message;
+  String get message => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$SignupResponseCopyWith<_SignupResponse> get copyWith =>
