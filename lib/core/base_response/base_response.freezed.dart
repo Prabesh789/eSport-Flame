@@ -12,32 +12,11 @@ part of 'base_response.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 BaseResponse _$BaseResponseFromJson(Map<String, dynamic> json) {
   return _BaseResponse.fromJson(json);
 }
-
-/// @nodoc
-class _$BaseResponseTearOff {
-  const _$BaseResponseTearOff();
-
-  _BaseResponse call(
-      {required int code, required String message, required dynamic data}) {
-    return _BaseResponse(
-      code: code,
-      message: message,
-      data: data,
-    );
-  }
-
-  BaseResponse fromJson(Map<String, Object?> json) {
-    return BaseResponse.fromJson(json);
-  }
-}
-
-/// @nodoc
-const $BaseResponse = _$BaseResponseTearOff();
 
 /// @nodoc
 mixin _$BaseResponse {
@@ -164,6 +143,7 @@ class _$_BaseResponse implements _BaseResponse {
             const DeepCollectionEquality().equals(other.data, data));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -184,19 +164,19 @@ class _$_BaseResponse implements _BaseResponse {
 
 abstract class _BaseResponse implements BaseResponse {
   const factory _BaseResponse(
-      {required int code,
-      required String message,
-      required dynamic data}) = _$_BaseResponse;
+      {required final int code,
+      required final String message,
+      required final dynamic data}) = _$_BaseResponse;
 
   factory _BaseResponse.fromJson(Map<String, dynamic> json) =
       _$_BaseResponse.fromJson;
 
   @override
-  int get code;
+  int get code => throw _privateConstructorUsedError;
   @override
-  String get message;
+  String get message => throw _privateConstructorUsedError;
   @override
-  dynamic get data;
+  dynamic get data => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$BaseResponseCopyWith<_BaseResponse> get copyWith =>

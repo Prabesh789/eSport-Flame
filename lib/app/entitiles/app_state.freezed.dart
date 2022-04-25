@@ -12,31 +12,7 @@ part of 'app_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
-
-/// @nodoc
-class _$AppStateTearOff {
-  const _$AppStateTearOff();
-
-  AppStarted<T> started<T>() {
-    return AppStarted<T>();
-  }
-
-  Authenticated<T> authenticated<T>(T data) {
-    return Authenticated<T>(
-      data,
-    );
-  }
-
-  UnAuthenticated<T> unAuthenticated<T>({Failure? failure}) {
-    return UnAuthenticated<T>(
-      failure: failure,
-    );
-  }
-}
-
-/// @nodoc
-const $AppState = _$AppStateTearOff();
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
 mixin _$AppState<T> {
@@ -344,9 +320,9 @@ class _$Authenticated<T> implements Authenticated<T> {
 }
 
 abstract class Authenticated<T> implements AppState<T> {
-  const factory Authenticated(T data) = _$Authenticated<T>;
+  const factory Authenticated(final T data) = _$Authenticated<T>;
 
-  T get data;
+  T get data => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $AuthenticatedCopyWith<T, Authenticated<T>> get copyWith =>
       throw _privateConstructorUsedError;
@@ -484,9 +460,10 @@ class _$UnAuthenticated<T> implements UnAuthenticated<T> {
 }
 
 abstract class UnAuthenticated<T> implements AppState<T> {
-  const factory UnAuthenticated({Failure? failure}) = _$UnAuthenticated<T>;
+  const factory UnAuthenticated({final Failure? failure}) =
+      _$UnAuthenticated<T>;
 
-  Failure? get failure;
+  Failure? get failure => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $UnAuthenticatedCopyWith<T, UnAuthenticated<T>> get copyWith =>
       throw _privateConstructorUsedError;

@@ -12,38 +12,11 @@ part of 'login_response.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 LoginResponse _$LoginResponseFromJson(Map<String, dynamic> json) {
   return _LoginResponse.fromJson(json);
 }
-
-/// @nodoc
-class _$LoginResponseTearOff {
-  const _$LoginResponseTearOff();
-
-  _LoginResponse call(
-      {required String userId,
-      required String email,
-      required String nickName,
-      required String contactNo,
-      required bool isAdmin}) {
-    return _LoginResponse(
-      userId: userId,
-      email: email,
-      nickName: nickName,
-      contactNo: contactNo,
-      isAdmin: isAdmin,
-    );
-  }
-
-  LoginResponse fromJson(Map<String, Object?> json) {
-    return LoginResponse.fromJson(json);
-  }
-}
-
-/// @nodoc
-const $LoginResponse = _$LoginResponseTearOff();
 
 /// @nodoc
 mixin _$LoginResponse {
@@ -214,6 +187,7 @@ class _$_LoginResponse implements _LoginResponse {
             const DeepCollectionEquality().equals(other.isAdmin, isAdmin));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -236,25 +210,25 @@ class _$_LoginResponse implements _LoginResponse {
 
 abstract class _LoginResponse implements LoginResponse {
   const factory _LoginResponse(
-      {required String userId,
-      required String email,
-      required String nickName,
-      required String contactNo,
-      required bool isAdmin}) = _$_LoginResponse;
+      {required final String userId,
+      required final String email,
+      required final String nickName,
+      required final String contactNo,
+      required final bool isAdmin}) = _$_LoginResponse;
 
   factory _LoginResponse.fromJson(Map<String, dynamic> json) =
       _$_LoginResponse.fromJson;
 
   @override
-  String get userId;
+  String get userId => throw _privateConstructorUsedError;
   @override
-  String get email;
+  String get email => throw _privateConstructorUsedError;
   @override
-  String get nickName;
+  String get nickName => throw _privateConstructorUsedError;
   @override
-  String get contactNo;
+  String get contactNo => throw _privateConstructorUsedError;
   @override
-  bool get isAdmin;
+  bool get isAdmin => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$LoginResponseCopyWith<_LoginResponse> get copyWith =>

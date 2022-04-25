@@ -12,35 +12,7 @@ part of 'base_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
-
-/// @nodoc
-class _$BaseStateTearOff {
-  const _$BaseStateTearOff();
-
-  BaseInitial<T> initial<T>() {
-    return BaseInitial<T>();
-  }
-
-  BaseLoading<T> loading<T>() {
-    return BaseLoading<T>();
-  }
-
-  BaseError<T> error<T>(Failure failure) {
-    return BaseError<T>(
-      failure,
-    );
-  }
-
-  BaseSuccess<T> success<T>({T? data}) {
-    return BaseSuccess<T>(
-      data: data,
-    );
-  }
-}
-
-/// @nodoc
-const $BaseState = _$BaseStateTearOff();
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
 mixin _$BaseState<T> {
@@ -483,9 +455,9 @@ class _$BaseError<T> implements BaseError<T> {
 }
 
 abstract class BaseError<T> implements BaseState<T> {
-  const factory BaseError(Failure failure) = _$BaseError<T>;
+  const factory BaseError(final Failure failure) = _$BaseError<T>;
 
-  Failure get failure;
+  Failure get failure => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $BaseErrorCopyWith<T, BaseError<T>> get copyWith =>
       throw _privateConstructorUsedError;
@@ -629,9 +601,9 @@ class _$BaseSuccess<T> implements BaseSuccess<T> {
 }
 
 abstract class BaseSuccess<T> implements BaseState<T> {
-  const factory BaseSuccess({T? data}) = _$BaseSuccess<T>;
+  const factory BaseSuccess({final T? data}) = _$BaseSuccess<T>;
 
-  T? get data;
+  T? get data => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $BaseSuccessCopyWith<T, BaseSuccess<T>> get copyWith =>
       throw _privateConstructorUsedError;

@@ -6,8 +6,8 @@ enum AccountType {
 
 final List<Map<String, dynamic>> adminPaddnelButtonData = [
   {'buttonText': 'Add Ads'},
-  {'buttonText': 'Add Games'},
   {'buttonText': 'Add Tournaments'},
+  {'buttonText': 'Add Popular Games'},
   {'buttonText': 'Add Videos'},
   {'buttonText': 'Users List'},
 ];
