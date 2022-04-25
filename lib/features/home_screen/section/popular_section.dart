@@ -1,9 +1,13 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:esport_flame/core/app_colors.dart';
 import 'package:esport_flame/core/widgets/shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:jumping_dot/jumping_dot.dart';
 
 class PopularSection extends ConsumerStatefulWidget {
   const PopularSection({Key? key}) : super(key: key);
@@ -37,26 +41,59 @@ class _PopularSectionState extends ConsumerState<PopularSection> {
                 ),
           ),
         ),
-        GridView.builder(
-          controller: _scrollController,
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-          physics: const BouncingScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: 6,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            childAspectRatio: 4 / 6,
-            crossAxisSpacing: 20,
-            mainAxisSpacing: 20,
-          ),
-          itemBuilder: (context, index) {
-            return CustomCard(
-              mediaQuery: mediaQuery,
-              img:
-                  'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=647&q=80',
-              onTap: () {},
-              title: 'Prince of persia',
-            );
+        StreamBuilder(
+          stream: FirebaseFirestore.instance
+              .collection('popular_games')
+              .snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              log('Warning error alert for popular games snapshot data !!!');
+              return const SizedBox();
+            } else if (snapshot.hasData) {
+              final _popularGamesData = snapshot.data as QuerySnapshot;
+              return GridView.builder(
+                controller: _scrollController,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                physics: const BouncingScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: _popularGamesData.docs.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: 4 / 6,
+                  crossAxisSpacing: 20,
+                  mainAxisSpacing: 20,
+                ),
+                itemBuilder: (context, index) {
+                  final _data = _popularGamesData.docs[index];
+                  return CustomCard(
+                    mediaQuery: mediaQuery,
+                    img: '${_data['image']}',
+                    onTap: () {},
+                    title: '${_data['popularGamesTitle']}',
+                  );
+                },
+              );
+            } else {
+              return Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: const [
+                    Text('Loaging'),
+                    SizedBox(
+                      width: 4,
+                    ),
+                    JumpingDots(
+                      color: Colors.yellow,
+                      radius: 10,
+                      numberOfDots: 3,
+                      animationDuration: Duration(milliseconds: 200),
+                    ),
+                  ],
+                ),
+              );
+            }
           },
         )
       ],
@@ -122,6 +159,8 @@ class CustomCard extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                 ),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
               ),
             ),
           ),
