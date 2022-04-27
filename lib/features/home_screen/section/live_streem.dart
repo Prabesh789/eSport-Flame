@@ -114,7 +114,6 @@ class Video extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(5),
             margin: const EdgeInsets.all(10),
-            // height: mediaQuery.height / 4,
             decoration: BoxDecoration(
               boxShadow: [
                 BoxShadow(
