@@ -110,6 +110,9 @@ class AdminRepository implements IAdminRepository {
                   'posterImage': downloadUrl,
                   'matchDate': addTournament.matchDate,
                   'winnerPrize': addTournament.winnerPrize,
+                  'deadLineDate': addTournament.deadLineDate,
+                  'bookingOpenDate': addTournament.bookingOpenDate,
+                  'tournamentStatus': addTournament.tournamentStatus,
                 },
               );
             },
@@ -193,7 +196,7 @@ class AdminRepository implements IAdminRepository {
       await FirebaseFirestore.instance.collection('videos').doc().set(
         {
           'videotitle': addVideoRequest.videotitle,
-          'videoDescription': addVideoRequest.videoDescpription,
+          'videoUrl': addVideoRequest.videoDescpription,
         },
       );
       return const Left(

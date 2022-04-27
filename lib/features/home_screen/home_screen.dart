@@ -5,14 +5,15 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:esport_flame/core/app_colors.dart';
 import 'package:esport_flame/core/widgets/custom_body.dart';
+import 'package:esport_flame/core/widgets/shimmer.dart';
 import 'package:esport_flame/features/home_screen/section/live_streem.dart';
-import 'package:esport_flame/features/home_screen/section/popular_section.dart';
+import 'package:esport_flame/features/home_screen/section/play_tournaments.dart';
+import 'package:esport_flame/features/home_screen/section/popular_games_section.dart';
 import 'package:esport_flame/features/home_screen/widgets/shadow_button.dart';
 import 'package:esport_flame/features/menu_nav_bar/menu_nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:jumping_dot/jumping_dot.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -87,6 +88,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       return const SizedBox();
                     } else if (snapshot.hasData) {
                       final adsData = snapshot.data as QuerySnapshot;
+
                       return SizedBox(
                         height: mediaQuery.height / 3.5,
                         child: Swiper(
@@ -186,28 +188,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       );
                     } else {
                       return Container(
-                        width: mediaQuery.width - 15,
+                        padding: const EdgeInsets.symmetric(vertical: 6),
+                        width: mediaQuery.width - 40,
+                        height: mediaQuery.height / 3.5,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15),
                         ),
-                        child: Center(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: const [
-                              Text('Loaging'),
-                              SizedBox(
-                                width: 4,
-                              ),
-                              JumpingDots(
-                                color: Colors.yellow,
-                                radius: 10,
-                                numberOfDots: 3,
-                                animationDuration: Duration(milliseconds: 200),
-                              ),
-                            ],
-                          ),
-                        ),
+                        child: const CustomShimmer(),
                       );
                     }
                   },
@@ -219,21 +206,30 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Buttons(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (_) => PlayTournaments(
+                                    mediaQuery: mediaQuery,
+                                  )));
+                        },
                         text: 'Play Tournaments',
                       ),
                       const SizedBox(width: 15),
                       Buttons(
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (_) => const LiveStreem()));
+                              builder: (_) => LiveStreem(
+                                    mediaQuery: mediaQuery,
+                                  )));
                         },
                         text: 'Live Streems',
                       ),
                     ],
                   ),
                 ),
-                const PopularSection()
+                PopularSection(
+                  mediaQuery: mediaQuery,
+                )
               ],
             ),
           ),

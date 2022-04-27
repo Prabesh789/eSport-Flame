@@ -7,10 +7,16 @@ class AddTournament {
     required this.gamePosterImage,
     required this.matchDate,
     required this.winnerPrize,
+    required this.bookingOpenDate,
+    required this.deadLineDate,
+    required this.tournamentStatus,
   });
   final String gameTitle;
   final String gameDescpription;
   final File gamePosterImage;
   final String matchDate;
   final String winnerPrize;
+  final String bookingOpenDate;
+  final String deadLineDate;
+  final int tournamentStatus;
 }

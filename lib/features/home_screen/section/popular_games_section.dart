@@ -7,10 +7,10 @@ import 'package:esport_flame/core/widgets/shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:jumping_dot/jumping_dot.dart';
 
 class PopularSection extends ConsumerStatefulWidget {
-  const PopularSection({Key? key}) : super(key: key);
+  const PopularSection({Key? key, required this.mediaQuery}) : super(key: key);
+  final Size mediaQuery;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _PopularSectionState();
@@ -26,7 +26,6 @@ class _PopularSectionState extends ConsumerState<PopularSection> {
 
   @override
   Widget build(BuildContext context) {
-    final mediaQuery = MediaQuery.of(context).size;
     return Column(
       children: [
         const SizedBox(
@@ -51,6 +50,7 @@ class _PopularSectionState extends ConsumerState<PopularSection> {
               return const SizedBox();
             } else if (snapshot.hasData) {
               final _popularGamesData = snapshot.data as QuerySnapshot;
+
               return GridView.builder(
                 controller: _scrollController,
                 padding:
@@ -67,7 +67,7 @@ class _PopularSectionState extends ConsumerState<PopularSection> {
                 itemBuilder: (context, index) {
                   final _data = _popularGamesData.docs[index];
                   return CustomCard(
-                    mediaQuery: mediaQuery,
+                    mediaQuery: widget.mediaQuery,
                     img: '${_data['image']}',
                     onTap: () {},
                     title: '${_data['popularGamesTitle']}',
@@ -75,22 +75,28 @@ class _PopularSectionState extends ConsumerState<PopularSection> {
                 },
               );
             } else {
-              return Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: const [
-                    Text('Loaging'),
-                    SizedBox(
-                      width: 4,
-                    ),
-                    JumpingDots(
-                      color: Colors.yellow,
-                      radius: 10,
-                      numberOfDots: 3,
-                      animationDuration: Duration(milliseconds: 200),
-                    ),
-                  ],
+              return Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                child: GridView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: 4,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 4 / 6,
+                    crossAxisSpacing: 20,
+                  ),
+                  itemBuilder: (context, index) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CustomShimmer(
+                          height: widget.mediaQuery.height / 3.5,
+                        ),
+                      ],
+                    );
+                  },
                 ),
               );
             }
