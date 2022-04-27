@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:esport_flame/core/app_colors.dart';
 import 'package:esport_flame/core/entities/base_state.dart';
 import 'package:esport_flame/core/extension/snackbar_extension.dart';
+import 'package:esport_flame/core/widgets/custom_body.dart';
 import 'package:esport_flame/core/widgets/custom_bottun.dart';
 import 'package:esport_flame/core/widgets/custom_textfield.dart';
 import 'package:esport_flame/features/admin/application/admin_controller.dart';
@@ -70,72 +71,76 @@ class _AddVideosState extends ConsumerState<AddVideos> {
       ),
       body: Form(
         key: _formKey,
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                CustomTextField(
-                  labelText: 'Title',
-                  context: context,
-                  controller: _titleController,
-                  prefixIcon: const Icon(
-                    Icons.title,
-                    size: 18,
+        child: CustomBodyWidget(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  CustomTextField(
+                    labelText: 'Title',
+                    maxLines: 2,
+                    context: context,
+                    controller: _titleController,
+                    prefixIcon: const Icon(
+                      Icons.title,
+                      size: 18,
+                    ),
+                    focusNode: _titleFocusNode,
+                    onEditingComplete: () {
+                      FocusScope.of(context)
+                          .requestFocus(_descriptionFocusNode);
+                    },
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'title required';
+                      } else {
+                        return null;
+                      }
+                    },
                   ),
-                  focusNode: _titleFocusNode,
-                  onEditingComplete: () {
-                    FocusScope.of(context).requestFocus(_descriptionFocusNode);
-                  },
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'title required';
-                    } else {
-                      return null;
-                    }
-                  },
-                ),
-                const SizedBox(height: 20),
-                CustomTextField(
-                  maxLines: 5,
-                  labelText: 'Description',
-                  context: context,
-                  controller: _videoLinkController,
-                  prefixIcon: const Icon(
-                    Icons.description,
-                    size: 18,
+                  const SizedBox(height: 20),
+                  CustomTextField(
+                    labelText: 'video url',
+                    maxLines: 2,
+                    context: context,
+                    controller: _videoLinkController,
+                    prefixIcon: const Icon(
+                      Icons.description,
+                      size: 18,
+                    ),
+                    focusNode: _descriptionFocusNode,
+                    onEditingComplete: () {
+                      FocusScope.of(context).unfocus();
+                    },
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Description required';
+                      } else {
+                        return null;
+                      }
+                    },
                   ),
-                  focusNode: _descriptionFocusNode,
-                  onEditingComplete: () {
-                    FocusScope.of(context).unfocus();
-                  },
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Description required';
-                    } else {
-                      return null;
-                    }
-                  },
-                ),
-                SizedBox(
-                  height: widget.mediaQuery!.height / 5,
-                ),
-                CustomButton(
-                  isLoading: _isLoading,
-                  buttonText: 'Add +',
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      ref.read(addVideosController.notifier).postVideos(
-                            AddVideoRequest(
-                              videotitle: _titleController.text.trim(),
-                              videoDescpription:
-                                  _videoLinkController.text.trim(),
-                            ),
-                          );
-                    }
-                  },
-                ),
-              ],
+                  SizedBox(
+                    height: widget.mediaQuery!.height / 5,
+                  ),
+                  CustomButton(
+                    isLoading: _isLoading,
+                    buttonText: 'Add +',
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        ref.read(addVideosController.notifier).postVideos(
+                              AddVideoRequest(
+                                videotitle: _titleController.text.trim(),
+                                videoDescpription:
+                                    _videoLinkController.text.trim(),
+                              ),
+                            );
+                      }
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ),

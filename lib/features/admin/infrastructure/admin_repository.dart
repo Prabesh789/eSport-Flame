@@ -193,7 +193,7 @@ class AdminRepository implements IAdminRepository {
       await FirebaseFirestore.instance.collection('videos').doc().set(
         {
           'videotitle': addVideoRequest.videotitle,
-          'videoDescription': addVideoRequest.videoDescpription,
+          'videoUrl': addVideoRequest.videoDescpription,
         },
       );
       return const Left(

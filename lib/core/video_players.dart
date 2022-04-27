@@ -23,19 +23,19 @@ class _VideoPlayerState extends State<VideoPlayer> {
     _controller = YoutubePlayerController(
       initialVideoId: convertUrlToId(widget.url) ?? '',
       params: const YoutubePlayerParams(
-        startAt: Duration(seconds: 10),
+        mute: true,
         autoPlay: false,
         enableCaption: false,
         playsInline: true,
         desktopMode: false,
         enableKeyboard: false,
-        loop: true,
+        loop: false,
         showVideoAnnotations: false,
         playlist: [],
         showControls: true,
         showFullscreenButton: true,
-        privacyEnhanced: true,
-        strictRelatedVideos: true,
+        // privacyEnhanced: true,
+        // strictRelatedVideos: true,
       ),
     )..listen((value) {
         if (value.isReady && !value.hasPlayed) {
