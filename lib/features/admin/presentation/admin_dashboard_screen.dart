@@ -48,68 +48,69 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
       );
     });
     return Scaffold(
-        drawer: const Drawer(
-          backgroundColor: AppColors.redColor,
-          child: MenuNavBar(
-            isFromAdminPannel: true,
+      drawer: const Drawer(
+        backgroundColor: AppColors.redColor,
+        child: MenuNavBar(
+          isFromAdminPannel: true,
+        ),
+      ),
+      appBar: AppBar(
+        title: Text(
+          'Admin Pannel',
+          style: GoogleFonts.baskervville(
+            textStyle: Theme.of(context).textTheme.headline2?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
           ),
         ),
-        appBar: AppBar(
-          title: Text(
-            'Admin Pannel',
-            style: GoogleFonts.baskervville(
-              textStyle: Theme.of(context).textTheme.headline2?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-            ),
-          ),
+      ),
+      body: GridView.builder(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+        physics: const BouncingScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: adminPaddnelButtonData.length,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          childAspectRatio: 4 / 4,
+          crossAxisSpacing: 20,
+          mainAxisSpacing: 20,
         ),
-        body: GridView.builder(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-          physics: const BouncingScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: adminPaddnelButtonData.length,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            childAspectRatio: 4 / 4,
-            crossAxisSpacing: 20,
-            mainAxisSpacing: 20,
-          ),
-          itemBuilder: (context, index) {
-            final data = adminPaddnelButtonData[index];
-            return AdminPannelCards(
-              mediaQuery: mediaQuery,
-              onTap: () {
-                log('$index');
-                if (index == 0) {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (_) => AddAds(
-                            mediaQuery: mediaQuery,
-                          )));
-                } else if (index == 1) {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (_) => AddGames(
-                            mediaQuery: mediaQuery,
-                          )));
-                } else if (index == 2) {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (_) => AddATournaments(
-                            mediaQuery: mediaQuery,
-                          )));
-                } else if (index == 3) {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (_) => AddVideos(
-                            mediaQuery: mediaQuery,
-                          )));
-                } else if (index == 4) {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (_) => const UserList()));
-                }
-              },
-              text: data['buttonText'],
-            );
-          },
-        ));
+        itemBuilder: (context, index) {
+          final data = adminPaddnelButtonData[index];
+          return AdminPannelCards(
+            mediaQuery: mediaQuery,
+            onTap: () {
+              log('$index');
+              if (index == 0) {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (_) => AddAds(
+                          mediaQuery: mediaQuery,
+                        )));
+              } else if (index == 1) {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (_) => AddGames(
+                          mediaQuery: mediaQuery,
+                        )));
+              } else if (index == 2) {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (_) => AddATournaments(
+                          mediaQuery: mediaQuery,
+                        )));
+              } else if (index == 3) {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (_) => AddVideos(
+                          mediaQuery: mediaQuery,
+                        )));
+              } else if (index == 4) {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (_) => const UserList()));
+              }
+            },
+            text: data['buttonText'],
+          );
+        },
+      ),
+    );
   }
 }
 

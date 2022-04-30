@@ -4,6 +4,12 @@ enum AccountType {
   none,
 }
 
+enum TournamentsStatus {
+  none,
+  participated,
+  readyToPlay,
+}
+
 final List<Map<String, dynamic>> adminPaddnelButtonData = [
   {'buttonText': 'Add Ads'},
   {'buttonText': 'Add Tournaments'},

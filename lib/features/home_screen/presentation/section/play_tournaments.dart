@@ -4,7 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:esport_flame/core/app_colors.dart';
 import 'package:esport_flame/core/widgets/custom_shimmer.dart';
-import 'package:esport_flame/features/home_screen/widgets/tournament_details.dart';
+import 'package:esport_flame/features/home_screen/presentation/section/widgets/tournament_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -45,6 +45,7 @@ class _PlayTournamentsState extends ConsumerState<PlayTournaments> {
               itemCount: tournamentData.docs.length,
               itemBuilder: (context, index) {
                 final _data = tournamentData.docs[index];
+
                 return _ImgSection(
                   mediaQuery: widget.mediaQuery,
                   tournamentData: _data,
@@ -139,6 +140,16 @@ class _ImgSection extends ConsumerWidget {
                     title: 'Winner Prize',
                     subTitle: tournamentData['winnerPrize'],
                   ),
+                  tournamentData['tournamentStatus'] == 1
+                      ? const _Details(
+                          title: 'Participation',
+                          subTitle: '',
+                          widget: Icon(
+                            Icons.check_circle,
+                            color: AppColors.greencolor,
+                          ),
+                        )
+                      : const SizedBox()
                 ],
               ),
               const Spacer(),
@@ -146,6 +157,8 @@ class _ImgSection extends ConsumerWidget {
                 icon: const Icon(Icons.touch_app),
                 onPressed: () {
                   TournamentAlertBox.showAlert(
+                    tournamentStatus: tournamentData['tournamentStatus'],
+                    docId: tournamentData.id,
                     context: context,
                     description: tournamentData['gameInfo'],
                     gameTitle: tournamentData['gameTitle'],
@@ -165,23 +178,33 @@ class _Details extends StatelessWidget {
     Key? key,
     required this.title,
     required this.subTitle,
+    this.widget,
   }) : super(key: key);
 
   final String title;
   final String subTitle;
+  final Widget? widget;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          title,
-          style: GoogleFonts.merriweather(
-            textStyle: Theme.of(context).textTheme.subtitle1?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-          ),
+        Row(
+          children: [
+            Text(
+              title,
+              style: GoogleFonts.merriweather(
+                textStyle: Theme.of(context).textTheme.subtitle1?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+              ),
+            ),
+            const SizedBox(
+              width: 4,
+            ),
+            widget ?? const SizedBox(),
+          ],
         ),
         Row(
           children: [
