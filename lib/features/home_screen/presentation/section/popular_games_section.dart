@@ -152,6 +152,12 @@ class CustomCard extends StatelessWidget {
                   width: mediaQuery.width,
                 );
               },
+              placeholder: (ctx, str) {
+                return CustomShimmer(
+                  height: mediaQuery.width - 50,
+                  width: mediaQuery.width,
+                );
+              },
             ),
           ),
           Align(

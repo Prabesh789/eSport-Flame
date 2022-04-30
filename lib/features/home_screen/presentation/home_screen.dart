@@ -117,6 +117,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                       child: CachedNetworkImage(
                                         imageUrl: '${_data['image']}',
                                         fit: BoxFit.cover,
+                                        errorWidget: (ctx, str, dy) {
+                                          return CustomShimmer(
+                                            height: mediaQuery.height / 3.5,
+                                            width: mediaQuery.width - 15,
+                                          );
+                                        },
+                                        placeholder: (ctx, str) {
+                                          return CustomShimmer(
+                                            height: mediaQuery.height / 3.5,
+                                            width: mediaQuery.width - 15,
+                                          );
+                                        },
                                       ),
                                     ),
                                   ),

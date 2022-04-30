@@ -7,6 +7,7 @@ import 'package:esport_flame/core/widgets/custom_shimmer.dart';
 import 'package:esport_flame/features/home_screen/presentation/section/widgets/tournament_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class PlayTournaments extends ConsumerStatefulWidget {
@@ -41,23 +42,57 @@ class _PlayTournamentsState extends ConsumerState<PlayTournaments> {
             return const SizedBox();
           } else if (snapshot.hasData) {
             final tournamentData = snapshot.data as QuerySnapshot;
-            return ListView.separated(
-              itemCount: tournamentData.docs.length,
-              itemBuilder: (context, index) {
-                final _data = tournamentData.docs[index];
+            if (tournamentData.docs.isNotEmpty) {
+              return ListView.separated(
+                itemCount: tournamentData.docs.length,
+                itemBuilder: (context, index) {
+                  final _data = tournamentData.docs[index];
 
-                return _ImgSection(
-                  mediaQuery: widget.mediaQuery,
-                  tournamentData: _data,
-                );
-              },
-              separatorBuilder: (ctx, x) {
-                return const Divider(
-                  height: 15,
-                  color: AppColors.greyColor,
-                );
-              },
-            );
+                  return _ImgSection(
+                    mediaQuery: widget.mediaQuery,
+                    tournamentData: _data,
+                  );
+                },
+                separatorBuilder: (ctx, x) {
+                  return const Divider(
+                    height: 15,
+                    color: AppColors.greyColor,
+                  );
+                },
+              );
+            } else {
+              return Center(
+                child: SizedBox(
+                  width: widget.mediaQuery!.width / 1.6,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset(
+                        'assets/login.svg',
+                        height: widget.mediaQuery!.height / 5,
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Align(
+                        child: Text(
+                          'No Any Tournaments Added Yet.',
+                          style: GoogleFonts.merriweather(
+                            textStyle:
+                                Theme.of(context).textTheme.bodyText2?.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }
           } else {
             return const SizedBox();
           }
@@ -108,6 +143,12 @@ class _ImgSection extends ConsumerWidget {
                   imageUrl: tournamentData['posterImage'],
                   fit: BoxFit.cover,
                   errorWidget: (ctx, str, dy) {
+                    return CustomShimmer(
+                      width: mediaQuery!.width,
+                      height: mediaQuery!.width,
+                    );
+                  },
+                  placeholder: (ctx, str) {
                     return CustomShimmer(
                       width: mediaQuery!.width / 2,
                       height: mediaQuery!.width / 2.4,
