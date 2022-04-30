@@ -44,6 +44,7 @@ class _PlayTournamentsState extends ConsumerState<PlayTournaments> {
             final tournamentData = snapshot.data as QuerySnapshot;
             if (tournamentData.docs.isNotEmpty) {
               return ListView.separated(
+                physics: const BouncingScrollPhysics(),
                 itemCount: tournamentData.docs.length,
                 itemBuilder: (context, index) {
                   final _data = tournamentData.docs[index];

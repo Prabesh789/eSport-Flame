@@ -108,6 +108,9 @@ class _TournamentDetailState extends ConsumerState<TournamentDetail> {
               ),
               textAlign: TextAlign.center,
             ),
+            const SizedBox(
+              height: 10,
+            ),
             const Spacer(),
             SizedBox(
               height: 48,
@@ -120,10 +123,7 @@ class _TournamentDetailState extends ConsumerState<TournamentDetail> {
                     ?.copyWith(color: AppColors.whiteColor),
                 buttonText: 'PAY ENTRY FEES',
                 onPressed: () {
-                  // var status = widget.tournamentStatus == 0 ? 1 : 0;
-                  // ref
-                  //     .read(updateTournamantStatusController.notifier)
-                  //     .updateTournamentStatus(widget.docId, status);
+                  Navigator.of(context).pop();
                 },
               ),
             ),
