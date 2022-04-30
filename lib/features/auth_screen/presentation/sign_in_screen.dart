@@ -48,7 +48,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
 
     ref.listen<BaseState>(signInController, (oldState, state) {
       final useStatus = ref.watch(isUserAdminProvider);
-      log('$useStatus');
+      log('Admin: $useStatus');
       state.maybeWhen(
         success: (_) {
           if (useStatus) {

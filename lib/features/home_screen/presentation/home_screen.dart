@@ -6,10 +6,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:esport_flame/core/app_colors.dart';
 import 'package:esport_flame/core/widgets/custom_body.dart';
 import 'package:esport_flame/core/widgets/shimmer.dart';
-import 'package:esport_flame/features/home_screen/section/live_streem.dart';
-import 'package:esport_flame/features/home_screen/section/play_tournaments.dart';
-import 'package:esport_flame/features/home_screen/section/popular_games_section.dart';
-import 'package:esport_flame/features/home_screen/widgets/shadow_button.dart';
+import 'package:esport_flame/features/home_screen/presentation/section/live_streem.dart';
+import 'package:esport_flame/features/home_screen/presentation/section/play_tournaments.dart';
+import 'package:esport_flame/features/home_screen/presentation/section/popular_games_section.dart';
+import 'package:esport_flame/features/home_screen/presentation/section/widgets/shadow_button.dart';
 import 'package:esport_flame/features/menu_nav_bar/menu_nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -217,10 +217,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       const SizedBox(width: 15),
                       Buttons(
                         onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
                               builder: (_) => LiveStreem(
-                                    mediaQuery: mediaQuery,
-                                  )));
+                                mediaQuery: mediaQuery,
+                              ),
+                            ),
+                          );
                         },
                         text: 'Live Streems',
                       ),
