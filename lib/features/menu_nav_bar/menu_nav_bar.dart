@@ -4,6 +4,7 @@ import 'package:esport_flame/core/entities/base_state.dart';
 import 'package:esport_flame/core/extension/snackbar_extension.dart';
 import 'package:esport_flame/features/auth_screen/application/auth_controller.dart';
 import 'package:esport_flame/features/auth_screen/presentation/sign_in_screen.dart';
+import 'package:esport_flame/features/menu_nav_bar/widgets/data_policy.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -158,9 +159,15 @@ class _MenuNavBarState extends ConsumerState<MenuNavBar> {
                         padding: EdgeInsets.only(right: 15),
                         child: Icon(Icons.policy),
                       ),
-                      onTap: () async {},
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => const DataPolicyScreen(),
+                          ),
+                        );
+                      },
                       title: Text(
-                        'Data privacy',
+                        'Data Policy',
                         style: Theme.of(context).textTheme.subtitle1?.copyWith(
                               fontWeight: FontWeight.bold,
                             ),
@@ -191,9 +198,8 @@ class _MenuNavBarState extends ConsumerState<MenuNavBar> {
                     ),
                   ),
                 SizedBox(
-                  height: widget.isFromAdminPannel!
-                      ? mediaQuery.height / 1.7
-                      : mediaQuery.height / 4,
+                  height:
+                      widget.isFromAdminPannel! ? mediaQuery.height / 1.7 : 0,
                 ),
                 Card(
                   elevation: 0,

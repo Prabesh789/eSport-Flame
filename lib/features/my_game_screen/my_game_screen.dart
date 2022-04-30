@@ -47,6 +47,7 @@ class _MyGameScreenState extends ConsumerState<MyGameScreen> {
                 .toList();
             if (myGames.isNotEmpty) {
               return ListView.separated(
+                physics: const BouncingScrollPhysics(),
                 itemCount: myGames.length,
                 itemBuilder: (context, index) {
                   final _data = myGames[index];
