@@ -71,7 +71,7 @@ class _MyGameScreenState extends ConsumerState<MyGameScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SvgPicture.asset(
-                        'assets/login.svg',
+                        'assets/empty.svg',
                         height: mediaQuery.height / 5,
                       ),
                       const SizedBox(

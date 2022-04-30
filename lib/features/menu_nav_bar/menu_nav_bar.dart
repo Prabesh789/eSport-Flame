@@ -4,6 +4,7 @@ import 'package:esport_flame/core/entities/base_state.dart';
 import 'package:esport_flame/core/extension/snackbar_extension.dart';
 import 'package:esport_flame/features/auth_screen/application/auth_controller.dart';
 import 'package:esport_flame/features/auth_screen/presentation/sign_in_screen.dart';
+import 'package:esport_flame/features/menu_nav_bar/widgets/about_app.dart';
 import 'package:esport_flame/features/menu_nav_bar/widgets/data_policy.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -188,7 +189,13 @@ class _MenuNavBarState extends ConsumerState<MenuNavBar> {
                         padding: EdgeInsets.only(right: 15),
                         child: Icon(Icons.rule),
                       ),
-                      onTap: () async {},
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => const AboutAppScreen(),
+                          ),
+                        );
+                      },
                       title: Text(
                         'About App',
                         style: Theme.of(context).textTheme.subtitle1?.copyWith(

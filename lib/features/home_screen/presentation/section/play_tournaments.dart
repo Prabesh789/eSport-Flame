@@ -69,7 +69,7 @@ class _PlayTournamentsState extends ConsumerState<PlayTournaments> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SvgPicture.asset(
-                        'assets/login.svg',
+                        'assets/empty.svg',
                         height: widget.mediaQuery!.height / 5,
                       ),
                       const SizedBox(
