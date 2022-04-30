@@ -45,6 +45,7 @@ class _PlayTournamentsState extends ConsumerState<PlayTournaments> {
               itemCount: tournamentData.docs.length,
               itemBuilder: (context, index) {
                 final _data = tournamentData.docs[index];
+
                 return _ImgSection(
                   mediaQuery: widget.mediaQuery,
                   tournamentData: _data,
@@ -139,6 +140,16 @@ class _ImgSection extends ConsumerWidget {
                     title: 'Winner Prize',
                     subTitle: tournamentData['winnerPrize'],
                   ),
+                  tournamentData['tournamentStatus'] == 1
+                      ? const _Details(
+                          title: 'Participation',
+                          subTitle: '',
+                          widget: Icon(
+                            Icons.check_circle,
+                            color: AppColors.greencolor,
+                          ),
+                        )
+                      : const SizedBox()
                 ],
               ),
               const Spacer(),
@@ -146,6 +157,8 @@ class _ImgSection extends ConsumerWidget {
                 icon: const Icon(Icons.touch_app),
                 onPressed: () {
                   TournamentAlertBox.showAlert(
+                    tournamentStatus: tournamentData['tournamentStatus'],
+                    docId: tournamentData.id,
                     context: context,
                     description: tournamentData['gameInfo'],
                     gameTitle: tournamentData['gameTitle'],
@@ -165,23 +178,33 @@ class _Details extends StatelessWidget {
     Key? key,
     required this.title,
     required this.subTitle,
+    this.widget,
   }) : super(key: key);
 
   final String title;
   final String subTitle;
+  final Widget? widget;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          title,
-          style: GoogleFonts.merriweather(
-            textStyle: Theme.of(context).textTheme.subtitle1?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-          ),
+        Row(
+          children: [
+            Text(
+              title,
+              style: GoogleFonts.merriweather(
+                textStyle: Theme.of(context).textTheme.subtitle1?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+              ),
+            ),
+            const SizedBox(
+              width: 4,
+            ),
+            widget ?? const SizedBox(),
+          ],
         ),
         Row(
           children: [

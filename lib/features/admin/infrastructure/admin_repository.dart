@@ -102,7 +102,7 @@ class AdminRepository implements IAdminRepository {
             (downloadUrl) async {
               await FirebaseFirestore.instance
                   .collection('tournaments')
-                  .doc()
+                  .doc('gameTournaments')
                   .set(
                 {
                   'gameTitle': addTournament.gameTitle,
