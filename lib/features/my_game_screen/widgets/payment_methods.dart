@@ -11,7 +11,7 @@ final updateTournamantStatusController =
     StateNotifierProvider.autoDispose<HomeScreenController, BaseState>(
         homeScreenController);
 
-class TournamentAlertBox {
+class PaymentMethodAlertBox {
   static Future showAlert({
     required String docId,
     required BuildContext context,
@@ -118,14 +118,12 @@ class _TournamentDetailState extends ConsumerState<TournamentDetail> {
                     .textTheme
                     .bodyText2
                     ?.copyWith(color: AppColors.whiteColor),
-                buttonText: widget.tournamentStatus == 0
-                    ? 'Participate'.toUpperCase()
-                    : 'Remove Participation'.toUpperCase(),
+                buttonText: 'PAY ENTRY FEES',
                 onPressed: () {
-                  var status = widget.tournamentStatus == 0 ? 1 : 0;
-                  ref
-                      .read(updateTournamantStatusController.notifier)
-                      .updateTournamentStatus(widget.docId, status);
+                  // var status = widget.tournamentStatus == 0 ? 1 : 0;
+                  // ref
+                  //     .read(updateTournamantStatusController.notifier)
+                  //     .updateTournamentStatus(widget.docId, status);
                 },
               ),
             ),

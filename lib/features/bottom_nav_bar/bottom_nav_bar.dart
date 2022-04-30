@@ -13,7 +13,7 @@ class BottomNavBar extends StatefulWidget {
 class _BottomNavBarState extends State<BottomNavBar> {
   static const List<Widget> _screens = <Widget>[
     HomeScreen(),
-    MyGamesScreen(),
+    MyGameScreen(),
   ];
 
   int _selectedIndex = 0;
@@ -30,7 +30,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
       resizeToAvoidBottomInset: false,
       body: AnimatedSwitcher(
         switchInCurve: Curves.fastOutSlowIn,
-        duration: const Duration(milliseconds: 700),
+        duration: const Duration(milliseconds: 200),
         child: _screens.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: ClipRRect(
