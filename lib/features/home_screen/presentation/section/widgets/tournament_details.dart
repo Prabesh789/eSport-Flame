@@ -2,6 +2,7 @@ import 'package:esport_flame/core/app_colors.dart';
 import 'package:esport_flame/core/entities/base_state.dart';
 import 'package:esport_flame/core/extension/snackbar_extension.dart';
 import 'package:esport_flame/core/widgets/custom_bottun.dart';
+import 'package:esport_flame/features/auth_screen/application/auth_controller.dart';
 import 'package:esport_flame/features/home_screen/application/home_screen_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -17,7 +18,7 @@ class TournamentAlertBox {
     required BuildContext context,
     required String gameTitle,
     required String description,
-    required int tournamentStatus,
+    required bool isParticipant,
   }) {
     return showDialog(
       context: context,
@@ -42,7 +43,7 @@ class TournamentAlertBox {
         content: TournamentDetail(
           description: description,
           docId: docId,
-          tournamentStatus: tournamentStatus,
+          isParticipant: isParticipant,
         ),
       ),
     );
@@ -54,11 +55,11 @@ class TournamentDetail extends ConsumerStatefulWidget {
     Key? key,
     required this.description,
     required this.docId,
-    required this.tournamentStatus,
+    required this.isParticipant,
   }) : super(key: key);
   final String description;
   final String docId;
-  final int tournamentStatus;
+  final bool isParticipant;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -72,7 +73,7 @@ class _TournamentDetailState extends ConsumerState<TournamentDetail> {
       state.maybeWhen(
         success: (_) {
           context.showSnackBar(
-            widget.tournamentStatus == 0
+            !widget.isParticipant
                 ? 'Thank You For Participation'
                 : 'You Have Removed Your Participation',
             Icons.check_circle,
@@ -89,8 +90,10 @@ class _TournamentDetailState extends ConsumerState<TournamentDetail> {
         ),
       );
     });
+
     final state = ref.watch(updateTournamantStatusController);
-    final _isLoading = state == const BaseState<void>.loading();
+    final userId = ref.watch(userIdProvider);
+
     final mediaQuery = MediaQuery.of(context).size;
     return SizedBox(
       height: mediaQuery.height / 3,
@@ -113,19 +116,25 @@ class _TournamentDetailState extends ConsumerState<TournamentDetail> {
               height: 48,
               width: mediaQuery.width / 2,
               child: CustomButton(
-                isLoading: _isLoading,
+                isLoading:
+                    state.maybeMap(orElse: () => false, loading: (_) => true),
                 buttontextStyle: Theme.of(context)
                     .textTheme
                     .bodyText2
                     ?.copyWith(color: AppColors.whiteColor),
-                buttonText: widget.tournamentStatus == 0
-                    ? 'Participate'.toUpperCase()
-                    : 'Remove Participation'.toUpperCase(),
+                buttonText: widget.isParticipant
+                    ? 'Remove Participation'.toUpperCase()
+                    : 'Participate'.toUpperCase(),
                 onPressed: () {
-                  var status = widget.tournamentStatus == 0 ? 1 : 0;
-                  ref
-                      .read(updateTournamantStatusController.notifier)
-                      .updateTournamentStatus(widget.docId, status);
+                  if (widget.isParticipant) {
+                    ref
+                        .read(updateTournamantStatusController.notifier)
+                        .removeParticipant(widget.docId);
+                  } else {
+                    ref
+                        .read(updateTournamantStatusController.notifier)
+                        .updateTournamentStatus(widget.docId, userId);
+                  }
                 },
               ),
             ),

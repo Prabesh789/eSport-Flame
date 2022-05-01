@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:esport_flame/core/app_colors.dart';
 import 'package:esport_flame/core/widgets/custom_shimmer.dart';
+import 'package:esport_flame/features/auth_screen/application/auth_controller.dart';
 import 'package:esport_flame/features/my_game_screen/widgets/payment_methods.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -41,9 +42,10 @@ class _MyGameScreenState extends ConsumerState<MyGameScreen> {
             log('Error !!!');
             return const SizedBox();
           } else if (snapshot.hasData) {
+            final userId = ref.watch(userIdProvider.notifier).state;
             final tournamentData = snapshot.data as QuerySnapshot;
             final myGames = tournamentData.docs
-                .where((element) => element['tournamentStatus'] == 1)
+                .where((element) => element['participants'].contains(userId))
                 .toList();
             if (myGames.isNotEmpty) {
               return ListView.separated(
@@ -116,6 +118,7 @@ class _ImgSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final userId = ref.watch(userIdProvider.notifier).state;
     return Container(
       width: mediaQuery!.width,
       margin: const EdgeInsets.all(15),
@@ -184,7 +187,7 @@ class _ImgSection extends ConsumerWidget {
                     title: 'Winner Prize',
                     subTitle: tournamentData['winnerPrize'],
                   ),
-                  tournamentData['tournamentStatus'] == 1
+                  tournamentData['participants'].contains(userId)
                       ? const _Details(
                           title: 'Participation',
                           subTitle: '',
@@ -201,11 +204,12 @@ class _ImgSection extends ConsumerWidget {
                 icon: const Icon(Icons.touch_app),
                 onPressed: () {
                   PaymentMethodAlertBox.showAlert(
-                    tournamentStatus: tournamentData['tournamentStatus'],
                     docId: tournamentData.id,
                     context: context,
                     description: tournamentData['gameInfo'],
                     gameTitle: tournamentData['gameTitle'],
+                    isParticipant:
+                        tournamentData['participants'].contains(userId),
                   );
                 },
               )

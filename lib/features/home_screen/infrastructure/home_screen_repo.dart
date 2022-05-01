@@ -10,8 +10,12 @@ final homeScreenRepository =
     Provider<IHomeRepository>((ref) => HomeScreenRepository(ref.read));
 
 abstract class IHomeRepository {
-  Future<Either<void, Failure>> updateTournamantsStatus(
-      String docID, int status);
+  Future<Either<void, Failure>> participantStatus(
+    String docID,
+    String userId,
+  );
+
+  Future<Either<void, Failure>> removeParticipant(String docId);
 }
 
 class HomeScreenRepository implements IHomeRepository {
@@ -20,14 +24,43 @@ class HomeScreenRepository implements IHomeRepository {
   final Reader _read;
 
   @override
-  Future<Either<void, Failure>> updateTournamantsStatus(
-      String docId, int status) async {
+  Future<Either<void, Failure>> participantStatus(
+      String docId, String userId) async {
     try {
       CollectionReference tournaments =
           FirebaseFirestore.instance.collection('tournaments');
       final updatedData = tournaments
           .doc(docId)
-          .update({'tournamentStatus': status})
+          .update({
+            'participants': FieldValue.arrayUnion([userId])
+          })
+          .then((value) => log("Status Updated"))
+          .catchError((error) => log("Failed to update Status: $error"));
+      return Left(updatedData);
+    } on FirebaseAuthException catch (e) {
+      return Right(
+        Failure(
+          errorMessage:
+              e.message ?? 'Something went wrong, try in few moments !',
+        ),
+      );
+    } catch (e) {
+      return Right(
+        Failure(
+          errorMessage: e.toString(),
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<Either<void, Failure>> removeParticipant(String docId) async {
+    try {
+      CollectionReference tournaments =
+          FirebaseFirestore.instance.collection('tournaments');
+      final updatedData = tournaments
+          .doc(docId)
+          .update({'participants': ''})
           .then((value) => log("Status Updated"))
           .catchError((error) => log("Failed to update Status: $error"));
       return Left(updatedData);

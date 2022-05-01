@@ -57,7 +57,7 @@ class _AddVideosState extends ConsumerState<AddVideos> {
       );
     });
     final state = ref.watch(addVideosController);
-    final _isLoading = state == const BaseState<void>.loading();
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -125,7 +125,8 @@ class _AddVideosState extends ConsumerState<AddVideos> {
                     height: widget.mediaQuery!.height / 5,
                   ),
                   CustomButton(
-                    isLoading: _isLoading,
+                    isLoading: state.maybeMap(
+                        orElse: () => false, loading: (_) => true),
                     buttonText: 'Add +',
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {

@@ -91,7 +91,7 @@ class _AddGamesState extends ConsumerState<AddGames> {
       );
     });
     final state = ref.watch(addTournamentsController);
-    final _isLoading = state == const BaseState<void>.loading();
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -340,7 +340,8 @@ class _AddGamesState extends ConsumerState<AddGames> {
                   SizedBox(
                     width: widget.mediaQuery!.width / 1.2,
                     child: CustomButton(
-                      isLoading: _isLoading,
+                      isLoading: state.maybeMap(
+                          orElse: () => false, loading: (_) => true),
                       buttonText: 'Add +',
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
@@ -357,7 +358,6 @@ class _AddGamesState extends ConsumerState<AddGames> {
                                   bookingOpenDate:
                                       _bookingOpencontroller.text.trim(),
                                   deadLineDate: _deadLinecontroller.text.trim(),
-                                  tournamentStatus: 0,
                                 ),
                               );
                         }
