@@ -112,7 +112,7 @@ class AdminRepository implements IAdminRepository {
                   'winnerPrize': addTournament.winnerPrize,
                   'deadLineDate': addTournament.deadLineDate,
                   'bookingOpenDate': addTournament.bookingOpenDate,
-                  'tournamentStatus': addTournament.tournamentStatus,
+                  'participants': FieldValue.arrayUnion([]),
                 },
               );
             },

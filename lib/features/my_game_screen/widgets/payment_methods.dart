@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final updateTournamantStatusController =
+final feesPaymentController =
     StateNotifierProvider.autoDispose<HomeScreenController, BaseState>(
         homeScreenController);
 
@@ -17,7 +17,7 @@ class PaymentMethodAlertBox {
     required BuildContext context,
     required String gameTitle,
     required String description,
-    required int tournamentStatus,
+    required bool isParticipant,
   }) {
     return showDialog(
       context: context,
@@ -42,7 +42,7 @@ class PaymentMethodAlertBox {
         content: TournamentDetail(
           description: description,
           docId: docId,
-          tournamentStatus: tournamentStatus,
+          isParticipant: isParticipant,
         ),
       ),
     );
@@ -54,11 +54,11 @@ class TournamentDetail extends ConsumerStatefulWidget {
     Key? key,
     required this.description,
     required this.docId,
-    required this.tournamentStatus,
+    required this.isParticipant,
   }) : super(key: key);
   final String description;
   final String docId;
-  final int tournamentStatus;
+  final bool isParticipant;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -68,13 +68,11 @@ class TournamentDetail extends ConsumerStatefulWidget {
 class _TournamentDetailState extends ConsumerState<TournamentDetail> {
   @override
   Widget build(BuildContext context) {
-    ref.listen<BaseState>(updateTournamantStatusController, (oldState, state) {
+    ref.listen<BaseState>(feesPaymentController, (oldState, state) {
       state.maybeWhen(
         success: (_) {
           context.showSnackBar(
-            widget.tournamentStatus == 0
-                ? 'Thank You For Participation'
-                : 'You Have Removed Your Participation',
+            '',
             Icons.check_circle,
             AppColors.greencolor,
           );
@@ -89,8 +87,8 @@ class _TournamentDetailState extends ConsumerState<TournamentDetail> {
         ),
       );
     });
-    final state = ref.watch(updateTournamantStatusController);
-    final _isLoading = state == const BaseState<void>.loading();
+    final state = ref.watch(feesPaymentController);
+
     final mediaQuery = MediaQuery.of(context).size;
     return SizedBox(
       height: mediaQuery.height / 3,
@@ -116,7 +114,8 @@ class _TournamentDetailState extends ConsumerState<TournamentDetail> {
               height: 48,
               width: mediaQuery.width / 2,
               child: CustomButton(
-                isLoading: _isLoading,
+                isLoading:
+                    state.maybeMap(orElse: () => false, loading: (_) => true),
                 buttontextStyle: Theme.of(context)
                     .textTheme
                     .bodyText2

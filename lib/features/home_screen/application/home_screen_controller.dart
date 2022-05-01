@@ -22,10 +22,19 @@ class HomeScreenController<T> extends StateNotifier<BaseState> {
   final Reader _read;
   IHomeRepository get _homeScreenRepo => _read(homeScreenRepository);
 
-  Future<void> updateTournamentStatus(String docId, int status) async {
+  Future<void> updateTournamentStatus(String docId, String userId) async {
     state = const BaseState<void>.loading();
-    final response =
-        await _homeScreenRepo.updateTournamantsStatus(docId, status);
+    final response = await _homeScreenRepo.participantStatus(docId, userId);
+
+    state = response.fold(
+      (success) => const BaseState.success(),
+      (error) => BaseState.error(error),
+    );
+  }
+
+  Future<void> removeParticipant(String docId) async {
+    state = const BaseState<void>.loading();
+    final response = await _homeScreenRepo.removeParticipant(docId);
 
     state = response.fold(
       (success) => const BaseState.success(),

@@ -9,7 +9,6 @@ class AddTournament {
     required this.winnerPrize,
     required this.bookingOpenDate,
     required this.deadLineDate,
-    required this.tournamentStatus,
   });
   final String gameTitle;
   final String gameDescpription;
@@ -18,5 +17,4 @@ class AddTournament {
   final String winnerPrize;
   final String bookingOpenDate;
   final String deadLineDate;
-  final int tournamentStatus;
 }

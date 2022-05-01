@@ -71,7 +71,7 @@ class _AddAdsState extends ConsumerState<AddAds> {
       );
     });
     final state = ref.watch(addAdsController);
-    final _isLoading = state == const BaseState<void>.loading();
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -195,7 +195,8 @@ class _AddAdsState extends ConsumerState<AddAds> {
                     height: widget.mediaQuery!.height / 5,
                   ),
                   CustomButton(
-                    isLoading: _isLoading,
+                    isLoading: state.maybeMap(
+                        orElse: () => false, loading: (_) => true),
                     buttonText: 'Add +',
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {

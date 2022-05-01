@@ -4,8 +4,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:esport_flame/core/app_colors.dart';
+import 'package:esport_flame/core/entities/base_state.dart';
 import 'package:esport_flame/core/widgets/custom_body.dart';
 import 'package:esport_flame/core/widgets/shimmer.dart';
+import 'package:esport_flame/features/auth_screen/application/auth_controller.dart';
 import 'package:esport_flame/features/home_screen/presentation/section/live_streem.dart';
 import 'package:esport_flame/features/home_screen/presentation/section/play_tournaments.dart';
 import 'package:esport_flame/features/home_screen/presentation/section/popular_games_section.dart';
@@ -15,6 +17,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+
+final userIdController =
+    StateNotifierProvider.autoDispose<AuthController, BaseState>(
+        authController);
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -31,6 +37,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   void initState() {
     _swiperController = SwiperController();
     _refreshController = RefreshController();
+    ref.read(userIdController.notifier).getUserId();
     super.initState();
   }
 

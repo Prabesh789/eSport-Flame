@@ -60,7 +60,7 @@ class _AddATournamentsState extends ConsumerState<AddATournaments> {
       );
     });
     final state = ref.watch(addPopularGamesController);
-    final _isLoading = state == const BaseState<void>.loading();
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -181,7 +181,8 @@ class _AddATournamentsState extends ConsumerState<AddATournaments> {
                   height: widget.mediaQuery!.height / 5,
                 ),
                 CustomButton(
-                  isLoading: _isLoading,
+                  isLoading:
+                      state.maybeMap(orElse: () => false, loading: (_) => true),
                   buttonText: 'Add +',
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {

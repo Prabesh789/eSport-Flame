@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:esport_flame/core/app_colors.dart';
 import 'package:esport_flame/core/widgets/custom_shimmer.dart';
+import 'package:esport_flame/features/auth_screen/application/auth_controller.dart';
 import 'package:esport_flame/features/home_screen/presentation/section/widgets/tournament_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,6 +21,7 @@ class PlayTournaments extends ConsumerStatefulWidget {
 }
 
 class _PlayTournamentsState extends ConsumerState<PlayTournaments> {
+  @override
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -114,6 +116,8 @@ class _ImgSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final userId = ref.watch(userIdProvider.notifier).state;
+    log('=> $userId');
     return Container(
       width: mediaQuery!.width,
       margin: const EdgeInsets.all(15),
@@ -182,7 +186,7 @@ class _ImgSection extends ConsumerWidget {
                     title: 'Winner Prize',
                     subTitle: tournamentData['winnerPrize'],
                   ),
-                  tournamentData['tournamentStatus'] == 1
+                  tournamentData['participants'].contains(userId)
                       ? const _Details(
                           title: 'Participation',
                           subTitle: '',
@@ -199,11 +203,12 @@ class _ImgSection extends ConsumerWidget {
                 icon: const Icon(Icons.touch_app),
                 onPressed: () {
                   TournamentAlertBox.showAlert(
-                    tournamentStatus: tournamentData['tournamentStatus'],
                     docId: tournamentData.id,
                     context: context,
                     description: tournamentData['gameInfo'],
                     gameTitle: tournamentData['gameTitle'],
+                    isParticipant:
+                        tournamentData['participants'].contains(userId),
                   );
                 },
               )

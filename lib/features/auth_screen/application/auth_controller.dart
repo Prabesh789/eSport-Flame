@@ -5,6 +5,7 @@ import 'package:esport_flame/features/auth_screen/infrastructure/entities/login_
 import 'package:esport_flame/features/auth_screen/infrastructure/entities/login_response.dart';
 import 'package:esport_flame/features/auth_screen/infrastructure/entities/signup_request.dart';
 import 'package:esport_flame/features/auth_screen/infrastructure/entities/signup_response.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
@@ -13,6 +14,12 @@ AuthController<T> authController<T>(Ref ref) {
     ref.read,
   );
 }
+
+final userIdProvider = StateProvider<String>(
+  (ref) {
+    return '';
+  },
+);
 
 final isUserAdminProvider = StateProvider<bool>(
   (ref) {
@@ -76,5 +83,13 @@ class AuthController<T> extends StateNotifier<BaseState> {
 
     state = response.fold(
         (success) => const BaseState.success(), (r) => BaseState.error(r));
+  }
+
+  String? getUserId() {
+    final userId = FirebaseAuth.instance.currentUser?.uid;
+    if (userId != null) {
+      _read(userIdProvider.notifier).state = userId;
+    }
+    return userId;
   }
 }
