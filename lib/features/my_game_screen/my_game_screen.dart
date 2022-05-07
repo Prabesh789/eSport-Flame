@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:esport_flame/core/app_colors.dart';
 import 'package:esport_flame/core/widgets/custom_shimmer.dart';
 import 'package:esport_flame/features/auth_screen/application/auth_controller.dart';
+import 'package:esport_flame/features/menu_nav_bar/menu_nav_bar.dart';
 import 'package:esport_flame/features/my_game_screen/widgets/payment_methods.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -24,6 +25,10 @@ class _MyGameScreenState extends ConsumerState<MyGameScreen> {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context).size;
     return Scaffold(
+      drawer: const Drawer(
+        backgroundColor: AppColors.redColor,
+        child: MenuNavBar(),
+      ),
       appBar: AppBar(
         title: Text(
           'My Games',

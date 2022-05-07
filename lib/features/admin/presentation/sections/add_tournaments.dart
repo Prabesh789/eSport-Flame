@@ -19,15 +19,17 @@ final addTournamentsController =
     StateNotifierProvider.autoDispose<AdminController, BaseState>(
         adminController);
 
-class AddGames extends ConsumerStatefulWidget {
-  const AddGames({Key? key, this.mediaQuery}) : super(key: key);
+class AddTournaments extends ConsumerStatefulWidget {
+  const AddTournaments({Key? key, this.mediaQuery, this.isEdit = false})
+      : super(key: key);
   final Size? mediaQuery;
+  final bool isEdit;
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _AddGamesState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _AddTournamentsState();
 }
 
-class _AddGamesState extends ConsumerState<AddGames> {
+class _AddTournamentsState extends ConsumerState<AddTournaments> {
   DateTime selectedDate = DateTime.now();
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
@@ -95,7 +97,7 @@ class _AddGamesState extends ConsumerState<AddGames> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Add Tournaments',
+          widget.isEdit ? 'Edit Tournaments' : 'Add Tournaments',
           style: GoogleFonts.baskervville(
             textStyle: Theme.of(context).textTheme.headline2?.copyWith(
                   fontWeight: FontWeight.bold,
@@ -342,7 +344,7 @@ class _AddGamesState extends ConsumerState<AddGames> {
                     child: CustomButton(
                       isLoading: state.maybeMap(
                           orElse: () => false, loading: (_) => true),
-                      buttonText: 'Add +',
+                      buttonText: widget.isEdit ? "Update" : 'Add +',
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           ref
