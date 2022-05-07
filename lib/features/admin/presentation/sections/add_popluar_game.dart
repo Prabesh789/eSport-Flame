@@ -17,16 +17,16 @@ final addPopularGamesController =
     StateNotifierProvider.autoDispose<AdminController, BaseState>(
         adminController);
 
-class AddATournaments extends ConsumerStatefulWidget {
-  const AddATournaments({Key? key, this.mediaQuery}) : super(key: key);
+class AddPopularGames extends ConsumerStatefulWidget {
+  const AddPopularGames({Key? key, this.mediaQuery}) : super(key: key);
   final Size? mediaQuery;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
-      _AddATournamentsState();
+      _AddPopularGamesState();
 }
 
-class _AddATournamentsState extends ConsumerState<AddATournaments> {
+class _AddPopularGamesState extends ConsumerState<AddPopularGames> {
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
   final _titleFocusNode = FocusNode();

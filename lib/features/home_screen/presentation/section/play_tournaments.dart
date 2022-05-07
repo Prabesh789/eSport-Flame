@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:esport_flame/core/app_colors.dart';
 import 'package:esport_flame/core/widgets/custom_shimmer.dart';
+import 'package:esport_flame/features/admin/presentation/sections/add_tournaments.dart';
 import 'package:esport_flame/features/auth_screen/application/auth_controller.dart';
 import 'package:esport_flame/features/home_screen/presentation/section/widgets/tournament_details.dart';
 import 'package:flutter/material.dart';
@@ -12,8 +13,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class PlayTournaments extends ConsumerStatefulWidget {
-  const PlayTournaments({Key? key, this.mediaQuery}) : super(key: key);
+  const PlayTournaments({Key? key, this.mediaQuery, this.title})
+      : super(key: key);
   final Size? mediaQuery;
+  final String? title;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -27,7 +30,7 @@ class _PlayTournamentsState extends ConsumerState<PlayTournaments> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Play Tournaments',
+          widget.title ?? 'Play Tournaments',
           style: GoogleFonts.baskervville(
             textStyle: Theme.of(context).textTheme.headline2?.copyWith(
                   fontWeight: FontWeight.bold,
@@ -117,6 +120,7 @@ class _ImgSection extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userId = ref.watch(userIdProvider.notifier).state;
+    final _useStatus = ref.watch(isUserAdminProvider);
     log('=> $userId');
     return Container(
       width: mediaQuery!.width,
@@ -200,16 +204,27 @@ class _ImgSection extends ConsumerWidget {
               ),
               const Spacer(),
               IconButton(
-                icon: const Icon(Icons.touch_app),
+                icon: Icon(!_useStatus ? Icons.touch_app : Icons.edit),
                 onPressed: () {
-                  TournamentAlertBox.showAlert(
-                    docId: tournamentData.id,
-                    context: context,
-                    description: tournamentData['gameInfo'],
-                    gameTitle: tournamentData['gameTitle'],
-                    isParticipant:
-                        tournamentData['participants'].contains(userId),
-                  );
+                  if (!_useStatus) {
+                    TournamentAlertBox.showAlert(
+                      docId: tournamentData.id,
+                      context: context,
+                      description: tournamentData['gameInfo'],
+                      gameTitle: tournamentData['gameTitle'],
+                      isParticipant:
+                          tournamentData['participants'].contains(userId),
+                    );
+                  } else {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => AddTournaments(
+                          isEdit: true,
+                          mediaQuery: mediaQuery,
+                        ),
+                      ),
+                    );
+                  }
                 },
               )
             ],
