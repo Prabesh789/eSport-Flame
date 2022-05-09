@@ -221,6 +221,14 @@ class _ImgSection extends ConsumerWidget {
                         builder: (_) => AddTournaments(
                           isEdit: true,
                           mediaQuery: mediaQuery,
+                          title: tournamentData['gameTitle'],
+                          description: tournamentData['gameInfo'],
+                          matchDate: tournamentData['matchDate'],
+                          bookingDate: tournamentData['bookingOpenDate'],
+                          deadLine: tournamentData['deadLineDate'],
+                          prize: tournamentData['winnerPrize'],
+                          imgUrl: tournamentData['posterImage'],
+                          docId: tournamentData.id,
                         ),
                       ),
                     );
