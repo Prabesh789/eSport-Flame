@@ -37,7 +37,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   void initState() {
     _swiperController = SwiperController();
     _refreshController = RefreshController();
-    ref.read(userIdController.notifier).getUserId();
+    final userId = ref.read(userIdController.notifier).getUserId();
+    log('$userId');
     super.initState();
   }
 

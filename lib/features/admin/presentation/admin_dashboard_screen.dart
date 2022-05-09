@@ -11,6 +11,7 @@ import 'package:esport_flame/features/admin/presentation/sections/add_videos.dar
 import 'package:esport_flame/features/admin/presentation/sections/user_list.dart';
 import 'package:esport_flame/features/auth_screen/application/auth_controller.dart';
 import 'package:esport_flame/features/auth_screen/presentation/sign_in_screen.dart';
+import 'package:esport_flame/features/home_screen/presentation/home_screen.dart';
 import 'package:esport_flame/features/home_screen/presentation/section/live_streem.dart';
 import 'package:esport_flame/features/home_screen/presentation/section/play_tournaments.dart';
 import 'package:esport_flame/features/menu_nav_bar/menu_nav_bar.dart';
@@ -31,6 +32,13 @@ class AdminDashboardScreen extends ConsumerStatefulWidget {
 }
 
 class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
+  @override
+  void initState() {
+    super.initState();
+    final userId = ref.read(userIdController.notifier).getUserId();
+    log('$userId');
+  }
+
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context).size;
