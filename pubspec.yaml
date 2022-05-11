@@ -51,6 +51,7 @@ dependencies:
 
   # HTTP & Connectivity
   dio: ^4.0.6
+  khalti_flutter: ^2.0.2
 
 
 
