@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:esport_flame/app/entitiles/failure.dart';
@@ -28,6 +30,12 @@ abstract class IAdminRepository {
 
   Future<Either<BaseResponse, Failure>> addVideos({
     required AddVideoRequest addVideoRequest,
+  });
+
+//------------ UPDATE -------//
+  Future<Either<void, Failure>> updateTournament({
+    required AddTournament addTournament,
+    required String docId,
   });
 }
 
@@ -202,6 +210,47 @@ class AdminRepository implements IAdminRepository {
       return const Left(
         BaseResponse(code: 200, data: null, message: 'Success'),
       );
+    } on FirebaseAuthException catch (e) {
+      return Right(
+        Failure(
+          errorMessage:
+              e.message ?? 'Something went wrong, try in few moments !',
+        ),
+      );
+    } catch (e) {
+      return Right(
+        Failure(
+          errorMessage: e.toString(),
+        ),
+      );
+    }
+  }
+
+  //---------------------------- UPDATE --------------------------------//
+
+  @override
+  Future<Either<void, Failure>> updateTournament({
+    required AddTournament addTournament,
+    required String docId,
+  }) async {
+    try {
+      CollectionReference tournaments =
+          FirebaseFirestore.instance.collection('tournaments');
+      final updatedData = tournaments
+          .doc(docId)
+          .update({
+            'gameTitle': addTournament.gameTitle,
+            'gameInfo': addTournament.gameDescpription,
+            'matchDate': addTournament.matchDate,
+            'bookingOpenDate': addTournament.bookingOpenDate,
+            'deadLineDate': addTournament.deadLineDate,
+            'winnerPrize': addTournament.winnerPrize,
+            // 'posterImage':
+            //     Image.memory(await addTournament.gamePosterImage.readAsBytes()),
+          })
+          .then((value) => log("Status Updated"))
+          .catchError((error) => log("Failed to update Status: $error"));
+      return Left(updatedData);
     } on FirebaseAuthException catch (e) {
       return Right(
         Failure(
