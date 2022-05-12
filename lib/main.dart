@@ -4,6 +4,7 @@ import 'package:esport_flame/features/auth_screen/presentation/sign_in_screen.da
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:khalti_flutter/khalti_flutter.dart';
 
 void main() async {
   await AppInit.initialize();
@@ -18,8 +19,20 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return KhaltiScope(
+        publicKey: "test_public_key_dca722da5c844c0bb09000c3c85b5aa2",
+        builder: (context, navigatorKey) {
+          return MaterialApp(
+            navigatorKey: navigatorKey,
+            supportedLocales: const [
+              Locale('en', 'US'),
+              Locale('ne', 'NP'),
+            ],
+            localizationsDelegates: const [
+              KhaltiLocalizations.delegate,
+            ],
       title: 'E-sport flame',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         // scaffoldBackgroundColor: AppColors.blackColor,
         appBarTheme: AppBarTheme(
@@ -69,5 +82,5 @@ class MyApp extends StatelessWidget {
       ),
       home: const SignInScreen(),
     );
-  }
-}
+  });
+}}

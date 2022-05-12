@@ -8,11 +8,11 @@ import 'package:esport_flame/features/admin/presentation/sections/add_ads.dart';
 import 'package:esport_flame/features/admin/presentation/sections/add_popluar_game.dart';
 import 'package:esport_flame/features/admin/presentation/sections/add_tournaments.dart';
 import 'package:esport_flame/features/admin/presentation/sections/add_videos.dart';
+import 'package:esport_flame/features/admin/presentation/sections/game_list.dart';
 import 'package:esport_flame/features/admin/presentation/sections/user_list.dart';
 import 'package:esport_flame/features/auth_screen/application/auth_controller.dart';
 import 'package:esport_flame/features/auth_screen/presentation/sign_in_screen.dart';
 import 'package:esport_flame/features/home_screen/presentation/home_screen.dart';
-import 'package:esport_flame/features/home_screen/presentation/section/live_streem.dart';
 import 'package:esport_flame/features/home_screen/presentation/section/play_tournaments.dart';
 import 'package:esport_flame/features/menu_nav_bar/menu_nav_bar.dart';
 import 'package:flutter/material.dart';
@@ -148,10 +148,8 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
                                 title: 'Tournaments List',
                               )));
                     } else if (index == 2) {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (_) => LiveStreem(
-                                mediaQuery: mediaQuery,
-                              )));
+                      Navigator.of(context)
+                          .push(MaterialPageRoute(builder: (_) => const GameList()));
                     }
                   },
                   text: data['buttonText'],

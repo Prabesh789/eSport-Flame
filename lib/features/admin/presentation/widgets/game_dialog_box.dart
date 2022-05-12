@@ -10,11 +10,11 @@ final signupController =
     StateNotifierProvider.autoDispose<AuthController, BaseState>(
         authController);
 
-class DialogBox {
+class GameDialogBox {
   static Future showAlert(
     BuildContext context,
-    String nickName,
-    String userid,
+    String gameName,
+    String gameid,
   ) {
     return showDialog(
       barrierDismissible: false,
@@ -39,15 +39,15 @@ class DialogBox {
               ),
             ),
             Text(
-              'Remove User',
+              'Remove Game',
               style: Theme.of(context).textTheme.bodyText2,
             ),
             const SizedBox(width: 15)
           ],
         ),
         content: _Body(
-          nickName: nickName,
-          userid: userid,
+          gameName: gameName,
+          gameid: gameid,
         ),
         actions: const [],
       ),
@@ -56,10 +56,10 @@ class DialogBox {
 }
 
 class _Body extends ConsumerStatefulWidget {
-  const _Body({Key? key, required this.nickName, required this.userid})
+  const _Body({Key? key, required this.gameName, required this.gameid})
       : super(key: key);
-  final String nickName;
-  final String userid;
+  final String gameName;
+  final String gameid;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => __BodyState();
@@ -85,7 +85,7 @@ class __BodyState extends ConsumerState<_Body> {
                       ),
                 ),
                 TextSpan(
-                  text: '${widget.nickName} ?',
+                  text: '${widget.gameName} ?',
                   style: Theme.of(context).textTheme.subtitle1?.copyWith(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
@@ -98,8 +98,8 @@ class __BodyState extends ConsumerState<_Body> {
           const SizedBox(height: 30),
           ElevatedButton(
               onPressed: () {
-                var key = widget.userid;
-                deleteUser(key);
+                var key = widget.gameid;
+                deleteGames(key);
               },
               child: const Text("Yes"))
         ],
@@ -107,12 +107,11 @@ class __BodyState extends ConsumerState<_Body> {
     );
   }
   //delete user records
-  deleteUser(var key) async {
-    final userRef = FirebaseFirestore.instance.collection('users');
+  deleteGames(var key) async {
+    final userRef = FirebaseFirestore.instance.collection('popular_games');
     await userRef.doc(key).delete();
     context.showSnackBar(
-        'Profile Updated', Icons.check_circle, AppColors.greencolor);
-    Navigator.pop(context);
+        'Deleted record', Icons.check_circle, AppColors.greencolor);
     Navigator.pop(context);
   }
 }

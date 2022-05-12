@@ -5,7 +5,10 @@ import 'package:esport_flame/core/extension/snackbar_extension.dart';
 import 'package:esport_flame/features/auth_screen/application/auth_controller.dart';
 import 'package:esport_flame/features/auth_screen/presentation/sign_in_screen.dart';
 import 'package:esport_flame/features/menu_nav_bar/widgets/about_app.dart';
+import 'package:esport_flame/features/menu_nav_bar/widgets/about_profile.dart';
+import 'package:esport_flame/features/menu_nav_bar/widgets/chat_service.dart';
 import 'package:esport_flame/features/menu_nav_bar/widgets/data_policy.dart';
+import 'package:esport_flame/features/menu_nav_bar/widgets/my_wallet_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -89,20 +92,30 @@ class _MenuNavBarState extends ConsumerState<MenuNavBar> {
                   final userData = snapshot.data! as DocumentSnapshot;
                   return Column(
                     children: [
-                      CircleAvatar(
-                        radius: 30,
-                        backgroundColor: AppColors.greyColor,
-                        child: Text(
-                          '${userData['nickName'][0]}'.toUpperCase(),
-                          style: GoogleFonts.playball(
-                            textStyle:
-                                Theme.of(context).textTheme.headline1?.copyWith(
+                      GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const AboutProfile()));
+                          },
+                          child: CircleAvatar(
+                            radius: 30,
+                            backgroundColor: AppColors.greyColor,
+                            child: Text(
+                              '${userData['nickName'][0]}'.toUpperCase(),
+                              style: GoogleFonts.playball(
+                                textStyle: Theme.of(context)
+                                    .textTheme
+                                    .headline1
+                                    ?.copyWith(
                                       color: AppColors.whiteColor,
                                       fontWeight: FontWeight.w500,
                                     ),
-                          ),
-                        ),
-                      ),
+                              ),
+                            ),
+                          )),
                       const SizedBox(height: 10),
                       Text(
                         '${userData['nickName']}',
@@ -146,6 +159,61 @@ class _MenuNavBarState extends ConsumerState<MenuNavBar> {
                     style: Theme.of(context).textTheme.headline6,
                   ),
                 const SizedBox(height: 10),
+                Card(
+                  elevation: 0,
+                  color: Theme.of(context).cardColor,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(8),
+                    ),
+                  ),
+                  child: ListTile(
+                    trailing: const Padding(
+                      padding: EdgeInsets.only(right: 15),
+                      child: Icon(Icons.message),
+                    ),
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => const ChatService(),
+                        ),
+                      );
+                    },
+                    title: Text(
+                      'Messages',
+                      style: Theme.of(context).textTheme.subtitle1?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                    ),
+                  ),
+                ),
+                 Card(
+                    elevation: 0,
+                    color: Theme.of(context).cardColor,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(8),
+                      ),
+                    ),
+                    child: ListTile(
+                      trailing: const Padding(
+                        padding: EdgeInsets.only(right: 15),
+                        child: Icon(Icons.wallet_giftcard),
+                      ),
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => const Mywallet(),
+                          ),
+                        );
+                      },
+                      title: Text(
+                        'My Wallet',
+                        style: Theme.of(context).textTheme.subtitle1?.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
+                      ),
+                    )),
                 if (!widget.isFromAdminPannel!)
                   Card(
                     elevation: 0,

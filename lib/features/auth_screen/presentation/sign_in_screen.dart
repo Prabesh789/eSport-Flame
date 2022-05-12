@@ -166,8 +166,8 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                           if (_formKey.currentState!.validate()) {
                             ref.read(signInController.notifier).loginUser(
                                   loginRequest: LoginRequest(
-                                    email: _userNameController.text,
-                                    password: _passwordController.text,
+                                    email: _userNameController.text.trim(),
+                                    password: _passwordController.text.trim(),
                                   ),
                                 );
                           }

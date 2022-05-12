@@ -1,14 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:esport_flame/core/entities/base_state.dart';
 import 'package:esport_flame/features/auth_screen/application/auth_controller.dart';
-import 'package:esport_flame/features/menu_nav_bar/Model/ammount_model.dart';
+import 'package:esport_flame/features/menu_nav_bar/model/amount_model.dart';
 import 'package:esport_flame/features/menu_nav_bar/widgets/add_balance_dialog.dart';
 import 'package:esport_flame/features/menu_nav_bar/widgets/withdraw_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-
 
 final logOutUserController =
     StateNotifierProvider.autoDispose<AuthController, BaseState>(
@@ -37,10 +35,12 @@ class _MenuNavBarState extends ConsumerState<Mywallet> {
 
   bool obscureText = true;
   bool isLoading = false;
-  String ammount ='0';
- 
+  String ammount = '0';
 
-  AmmountModel ammountmodel =AmmountModel();
+  bool _flag1 = false;
+  bool _flag2 = true;
+
+  AmmountModel ammountmodel = AmmountModel();
 
   @override
   void initState() {
@@ -55,7 +55,7 @@ class _MenuNavBarState extends ConsumerState<Mywallet> {
         }
       },
     );
-    print(userId );
+    print(userId);
     getAmmountDetail();
     super.initState();
   }
@@ -63,13 +63,6 @@ class _MenuNavBarState extends ConsumerState<Mywallet> {
   @override
   void dispose() {
     super.dispose();
-  }
-
-  //toogle visibility
-  void _togglevisibility() {
-    setState(() {
-      obscureText = !obscureText;
-    });
   }
 
   profileUpdate() async {
@@ -84,7 +77,8 @@ class _MenuNavBarState extends ConsumerState<Mywallet> {
       });
     }
   }
- getAmmountDetail() async {
+
+  getAmmountDetail() async {
     await FirebaseFirestore.instance
         .collection('AccountBalance')
         .doc(userId)
@@ -95,7 +89,6 @@ class _MenuNavBarState extends ConsumerState<Mywallet> {
       print(ammountmodel.ammount);
       setState(() {
         ammount = ammountmodel.ammount!;
-        
       });
     });
   }
@@ -106,47 +99,44 @@ class _MenuNavBarState extends ConsumerState<Mywallet> {
 
     //button
     final buttonBalance = ElevatedButton(
-      onPressed: () {},
+      onPressed: () {
+        setState(() {
+          _flag1 = false;
+          _flag2 = true;
+          //
+        });
+      },
       style: ElevatedButton.styleFrom(
-        primary: Color.fromARGB(255, 242, 230, 230), // Background color
+        primary: _flag1
+            ? const Color.fromARGB(255, 247, 247, 241)
+            : const Color.fromARGB(255, 165, 161, 158), // Background color
       ),
       child: const Text(
         'Balance',
-        style: TextStyle(fontSize: 20, color: Colors.black),
+        style: TextStyle(fontSize: 25, color: Colors.black),
       ),
     );
 
     final buttonWithdraw = ElevatedButton(
       onPressed: () {
-          withdrawAlertBox.showAlert(
-                          context: context,userId:userId,totalammount:ammount, mediaQuery: mediaQuery);
+        setState(() {
+          _flag2 = false;
+          _flag1 = true;
+        });
+        withdrawAlertBox.showAlert(
+            context: context,
+            userId: userId,
+            totalammount: ammount,
+            mediaQuery: mediaQuery);
       },
       style: ElevatedButton.styleFrom(
-        primary: Color.fromARGB(255, 254, 249, 249), // Background color
+        primary: _flag2
+            ? const Color.fromARGB(255, 247, 247, 241)
+            : const Color.fromARGB(255, 165, 161, 158), // Background color
       ),
       child: const Text(
         'Withdraw',
-        style: TextStyle(fontSize: 20, color: Colors.black),
-      ),
-    );
-    final buttonAdd = ElevatedButton(
-      onPressed: () {},
-      style: ElevatedButton.styleFrom(
-        primary: Color.fromARGB(255, 242, 230, 230), // Background color
-      ),
-      child: const Text(
-        'Add',
-        style: TextStyle(fontSize: 20, color: Colors.black),
-      ),
-    );
-    final withdrawButton = ElevatedButton(
-      onPressed: () {},
-      style: ElevatedButton.styleFrom(
-        primary: Color.fromARGB(255, 242, 230, 230), // Background color
-      ),
-      child: const Text(
-        'Add',
-        style: TextStyle(fontSize: 20, color: Colors.black),
+        style: TextStyle(fontSize: 25, color: Colors.black),
       ),
     );
     final totalBalance = Card(
@@ -162,9 +152,7 @@ class _MenuNavBarState extends ConsumerState<Mywallet> {
           padding: EdgeInsets.only(right: 15),
           // child: Icon(Icons.policy),
         ),
-        onTap: () {
-         
-        },
+        onTap: () {},
         title: Text(
           'Total balance:',
           style: Theme.of(context)
@@ -188,9 +176,7 @@ class _MenuNavBarState extends ConsumerState<Mywallet> {
           padding: EdgeInsets.only(right: 15),
           // child: Icon(Icons.policy),
         ),
-        onTap: () {
-          
-        },
+        onTap: () {},
         title: Text(
           'Bonus balance:',
           style: Theme.of(context)
@@ -219,7 +205,7 @@ class _MenuNavBarState extends ConsumerState<Mywallet> {
                   height: 30,
                   alignment: Alignment.topLeft,
                   // color: Colors.white,
-                  padding: EdgeInsets.fromLTRB(20, 10, 0, 0),
+                  padding: const EdgeInsets.fromLTRB(20, 10, 0, 0),
                   child: const Text(
                     "Deposite Balance",
                     style: TextStyle(
@@ -243,7 +229,10 @@ class _MenuNavBarState extends ConsumerState<Mywallet> {
                 child: ElevatedButton(
                     onPressed: () {
                       AddBalance.showAlert(
-                          context: context,userId:userId,totalammount:ammount, mediaQuery: mediaQuery);
+                          context: context,
+                          userId: userId,
+                          totalammount: ammount,
+                          mediaQuery: mediaQuery);
                     },
                     child: const Text("Add"),
                     style: ElevatedButton.styleFrom(
@@ -294,14 +283,19 @@ class _MenuNavBarState extends ConsumerState<Mywallet> {
                 width: 10,
               ),
               Container(
-                padding: EdgeInsets.fromLTRB(20, 5, 0, 0),
+                padding: const EdgeInsets.fromLTRB(20, 5, 0, 0),
                 alignment: Alignment.bottomRight,
                 child: ElevatedButton(
                     onPressed: () {
-
-                       withdrawAlertBox.showAlert(
-                          context: context,userId:userId,totalammount:ammount, mediaQuery: mediaQuery);
-                          print("hello");
+                      withdrawAlertBox.showAlert(
+                          context: context,
+                          userId: userId,
+                          totalammount: ammount,
+                          mediaQuery: mediaQuery);
+                      setState(() {
+                        _flag2 = false;
+                        _flag1 = true;
+                      });
                     },
                     child: const Text("Withdraw"),
                     style: ElevatedButton.styleFrom(
@@ -317,7 +311,7 @@ class _MenuNavBarState extends ConsumerState<Mywallet> {
 
     return Scaffold(
         appBar: AppBar(
-          title: Text("My Wallet"),
+          title: const Text("My Wallet"),
           centerTitle: true,
         ),
         body: Container(

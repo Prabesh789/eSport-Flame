@@ -8,7 +8,7 @@ import 'package:esport_flame/core/entities/base_state.dart';
 import 'package:esport_flame/core/widgets/custom_body.dart';
 import 'package:esport_flame/core/widgets/shimmer.dart';
 import 'package:esport_flame/features/auth_screen/application/auth_controller.dart';
-import 'package:esport_flame/features/home_screen/presentation/section/live_streem.dart';
+import 'package:esport_flame/features/home_screen/presentation/section/live_stream.dart';
 import 'package:esport_flame/features/home_screen/presentation/section/play_tournaments.dart';
 import 'package:esport_flame/features/home_screen/presentation/section/popular_games_section.dart';
 import 'package:esport_flame/features/home_screen/presentation/section/widgets/shadow_button.dart';
@@ -245,7 +245,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             ),
                           );
                         },
-                        text: 'Live Streems',
+                        text: 'Live Streams',
                       ),
                     ],
                   ),

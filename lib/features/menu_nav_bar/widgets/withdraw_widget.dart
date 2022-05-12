@@ -8,13 +8,14 @@ import 'package:esport_flame/core/widgets/custom_textfield.dart';
 import 'package:esport_flame/features/auth_screen/application/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:khalti_flutter/khalti_flutter.dart';
 
-import 'my_wallet_widget.dart';
 
 final signupController =
     StateNotifierProvider.autoDispose<AuthController, BaseState>(
         authController);
 
+// ignore: camel_case_types
 class withdrawAlertBox {
   static Future showAlert({
     required BuildContext context,
@@ -92,10 +93,16 @@ class _SignupSectionState extends ConsumerState<withdrawSection> {
     super.dispose();
   }
 
-  void _togglevisibility() {
-    setState(() {
-      obscureText = !obscureText;
-    });
+  //final amount
+  String getTotalAmount() {
+    return (int.parse(widget.totalammount) -
+              int.parse(_withdrawController.text.trim()))
+          .toString();
+  }
+
+  getAmt() {
+    return int.parse(_withdrawController.text.trim()) *
+        100; // Converting to paisa
   }
 
   withdrawBalance() async {
@@ -106,10 +113,8 @@ class _SignupSectionState extends ConsumerState<withdrawSection> {
       'contactNo': _contactNocontroller.text.trim(),
       'toEmail': _emailController.text.trim(),
       'fullName': _fullNamecontroller.text.trim(),
-      'ammount': (int.parse(widget.totalammount) -
-              int.parse(_withdrawController.text.trim()))
-          .toString(),
-      'withdrawammount': _withdrawController.text.trim()
+      'ammount':getTotalAmount() ,
+      'withdrawammount':_withdrawController
     });
     // }
   }
@@ -227,11 +232,41 @@ class _SignupSectionState extends ConsumerState<withdrawSection> {
                       buttonText: 'withdraw with khalti',
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          print(_withdrawController);
                           withdrawBalance();
-                          context.showSnackBar('Withdraw completed',
-                              Icons.check_circle, AppColors.greencolor);
+                          KhaltiScope.of(context).pay(
+                            config: PaymentConfig(
+                              amount: getAmt(),
+                              productIdentity: 'dells-sssssg5-g5510-2021',
+                              productName: 'Product Name',
+                            ),
+                            preferences: [
+                              PaymentPreference.khalti,
+                            ],
+                            onSuccess: (su) {
+                              //withdrawBalance();
+                              const successsnackBar = SnackBar(
+                                content: Text('Withdraw Successful'),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(successsnackBar);
                               Navigator.pop(context);
+                            },
+                            onFailure: (fa) {
+                              const failedsnackBar = SnackBar(
+                                content: Text('Withdraw Failed'),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(failedsnackBar);
+                            },
+                            onCancel: () {
+                              const cancelsnackBar = SnackBar(
+                                content: Text('Withdraw Cancelled'),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(cancelsnackBar);
+                            },
+                          );
+                          
                         }
                       },
                     ),

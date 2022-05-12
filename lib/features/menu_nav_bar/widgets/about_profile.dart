@@ -3,7 +3,6 @@ import 'package:esport_flame/core/app_colors.dart';
 import 'package:esport_flame/core/entities/base_state.dart';
 import 'package:esport_flame/core/extension/snackbar_extension.dart';
 import 'package:esport_flame/features/auth_screen/application/auth_controller.dart';
-import 'package:esport_flame/features/menu_nav_bar/Model/message_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

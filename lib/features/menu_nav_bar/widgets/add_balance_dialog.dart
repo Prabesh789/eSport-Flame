@@ -1,17 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:esport_flame/core/app_colors.dart';
 import 'package:esport_flame/core/entities/base_state.dart';
-import 'package:esport_flame/core/extension/snackbar_extension.dart';
 import 'package:esport_flame/core/widgets/custom_body.dart';
 import 'package:esport_flame/core/widgets/custom_bottun.dart';
 import 'package:esport_flame/core/widgets/custom_textfield.dart';
 import 'package:esport_flame/features/auth_screen/application/auth_controller.dart';
-import 'package:esport_flame/features/menu_nav_bar/widgets/my_wallet_widget.dart';
+import 'package:esport_flame/features/menu_nav_bar/model/amount_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:khalti_flutter/khalti_flutter.dart';
 
-import '../Model/ammount_model.dart';
+
 
 final signupController =
     StateNotifierProvider.autoDispose<AuthController, BaseState>(
@@ -20,7 +19,9 @@ final signupController =
 class AddBalance {
   static Future showAlert({
     required BuildContext context,
-    required Size mediaQuery, required String userId, required String totalammount,
+    required Size mediaQuery,
+    required String userId,
+    required String totalammount,
   }) {
     return showDialog(
       barrierDismissible: false,
@@ -52,18 +53,19 @@ class AddBalance {
           ],
         ),
         content: AddBalanceSection(
-          mediaQuery: mediaQuery,userId: userId,totalammount:totalammount
-          
-          
-          
-        ),
+            mediaQuery: mediaQuery, userId: userId, totalammount: totalammount),
       ),
     );
   }
 }
 
 class AddBalanceSection extends ConsumerStatefulWidget {
-  const AddBalanceSection( {Key? key, required this.mediaQuery,required this.userId, required this.totalammount}) : super(key: key);
+  const AddBalanceSection(
+      {Key? key,
+      required this.mediaQuery,
+      required this.userId,
+      required this.totalammount})
+      : super(key: key);
   final Size mediaQuery;
   final String userId;
 
@@ -76,12 +78,9 @@ class AddBalanceSection extends ConsumerStatefulWidget {
 class _SignupSectionState extends ConsumerState<AddBalanceSection> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
-  final _ammountController= TextEditingController();
-
-  
+  final _ammountController = TextEditingController();
 
   final _auth = FirebaseAuth.instance;
-
 
   bool obscureText = true;
 
@@ -89,12 +88,17 @@ class _SignupSectionState extends ConsumerState<AddBalanceSection> {
   void dispose() {
     _emailController.dispose();
     _ammountController.dispose();
-  
+
     super.dispose();
   }
 
+  String getTotalAmount() {
+    return (int.parse(_ammountController.text.trim()) +
+            int.parse(widget.totalammount))
+        .toString();
+  }
 
-   AddBalance() async {
+  addBalance() async {
     // calling our firestore
     // calling our user model
     // sedning these values
@@ -105,17 +109,15 @@ class _SignupSectionState extends ConsumerState<AddBalanceSection> {
     AmmountModel ammountModel = AmmountModel();
 
     // writing all the values
-    
+
     ammountModel.uid = user!.uid;
-    
-    ammountModel.ammount =(int.parse(_ammountController.text.trim())+int.parse(widget.totalammount)).toString();
-   
-   
+
+    ammountModel.ammount = getTotalAmount();
+
     await firebaseFirestore
         .collection("AccountBalance")
         .doc(ammountModel.uid)
         .set(ammountModel.toMap());
-    
 
     // Navigator.pushAndRemoveUntil(
     //     (context),
@@ -128,10 +130,15 @@ class _SignupSectionState extends ConsumerState<AddBalanceSection> {
       obscureText = !obscureText;
     });
   }
+ 
+ //get amount to add
+  getAmt() {
+    return int.parse(_ammountController.text.trim()) *
+        100; // Converting to paisa
+  }
 
   @override
   Widget build(BuildContext context) {
- 
     final state = ref.watch(signupController);
     final isLoading = state == const BaseState<void>.loading();
 
@@ -146,7 +153,6 @@ class _SignupSectionState extends ConsumerState<AddBalanceSection> {
               child: Column(
                 children: [
                   SizedBox(height: widget.mediaQuery.width * 0.02),
-                
                   const SizedBox(height: 10),
                   CustomTextField(
                     contentPadding: const EdgeInsets.symmetric(vertical: 8),
@@ -158,20 +164,15 @@ class _SignupSectionState extends ConsumerState<AddBalanceSection> {
                       Icons.wallet_giftcard,
                       size: 18,
                     ),
-                   
-                    onEditingComplete: () {
-                
-                    },
+                    onEditingComplete: () {},
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return 'Ammount required';
+                        return 'Amount required';
                       } else {
                         return null;
                       }
                     },
                   ),
-                
-                  
                   const SizedBox(height: 30),
                   SizedBox(
                     height: 48,
@@ -180,18 +181,44 @@ class _SignupSectionState extends ConsumerState<AddBalanceSection> {
                       buttontextStyle: Theme.of(context)
                           .textTheme
                           .bodyText2
-                          ?.copyWith(color: AppColors.whiteColor),
+                          ?.copyWith(color: Color.fromARGB(255, 255, 255, 255)),
                       buttonText: 'Add with khalti',
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                         AddBalance();
-                           context.showSnackBar('Balance Added',
-                                      Icons.check_circle, AppColors.greencolor);
-                                  Navigator.push(context,MaterialPageRoute(builder: (context)=>const Mywallet()));
-                                  
+                          KhaltiScope.of(context).pay(
+                            config: PaymentConfig(
+                              amount: getAmt(),
+                              productIdentity: 'dells-sssssg5-g5510-2021',
+                              productName: 'Product Name',
+                            ),
+                            preferences: [
+                              PaymentPreference.khalti,
+                            ],
+                            onSuccess: (su) {
+                              addBalance();
+                              const successsnackBar = SnackBar(
+                                content: Text('Money added Successful'),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(successsnackBar);
+                              Navigator.pop(context);
+                            },
+                            onFailure: (fa) {
+                              const failedsnackBar = SnackBar(
+                                content: Text('Money added Failed'),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(failedsnackBar);
+                            },
+                            onCancel: () {
+                              const cancelsnackBar = SnackBar(
+                                content: Text('Payment Cancelled'),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(cancelsnackBar);
+                            },
+                          );
                         }
-                        print(_ammountController.text.trim());
-                        print(widget.userId);
                       },
                     ),
                   ),

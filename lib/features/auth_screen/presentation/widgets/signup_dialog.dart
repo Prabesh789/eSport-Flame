@@ -252,11 +252,11 @@ class _SignupSectionState extends ConsumerState<SignupSection> {
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           ref.read(signupController.notifier).signupUser(
-                                contactNo: _contactNocontroller.text,
-                                email: _emailController.text,
+                                contactNo: _contactNocontroller.text.trim(),
+                                email: _emailController.text.trim(),
                                 isAdmin: false,
-                                nickName: _nickNamecontroller.text,
-                                password: _passwordController.text,
+                                nickName: _nickNamecontroller.text.trim(),
+                                password: _passwordController.text.trim(),
                               );
                         }
                       },

@@ -6,6 +6,7 @@ import 'package:esport_flame/features/home_screen/application/home_screen_contro
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:khalti_flutter/khalti_flutter.dart';
 
 final feesPaymentController =
     StateNotifierProvider.autoDispose<HomeScreenController, BaseState>(
@@ -122,7 +123,39 @@ class _TournamentDetailState extends ConsumerState<TournamentDetail> {
                     ?.copyWith(color: AppColors.whiteColor),
                 buttonText: 'PAY ENTRY FEES',
                 onPressed: () {
-                  Navigator.of(context).pop();
+                   KhaltiScope.of(context).pay(
+                            config: PaymentConfig(
+                              amount: getAmt(),
+                              productIdentity: 'dells-sssssg5-g5510-2021',
+                              productName: 'Product Name',
+                            ),
+                            preferences: [
+                              PaymentPreference.khalti,
+                            ],
+                            onSuccess: (su) {
+                              
+                              const successsnackBar = SnackBar(
+                                content: Text('Money added Successful'),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(successsnackBar);
+                              Navigator.pop(context);
+                            },
+                            onFailure: (fa) {
+                              const failedsnackBar = SnackBar(
+                                content: Text('Money added Failed'),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(failedsnackBar);
+                            },
+                            onCancel: () {
+                              const cancelsnackBar = SnackBar(
+                                content: Text('Payment Cancelled'),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(cancelsnackBar);
+                            },
+                          );
                 },
               ),
             ),
@@ -130,5 +163,9 @@ class _TournamentDetailState extends ConsumerState<TournamentDetail> {
         ),
       ),
     );
+  }
+
+  int getAmt() {
+    return int.parse('1000');
   }
 }

@@ -70,7 +70,7 @@ class _AddTournamentsState extends ConsumerState<AddTournaments> {
   final _formKey = GlobalKey<FormState>();
   final _bookingOpencontroller = TextEditingController();
   final _deadLinecontroller = TextEditingController();
-  late String _imageUrl;
+   String _imageUrl ='';
 
   Future<void> _selectDate(BuildContext context, int dateStatus) async {
     final DateTime? _datePicker = await showDatePicker(

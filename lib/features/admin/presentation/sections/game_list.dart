@@ -1,23 +1,24 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:esport_flame/features/admin/presentation/widgets/dialog_box.dart';
+import 'package:esport_flame/features/admin/presentation/widgets/game_dialog_box.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class UserList extends ConsumerStatefulWidget {
-  const UserList({Key? key}) : super(key: key);
+class GameList extends ConsumerStatefulWidget {
+  const GameList({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _UserListState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _GameListState ();
 }
 
-class _UserListState extends ConsumerState<UserList> {
+class _GameListState extends ConsumerState<GameList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'User List',
+          'Game List',
           style: GoogleFonts.baskervville(
             textStyle: Theme.of(context).textTheme.headline2?.copyWith(
                   fontWeight: FontWeight.bold,
@@ -26,21 +27,21 @@ class _UserListState extends ConsumerState<UserList> {
         ),
       ),
       body: StreamBuilder(
-        stream: FirebaseFirestore.instance.collection('users').snapshots(),
+        stream: FirebaseFirestore.instance.collection('popular_games').snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshots) {
-          final userData = snapshots.data?.docs;
+          final gameData = snapshots.data?.docs;
           if (snapshots.data == null) {
             return const Center(
               child: Text('Loading...'),
             );
-          } else if (userData!.isEmpty) {
+          } else if (gameData!.isEmpty) {
             return const Center(
-              child: Text('No user are registered yet...!'),
+              child: Text('No games are registered yet...!'),
             );
           } else {
             return ListView.builder(
               shrinkWrap: true,
-              itemCount: userData.length,
+              itemCount: gameData.length,
               itemBuilder: (context, index) {
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -61,35 +62,24 @@ class _UserListState extends ConsumerState<UserList> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   _UserDetail(
-                                    tilte: 'Stage Name: ',
-                                    detail: '${userData[index]['nickName']}',
+                                    tilte: 'Game Name: ',
+                                    detail: '${gameData[index]['popularGamesTitle']}',
                                   ),
-                                  _UserDetail(
-                                    tilte: 'Email: ',
-                                    detail: '${userData[index]['email']}',
-                                  ),
-                                  _UserDetail(
-                                    tilte: 'contact number: ',
-                                    detail: '${userData[index]['contactNo']}',
-                                  ),
+                                 
                                 ],
                               ),
                               const Spacer(),
-                              (!userData[index]['isAdmin'])
-                                  ? IconButton(
+                               IconButton(
                                       onPressed: () {
-                                        DialogBox.showAlert(context,
-                                            '${userData[index]['nickName']}',userData[index].id);
+                                        GameDialogBox.showAlert(context,
+                                            '${gameData[index]['popularGamesTitle']}',gameData[index].id);
                                       },
                                       icon: const Icon(
-                                        Icons.task,
+                                        Icons.delete,
                                         color: Colors.black,
                                       ),
                                     )
-                                  : const Padding(
-                                      padding: EdgeInsets.all(12.0),
-                                      child: Icon(Icons.admin_panel_settings),
-                                    )
+                                 
                             ],
                           ),
                         ),

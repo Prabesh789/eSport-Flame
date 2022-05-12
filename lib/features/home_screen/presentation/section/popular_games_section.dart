@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:esport_flame/core/app_colors.dart';
 import 'package:esport_flame/core/widgets/shimmer.dart';
+import 'package:esport_flame/features/home_screen/presentation/section/play_tournaments.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -26,6 +27,7 @@ class _PopularSectionState extends ConsumerState<PopularSection> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context).size;
     return Column(
       children: [
         const SizedBox(
@@ -69,7 +71,12 @@ class _PopularSectionState extends ConsumerState<PopularSection> {
                   return CustomCard(
                     mediaQuery: widget.mediaQuery,
                     img: '${_data['image']}',
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                              builder: (_) => PlayTournaments(
+                                    mediaQuery: mediaQuery,
+                                  )));
+                    },
                     title: '${_data['popularGamesTitle']}',
                   );
                 },
