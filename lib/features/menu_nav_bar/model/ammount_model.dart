@@ -1,48 +1,48 @@
-class AmmountModel{
- String? uid;
-  
+class AmmountModel {
+  String? uid;
+
   String? nickName;
   String? ammount;
   String? withdrawammount;
 
   String? toEmail;
 
-   String? fullName;
+  String? fullName;
 
-  String ?contactNo;
+  String? contactNo;
 
-  AmmountModel({this.uid,this.nickName,this.ammount,this.withdrawammount,this.toEmail,this.contactNo,this.fullName});
+  AmmountModel(
+      {this.uid,
+      this.nickName,
+      this.ammount,
+      this.withdrawammount,
+      this.toEmail,
+      this.contactNo,
+      this.fullName});
 
   // receiving data from server
-  factory AmmountModel.fromMap(map) {
+  factory AmmountModel.fromMap(Map<String, dynamic> map) {
     return AmmountModel(
-      uid: map['uid'],     
-      nickName: map['nickName'],
-      ammount: map['ammount'],
-      withdrawammount: map['withdrawammount'],
-      toEmail:map['toEmail'],
-      fullName:map['fullName'],
-
-    
-
- 
-     
+      uid: map['uid'] as String,
+      nickName: map['nickName'] as String,
+      ammount: map['ammount'] as String,
+      withdrawammount: map['withdrawammount'] as String,
+      toEmail: map['toEmail'] as String,
+      fullName: map['fullName'] as String,
     );
   }
 
-  
-
   // sending data to our server
   Map<String, dynamic> toMap() {
-    return {
+    return <String, dynamic>{
       'uid': uid,
-      'nickName':nickName,
-       'ammount':ammount,
-       'withdrawammount':withdrawammount,
-       'contactNo':contactNo,
-       'fullName':fullName,
-       'toEmail':toEmail,
-      'created at':DateTime.now()
+      'nickName': nickName,
+      'ammount': ammount,
+      'withdrawammount': withdrawammount,
+      'contactNo': contactNo,
+      'fullName': fullName,
+      'toEmail': toEmail,
+      'created at': DateTime.now()
     };
   }
 }

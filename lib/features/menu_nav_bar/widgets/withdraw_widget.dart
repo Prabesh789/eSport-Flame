@@ -9,53 +9,54 @@ import 'package:esport_flame/features/auth_screen/application/auth_controller.da
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'my_wallet_widget.dart';
-
 final signupController =
     StateNotifierProvider.autoDispose<AuthController, BaseState>(
-        authController);
+  authController,
+);
 
-class withdrawAlertBox {
+class WithdrawAlertBox {
   static Future showAlert({
     required BuildContext context,
     required Size mediaQuery,
     required String userId,
     required String totalammount,
   }) {
-    return showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (context) => AlertDialog(
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(10.0),
-                ),
+    return showDialog<AlertDialog>(
+      barrierDismissible: false,
+      context: context,
+      builder: (context) => AlertDialog(
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(10),
+          ),
+        ),
+        contentPadding: EdgeInsets.zero,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            InkWell(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: const Icon(
+                Icons.arrow_back_ios,
+                size: 14,
               ),
-              contentPadding: EdgeInsets.zero,
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  InkWell(
-                    onTap: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const Icon(
-                      Icons.arrow_back_ios,
-                      size: 14,
-                    ),
-                  ),
-                  Text(
-                    'withdraw with khalti',
-                    style: Theme.of(context).textTheme.bodyText2,
-                  ),
-                  const SizedBox(width: 15)
-                ],
-              ),
-              content: withdrawSection(
-                  mediaQuery: mediaQuery,
-                  userId: userId,
-                  totalammount: totalammount),
-            ));
+            ),
+            Text(
+              'withdraw with khalti',
+              style: Theme.of(context).textTheme.bodyText2,
+            ),
+            const SizedBox(width: 15)
+          ],
+        ),
+        content: withdrawSection(
+          mediaQuery: mediaQuery,
+          userId: userId,
+          totalammount: totalammount,
+        ),
+      ),
+    );
   }
 }
 
@@ -98,7 +99,7 @@ class _SignupSectionState extends ConsumerState<withdrawSection> {
     });
   }
 
-  withdrawBalance() async {
+  Future withdrawBalance() async {
     // if (_formKey.currentState!.validate()) {
     final userRef = FirebaseFirestore.instance.collection('AccountBalance');
 
@@ -122,7 +123,7 @@ class _SignupSectionState extends ConsumerState<withdrawSection> {
     return Form(
       key: _formKey,
       child: Padding(
-        padding: const EdgeInsets.all(15.0),
+        padding: const EdgeInsets.all(15),
         child: SizedBox(
           height: widget.mediaQuery.height / 2.3,
           child: CustomBodyWidget(
@@ -147,7 +148,6 @@ class _SignupSectionState extends ConsumerState<withdrawSection> {
                         return null;
                       }
                     },
-
                   ),
                   const SizedBox(width: 20),
                   CustomTextField(
@@ -164,7 +164,8 @@ class _SignupSectionState extends ConsumerState<withdrawSection> {
                     validator: (String? value) {
                       /**regex for email validation */
                       final regex = RegExp(
-                          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
+                      );
                       if (value!.isEmpty) {
                         return 'Email invalid';
                       } else if (!regex.hasMatch(value)) {
@@ -192,7 +193,6 @@ class _SignupSectionState extends ConsumerState<withdrawSection> {
                       }
                     },
                   ),
-                  
                   const SizedBox(height: 10),
                   CustomTextField(
                     keyboardType: TextInputType.number,
@@ -229,9 +229,12 @@ class _SignupSectionState extends ConsumerState<withdrawSection> {
                         if (_formKey.currentState!.validate()) {
                           print(_withdrawController);
                           withdrawBalance();
-                          context.showSnackBar('Withdraw completed',
-                              Icons.check_circle, AppColors.greencolor);
-                              Navigator.pop(context);
+                          context.showSnackBar(
+                            'Withdraw completed',
+                            Icons.check_circle,
+                            AppColors.greencolor,
+                          );
+                          Navigator.pop(context);
                         }
                       },
                     ),

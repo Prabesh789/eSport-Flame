@@ -75,21 +75,24 @@ class _UserListState extends ConsumerState<UserList> {
                                 ],
                               ),
                               const Spacer(),
-                              (!userData[index]['isAdmin'])
-                                  ? IconButton(
-                                      onPressed: () {
-                                        DialogBox.showAlert(context,
-                                            '${userData[index]['nickName']}');
-                                      },
-                                      icon: const Icon(
-                                        Icons.task,
-                                        color: Colors.black,
-                                      ),
-                                    )
-                                  : const Padding(
-                                      padding: EdgeInsets.all(12.0),
-                                      child: Icon(Icons.admin_panel_settings),
-                                    )
+                              if (!(userData[index]['isAdmin'] as bool))
+                                IconButton(
+                                  onPressed: () {
+                                    DialogBox.showAlert(
+                                      context,
+                                      '${userData[index]['nickName']}',
+                                    );
+                                  },
+                                  icon: const Icon(
+                                    Icons.task,
+                                    color: Colors.black,
+                                  ),
+                                )
+                              else
+                                const Padding(
+                                  padding: EdgeInsets.all(12),
+                                  child: Icon(Icons.admin_panel_settings),
+                                )
                             ],
                           ),
                         ),
@@ -119,7 +122,7 @@ class _UserDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(4.0),
+      padding: const EdgeInsets.all(4),
       child: Row(
         children: [
           Text(

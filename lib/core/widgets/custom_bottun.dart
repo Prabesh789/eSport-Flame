@@ -62,11 +62,11 @@ class CustomButton extends StatelessWidget {
                     valueColor: AlwaysStoppedAnimation<Color>(
                       AppColors.whiteColor,
                     ),
-                    strokeWidth: 2.0,
+                    strokeWidth: 2,
                   ),
                 )
               : Text(
-                  buttonText.toString().trim(),
+                  buttonText.trim(),
                   textAlign: TextAlign.center,
                   style: buttontextStyle ??
                       GoogleFonts.average(

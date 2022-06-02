@@ -18,7 +18,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final signInController =
     StateNotifierProvider.autoDispose<AuthController, BaseState>(
-        authController);
+  authController,
+);
 
 class SignInScreen extends ConsumerStatefulWidget {
   const SignInScreen({Key? key}) : super(key: key);
@@ -50,16 +51,16 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
       final useStatus = ref.watch(isUserAdminProvider);
       log('Admin: $useStatus');
       state.maybeWhen(
-        success: (_) {
+        success: (dynamic _) {
           if (useStatus) {
             Navigator.of(context).pushReplacement(
-              MaterialPageRoute(
+              MaterialPageRoute<AdminDashboardScreen>(
                 builder: (_) => const AdminDashboardScreen(),
               ),
             );
           } else {
             Navigator.of(context).pushReplacement(
-              MaterialPageRoute(
+              MaterialPageRoute<BottomNavBar>(
                 builder: (_) => const BottomNavBar(),
               ),
             );
@@ -67,7 +68,10 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
         },
         error: (_) {
           context.showSnackBar(
-              'Something went wrong !!!', Icons.error, AppColors.redColor);
+            'Something went wrong !!!',
+            Icons.error,
+            AppColors.redColor,
+          );
           _userNameController.clear();
           _passwordController.clear();
         },
@@ -179,7 +183,9 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                         child: InkWell(
                           onTap: () {
                             SignupAlertBox.showAlert(
-                                context: context, mediaQuery: mediaQuery);
+                              context: context,
+                              mediaQuery: mediaQuery,
+                            );
                           },
                           child: Text(
                             'New signup',

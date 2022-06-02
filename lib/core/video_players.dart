@@ -26,13 +26,8 @@ class _VideoPlayerState extends State<VideoPlayer> {
         mute: true,
         autoPlay: false,
         enableCaption: false,
-        playsInline: true,
-        desktopMode: false,
         enableKeyboard: false,
-        loop: false,
         showVideoAnnotations: false,
-        playlist: [],
-        showControls: true,
         showFullscreenButton: true,
         // privacyEnhanced: true,
         // strictRelatedVideos: true,
@@ -54,14 +49,16 @@ class _VideoPlayerState extends State<VideoPlayer> {
     if (!url.contains('http') && (url.length == 11)) return url;
     if (trimWhitespaces) url = url.trim();
 
-    for (var exp in [
+    for (final exp in [
       RegExp(
-          r'^https:\/\/(?:www\.|m\.)?youtube\.com\/watch\?v=([_\-a-zA-Z0-9]{11}).*$'),
+        r'^https:\/\/(?:www\.|m\.)?youtube\.com\/watch\?v=([_\-a-zA-Z0-9]{11}).*$',
+      ),
       RegExp(
-          r'^https:\/\/(?:www\.|m\.)?youtube(?:-nocookie)?\.com\/embed\/([_\-a-zA-Z0-9]{11}).*$'),
+        r'^https:\/\/(?:www\.|m\.)?youtube(?:-nocookie)?\.com\/embed\/([_\-a-zA-Z0-9]{11}).*$',
+      ),
       RegExp(r'^https:\/\/youtu\.be\/([_\-a-zA-Z0-9]{11}).*$')
     ]) {
-      Match? match = exp.firstMatch(url);
+      final Match? match = exp.firstMatch(url);
       if (match != null && match.groupCount >= 1) return match.group(1);
     }
 
@@ -72,7 +69,6 @@ class _VideoPlayerState extends State<VideoPlayer> {
   Widget build(BuildContext context) {
     return YoutubePlayerIFrame(
       controller: _controller,
-      aspectRatio: 16 / 9,
     );
   }
 }

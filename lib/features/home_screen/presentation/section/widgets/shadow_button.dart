@@ -24,15 +24,13 @@ class Buttons extends StatelessWidget {
             boxShadow: [
               BoxShadow(
                 color: Colors.grey,
-                offset: Offset(4.0, 4.0),
-                blurRadius: .0,
-                spreadRadius: 0.0,
+                offset: Offset(4, 4),
               ),
               BoxShadow(
                 color: Colors.white,
-                offset: Offset(-4.0, -4.0),
-                blurRadius: 15.0,
-                spreadRadius: 1.0,
+                offset: Offset(-4, -4),
+                blurRadius: 15,
+                spreadRadius: 1,
               ),
             ],
           ),

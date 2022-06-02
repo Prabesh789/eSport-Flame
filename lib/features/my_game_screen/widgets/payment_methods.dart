@@ -9,7 +9,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final feesPaymentController =
     StateNotifierProvider.autoDispose<HomeScreenController, BaseState>(
-        homeScreenController);
+  homeScreenController,
+);
 
 class PaymentMethodAlertBox {
   static Future showAlert({
@@ -19,12 +20,12 @@ class PaymentMethodAlertBox {
     required String description,
     required bool isParticipant,
   }) {
-    return showDialog(
+    return showDialog<AlertDialog>(
       context: context,
       builder: (context) => AlertDialog(
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
-            Radius.circular(10.0),
+            Radius.circular(10),
           ),
         ),
         contentPadding: EdgeInsets.zero,
@@ -70,7 +71,7 @@ class _TournamentDetailState extends ConsumerState<TournamentDetail> {
   Widget build(BuildContext context) {
     ref.listen<BaseState>(feesPaymentController, (oldState, state) {
       state.maybeWhen(
-        success: (_) {
+        success: (dynamic _) {
           context.showSnackBar(
             '',
             Icons.check_circle,
@@ -80,7 +81,10 @@ class _TournamentDetailState extends ConsumerState<TournamentDetail> {
         },
         error: (_) {
           context.showSnackBar(
-              'Something went wrong !!!', Icons.error, AppColors.redColor);
+            'Something went wrong !!!',
+            Icons.error,
+            AppColors.redColor,
+          );
         },
         orElse: () => const LinearProgressIndicator(
           backgroundColor: AppColors.blueColor,
@@ -93,7 +97,7 @@ class _TournamentDetailState extends ConsumerState<TournamentDetail> {
     return SizedBox(
       height: mediaQuery.height / 3,
       child: Padding(
-        padding: const EdgeInsets.all(15.0),
+        padding: const EdgeInsets.all(15),
         child: Column(
           children: [
             const SizedBox(

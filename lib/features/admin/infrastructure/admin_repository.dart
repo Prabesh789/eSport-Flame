@@ -62,7 +62,7 @@ class AdminRepository implements IAdminRepository {
           storageTaskSnapshot.ref.getDownloadURL().then(
             (downloadUrl) async {
               await FirebaseFirestore.instance.collection('ads').doc().set(
-                {
+                <String, dynamic>{
                   'adsTitle': addAdsRequest.adsTitle,
                   'aboutInfo': addAdsRequest.adsDescpription,
                   'image': downloadUrl,
@@ -112,7 +112,7 @@ class AdminRepository implements IAdminRepository {
                   .collection('tournaments')
                   .doc('gameTournaments')
                   .set(
-                {
+                <String, dynamic>{
                   'gameTitle': addTournament.gameTitle,
                   'gameInfo': addTournament.gameDescpription,
                   'posterImage': downloadUrl,
@@ -120,7 +120,7 @@ class AdminRepository implements IAdminRepository {
                   'winnerPrize': addTournament.winnerPrize,
                   'deadLineDate': addTournament.deadLineDate,
                   'bookingOpenDate': addTournament.bookingOpenDate,
-                  'participants': FieldValue.arrayUnion([]),
+                  'participants': FieldValue.arrayUnion(<String>[]),
                 },
               );
             },
@@ -167,7 +167,7 @@ class AdminRepository implements IAdminRepository {
                   .collection('popular_games')
                   .doc()
                   .set(
-                {
+                <String, dynamic>{
                   'popularGamesTitle': addAdsRequest.adsTitle,
                   'popularGamesInfo': addAdsRequest.adsDescpription,
                   'image': downloadUrl,
@@ -202,7 +202,7 @@ class AdminRepository implements IAdminRepository {
   }) async {
     try {
       await FirebaseFirestore.instance.collection('videos').doc().set(
-        {
+        <String, dynamic>{
           'videotitle': addVideoRequest.videotitle,
           'videoUrl': addVideoRequest.videoDescpription,
         },
@@ -234,7 +234,7 @@ class AdminRepository implements IAdminRepository {
     required String docId,
   }) async {
     try {
-      CollectionReference tournaments =
+      final CollectionReference tournaments =
           FirebaseFirestore.instance.collection('tournaments');
       final updatedData = tournaments
           .doc(docId)
@@ -248,8 +248,10 @@ class AdminRepository implements IAdminRepository {
             // 'posterImage':
             //     Image.memory(await addTournament.gamePosterImage.readAsBytes()),
           })
-          .then((value) => log("Status Updated"))
-          .catchError((error) => log("Failed to update Status: $error"));
+          .then((value) => log('Status Updated'))
+          .catchError(
+            (dynamic error) => log('Failed to update Status: $error'),
+          );
       return Left(updatedData);
     } on FirebaseAuthException catch (e) {
       return Right(

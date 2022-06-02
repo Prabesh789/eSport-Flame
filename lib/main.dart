@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-void main() async {
+Future main() async {
   await AppInit.initialize();
   runApp(
     const ProviderScope(child: MyApp()),
@@ -14,14 +14,12 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'E-sport flame',
       theme: ThemeData(
-        // scaffoldBackgroundColor: AppColors.blackColor,
         appBarTheme: AppBarTheme(
           backgroundColor: AppColors.blackColor,
           titleTextStyle: GoogleFonts.average(
@@ -41,12 +39,12 @@ class MyApp extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
           headline2: TextStyle(
-            fontSize: 20.0,
+            fontSize: 20,
             fontWeight: FontWeight.w500,
             color: AppColors.whiteColor,
           ),
           headline3: TextStyle(
-            fontSize: 14.0,
+            fontSize: 14,
             fontWeight: FontWeight.w500,
             color: AppColors.blackColor,
           ),
@@ -56,12 +54,12 @@ class MyApp extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
           bodyText2: TextStyle(
-            fontSize: 14.0,
+            fontSize: 14,
             fontWeight: FontWeight.w500,
             color: AppColors.blackColor,
           ),
           subtitle1: TextStyle(
-            fontSize: 12.0,
+            fontSize: 12,
             fontWeight: FontWeight.w400,
             color: AppColors.blackColor,
           ),

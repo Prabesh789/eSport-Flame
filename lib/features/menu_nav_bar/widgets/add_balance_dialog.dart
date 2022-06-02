@@ -15,20 +15,23 @@ import '../Model/ammount_model.dart';
 
 final signupController =
     StateNotifierProvider.autoDispose<AuthController, BaseState>(
-        authController);
+  authController,
+);
 
 class AddBalance {
   static Future showAlert({
     required BuildContext context,
-    required Size mediaQuery, required String userId, required String totalammount,
+    required Size mediaQuery,
+    required String userId,
+    required String totalammount,
   }) {
-    return showDialog(
+    return showDialog<AlertDialog>(
       barrierDismissible: false,
       context: context,
       builder: (context) => AlertDialog(
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
-            Radius.circular(10.0),
+            Radius.circular(10),
           ),
         ),
         contentPadding: EdgeInsets.zero,
@@ -52,10 +55,9 @@ class AddBalance {
           ],
         ),
         content: AddBalanceSection(
-          mediaQuery: mediaQuery,userId: userId,totalammount:totalammount
-          
-          
-          
+          mediaQuery: mediaQuery,
+          userId: userId,
+          totalammount: totalammount,
         ),
       ),
     );
@@ -63,7 +65,12 @@ class AddBalance {
 }
 
 class AddBalanceSection extends ConsumerStatefulWidget {
-  const AddBalanceSection( {Key? key, required this.mediaQuery,required this.userId, required this.totalammount}) : super(key: key);
+  const AddBalanceSection(
+      {Key? key,
+      required this.mediaQuery,
+      required this.userId,
+      required this.totalammount})
+      : super(key: key);
   final Size mediaQuery;
   final String userId;
 
@@ -76,12 +83,9 @@ class AddBalanceSection extends ConsumerStatefulWidget {
 class _SignupSectionState extends ConsumerState<AddBalanceSection> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
-  final _ammountController= TextEditingController();
-
-  
+  final _ammountController = TextEditingController();
 
   final _auth = FirebaseAuth.instance;
-
 
   bool obscureText = true;
 
@@ -89,33 +93,32 @@ class _SignupSectionState extends ConsumerState<AddBalanceSection> {
   void dispose() {
     _emailController.dispose();
     _ammountController.dispose();
-  
+
     super.dispose();
   }
 
-
-   AddBalance() async {
+  Future addBalance() async {
     // calling our firestore
     // calling our user model
     // sedning these values
 
-    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-    User? user = _auth.currentUser;
+    final firebaseFirestore = FirebaseFirestore.instance;
+    final user = _auth.currentUser;
 
-    AmmountModel ammountModel = AmmountModel();
+    final ammountModel = AmmountModel();
 
     // writing all the values
-    
+
     ammountModel.uid = user!.uid;
-    
-    ammountModel.ammount =(int.parse(_ammountController.text.trim())+int.parse(widget.totalammount)).toString();
-   
-   
+
+    ammountModel.ammount = (int.parse(_ammountController.text.trim()) +
+            int.parse(widget.totalammount))
+        .toString();
+
     await firebaseFirestore
-        .collection("AccountBalance")
+        .collection('AccountBalance')
         .doc(ammountModel.uid)
         .set(ammountModel.toMap());
-    
 
     // Navigator.pushAndRemoveUntil(
     //     (context),
@@ -131,14 +134,13 @@ class _SignupSectionState extends ConsumerState<AddBalanceSection> {
 
   @override
   Widget build(BuildContext context) {
- 
     final state = ref.watch(signupController);
     final isLoading = state == const BaseState<void>.loading();
 
     return Form(
       key: _formKey,
       child: Padding(
-        padding: const EdgeInsets.all(15.0),
+        padding: const EdgeInsets.all(15),
         child: SizedBox(
           height: widget.mediaQuery.height / 2.3,
           child: CustomBodyWidget(
@@ -146,7 +148,6 @@ class _SignupSectionState extends ConsumerState<AddBalanceSection> {
               child: Column(
                 children: [
                   SizedBox(height: widget.mediaQuery.width * 0.02),
-                
                   const SizedBox(height: 10),
                   CustomTextField(
                     contentPadding: const EdgeInsets.symmetric(vertical: 8),
@@ -158,10 +159,7 @@ class _SignupSectionState extends ConsumerState<AddBalanceSection> {
                       Icons.wallet_giftcard,
                       size: 18,
                     ),
-                   
-                    onEditingComplete: () {
-                
-                    },
+                    onEditingComplete: () {},
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'Ammount required';
@@ -170,8 +168,6 @@ class _SignupSectionState extends ConsumerState<AddBalanceSection> {
                       }
                     },
                   ),
-                
-                  
                   const SizedBox(height: 30),
                   SizedBox(
                     height: 48,
@@ -184,14 +180,19 @@ class _SignupSectionState extends ConsumerState<AddBalanceSection> {
                       buttonText: 'Add with khalti',
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                         AddBalance();
-                           context.showSnackBar('Balance Added',
-                                      Icons.check_circle, AppColors.greencolor);
-                                  Navigator.push(context,MaterialPageRoute(builder: (context)=>const Mywallet()));
-                                  
+                          AddBalance();
+                          context.showSnackBar(
+                            'Balance Added',
+                            Icons.check_circle,
+                            AppColors.greencolor,
+                          );
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute<Mywallet>(
+                              builder: (context) => const Mywallet(),
+                            ),
+                          );
                         }
-                        print(_ammountController.text.trim());
-                        print(widget.userId);
                       },
                     ),
                   ),

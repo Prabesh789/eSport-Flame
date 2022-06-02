@@ -11,20 +11,21 @@ import 'package:google_fonts/google_fonts.dart';
 
 final signupController =
     StateNotifierProvider.autoDispose<AuthController, BaseState>(
-        authController);
+  authController,
+);
 
 class SignupAlertBox {
   static Future showAlert({
     required BuildContext context,
     required Size mediaQuery,
   }) {
-    return showDialog(
+    return showDialog<AlertDialog>(
       barrierDismissible: false,
       context: context,
       builder: (context) => AlertDialog(
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
-            Radius.circular(10.0),
+            Radius.circular(10),
           ),
         ),
         contentPadding: EdgeInsets.zero,
@@ -99,14 +100,20 @@ class _SignupSectionState extends ConsumerState<SignupSection> {
   Widget build(BuildContext context) {
     ref.listen<BaseState>(signupController, (oldState, state) {
       state.maybeWhen(
-        success: (_) {
+        success: (dynamic _) {
           Navigator.of(context).pop();
-          context.showSnackBar('Successfully registered.', Icons.check_circle,
-              AppColors.greencolor);
+          context.showSnackBar(
+            'Successfully registered.',
+            Icons.check_circle,
+            AppColors.greencolor,
+          );
         },
         error: (_) {
           context.showSnackBar(
-              'Something went wrong !!!', Icons.error, AppColors.redColor);
+            'Something went wrong !!!',
+            Icons.error,
+            AppColors.redColor,
+          );
           Navigator.of(context).pop();
         },
         orElse: () => const LinearProgressIndicator(
@@ -120,7 +127,7 @@ class _SignupSectionState extends ConsumerState<SignupSection> {
     return Form(
       key: _formKey,
       child: Padding(
-        padding: const EdgeInsets.all(15.0),
+        padding: const EdgeInsets.all(15),
         child: SizedBox(
           height: widget.mediaQuery.height / 2.3,
           child: CustomBodyWidget(
@@ -145,7 +152,8 @@ class _SignupSectionState extends ConsumerState<SignupSection> {
                     validator: (String? value) {
                       /**regex for email validation */
                       final regex = RegExp(
-                          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
+                      );
                       if (value!.isEmpty) {
                         return 'Email invalid';
                       } else if (!regex.hasMatch(value)) {

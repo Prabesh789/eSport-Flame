@@ -5,20 +5,21 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final signupController =
     StateNotifierProvider.autoDispose<AuthController, BaseState>(
-        authController);
+  authController,
+);
 
 class DialogBox {
   static Future showAlert(
     BuildContext context,
     String nickName,
   ) {
-    return showDialog(
+    return showDialog<AlertDialog>(
       barrierDismissible: false,
       context: context,
       builder: (context) => AlertDialog(
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
-            Radius.circular(10.0),
+            Radius.circular(10),
           ),
         ),
         contentPadding: EdgeInsets.zero,

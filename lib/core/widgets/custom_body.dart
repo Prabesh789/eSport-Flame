@@ -15,15 +15,11 @@ class CustomBodyWidget extends StatelessWidget {
       builder:
           (BuildContext context, bool? connected, ConnectivityStatus? status) =>
               Column(
-        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
           SafeArea(
-            minimum: EdgeInsets.zero,
-            top: true,
             bottom: false,
-            maintainBottomViewPadding: false,
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 350),
               color:

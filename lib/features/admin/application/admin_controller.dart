@@ -24,8 +24,8 @@ class AdminController<T> extends StateNotifier<BaseState> {
       addAdsRequest: addAdsRequest,
     );
     state = response.fold(
-      (success) => const BaseState.success(),
-      (error) => BaseState.error(error),
+      (success) => const BaseState<dynamic>.success(),
+      (error) => BaseState<dynamic>.error(error),
     );
   }
 
@@ -35,8 +35,8 @@ class AdminController<T> extends StateNotifier<BaseState> {
       addTournament: addTournament,
     );
     state = response.fold(
-      (success) => const BaseState.success(),
-      (error) => BaseState.error(error),
+      (success) => const BaseState<dynamic>.success(),
+      (error) => BaseState<dynamic>.error(error),
     );
   }
 
@@ -46,8 +46,8 @@ class AdminController<T> extends StateNotifier<BaseState> {
       addAdsRequest: addAdsRequest,
     );
     state = response.fold(
-      (success) => const BaseState.success(),
-      (error) => BaseState.error(error),
+      (success) => const BaseState<dynamic>.success(),
+      (error) => BaseState<dynamic>.error(error),
     );
   }
 
@@ -57,21 +57,23 @@ class AdminController<T> extends StateNotifier<BaseState> {
       addVideoRequest: addVideoRequest,
     );
     state = response.fold(
-      (success) => const BaseState.success(),
-      (error) => BaseState.error(error),
+      (success) => const BaseState<dynamic>.success(),
+      (error) => BaseState<dynamic>.error(error),
     );
   }
 
   Future<void> updateTournament(
-      AddTournament addTournament, String docId) async {
+    AddTournament addTournament,
+    String docId,
+  ) async {
     state = const BaseState<void>.loading();
     final response = await _adminRepo.updateTournament(
       addTournament: addTournament,
       docId: docId,
     );
     state = response.fold(
-      (success) => const BaseState.success(),
-      (error) => BaseState.error(error),
+      (success) => const BaseState<dynamic>.success(),
+      (error) => BaseState<dynamic>.error(error),
     );
   }
 }

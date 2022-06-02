@@ -11,7 +11,7 @@ class KhaltiPaymentPage extends StatefulWidget {
 class _KhaltiPaymentPageState extends State<KhaltiPaymentPage> {
   TextEditingController amountController = TextEditingController();
 
-  getAmt() {
+  int getAmt() {
     return int.parse(amountController.text) * 100; // Converting to paisa
   }
 
@@ -31,63 +31,62 @@ class _KhaltiPaymentPageState extends State<KhaltiPaymentPage> {
               controller: amountController,
               keyboardType: TextInputType.number,
               decoration: const InputDecoration(
-                  labelText: "Enter Amount to pay",
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.black),
-                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.green),
-                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                  )),
+                labelText: 'Enter Amount to pay',
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.green),
+                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                ),
+              ),
             ),
             const SizedBox(
               height: 8,
             ),
             // For Button
             MaterialButton(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    side: const BorderSide(color: Colors.red)),
-                height: 50,
-                color: const Color(0xFF56328c),
-                child: const Text(
-                  'Pay With Khalti',
-                  style: TextStyle(color: Colors.white, fontSize: 22),
-                ),
-                onPressed: () {
-                  KhaltiScope.of(context).pay(
-                    config: PaymentConfig(
-                      amount: getAmt(),
-                      productIdentity: 'dells-sssssg5-g5510-2021',
-                      productName: 'Product Name',
-                    ),
-                    preferences: [
-                      PaymentPreference.khalti,
-                    ],
-                    onSuccess: (su) {
-                      const successsnackBar = SnackBar(
-                        content: Text('Payment Successful'),
-                      );
-                      ScaffoldMessenger.of(context)
-                          .showSnackBar(successsnackBar);
-                    },
-                    onFailure: (fa) {
-                      const failedsnackBar = SnackBar(
-                        content: Text('Payment Failed'),
-                      );
-                      ScaffoldMessenger.of(context)
-                          .showSnackBar(failedsnackBar);
-                    },
-                    onCancel: () {
-                      const cancelsnackBar = SnackBar(
-                        content: Text('Payment Cancelled'),
-                      );
-                      ScaffoldMessenger.of(context)
-                          .showSnackBar(cancelsnackBar);
-                    },
-                  );
-                }),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+                side: const BorderSide(color: Colors.red),
+              ),
+              height: 50,
+              color: const Color(0xFF56328c),
+              child: const Text(
+                'Pay With Khalti',
+                style: TextStyle(color: Colors.white, fontSize: 22),
+              ),
+              onPressed: () {
+                KhaltiScope.of(context).pay(
+                  config: PaymentConfig(
+                    amount: getAmt(),
+                    productIdentity: 'dells-sssssg5-g5510-2021',
+                    productName: 'Product Name',
+                  ),
+                  preferences: [
+                    PaymentPreference.khalti,
+                  ],
+                  onSuccess: (su) {
+                    const successsnackBar = SnackBar(
+                      content: Text('Payment Successful'),
+                    );
+                    ScaffoldMessenger.of(context).showSnackBar(successsnackBar);
+                  },
+                  onFailure: (fa) {
+                    const failedsnackBar = SnackBar(
+                      content: Text('Payment Failed'),
+                    );
+                    ScaffoldMessenger.of(context).showSnackBar(failedsnackBar);
+                  },
+                  onCancel: () {
+                    const cancelsnackBar = SnackBar(
+                      content: Text('Payment Cancelled'),
+                    );
+                    ScaffoldMessenger.of(context).showSnackBar(cancelsnackBar);
+                  },
+                );
+              },
+            ),
           ],
         ),
       ),

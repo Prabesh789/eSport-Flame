@@ -3,7 +3,6 @@ import 'package:esport_flame/core/extension/snackbar_extension.dart';
 import 'package:esport_flame/core/widgets/custom_textfield.dart';
 import 'package:esport_flame/features/menu_nav_bar/Model/message_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/app_colors.dart';
@@ -22,7 +21,7 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   final _textController = TextEditingController();
-  String message = "";
+  String message = '';
 
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore messageRef = FirebaseFirestore.instance;
@@ -43,25 +42,22 @@ class _ChatScreenState extends State<ChatScreen> {
         }
       },
     );
-   
     getUserDetail();
     super.initState();
   }
 
-  getUserDetail() async {
+  Future getUserDetail() async {
     await FirebaseFirestore.instance
         .collection('users')
         .doc(senderUid)
         .get()
         .then((value) {
-      messagemodel = MessageModel.fromMap(value.data());
-      print(messagemodel.nickName);
+      messagemodel = MessageModel.fromMap(value.data()!);
     });
   }
 
- 
 //sending message
-  void sendMessage() async {
+  Future sendMessage() async {
     FocusScope.of(context).unfocus();
 
     messagemodel.uid = senderUid;
@@ -69,13 +65,12 @@ class _ChatScreenState extends State<ChatScreen> {
     messagemodel.nickName = messagemodel.nickName;
 
     await messageRef
-        .collection("Chats")
+        .collection('Chats')
         .doc(widget.userid)
-        .collection("messages")
+        .collection('messages')
         .doc()
         .set(messagemodel.toMap());
     _textController.clear();
-  
   }
 
   @override
@@ -89,13 +84,6 @@ class _ChatScreenState extends State<ChatScreen> {
         Icons.near_me,
         size: 18,
       ),
-      // validator: (value) {
-      //   if (value!.isEmpty) {
-      //     return 'Message empty';
-      //   } else {
-      //     return null;
-      //   }
-      // },
       onChanged: (value) {
         setState(() {
           message = value!;
@@ -121,82 +109,95 @@ class _ChatScreenState extends State<ChatScreen> {
         title: Text(widget.username),
         actions: [
           IconButton(
-              icon: const Icon(
-                Icons.call,
-              ),
-              onPressed: () {
-                 context.showSnackBar('Audio Call features comming soon!!',
-                                      Icons.warning, AppColors.greencolor);
-              }),
-          IconButton(icon: const Icon(Icons.video_call), onPressed: () {
-            context.showSnackBar('Video Call features comming soon!!',
-                                      Icons.warning, AppColors.greencolor);
-          })
+            icon: const Icon(
+              Icons.call,
+            ),
+            onPressed: () {
+              context.showSnackBar(
+                'Audio Call features comming soon!!',
+                Icons.warning,
+                AppColors.greencolor,
+              );
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.video_call),
+            onPressed: () {
+              context.showSnackBar(
+                'Video Call features comming soon!!',
+                Icons.warning,
+                AppColors.greencolor,
+              );
+            },
+          )
         ],
       ),
       body: Container(
-          child: Column(
-        children: [
-          Expanded(
+        child: Column(
+          children: [
+            Expanded(
               child: Container(
-                  padding: EdgeInsets.all(10),
-                  decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(25),
-                        topRight: Radius.circular(25),
-                      )),
-                  child: StreamBuilder(
-                    stream: FirebaseFirestore.instance
-                        .collection("Chats")
-                        .doc(widget.userid)
-                        .collection("messages")
-                        .snapshots(),
-                    builder: (context, AsyncSnapshot<QuerySnapshot> snapshots) {
-                      final messageData = snapshots.data?.docs;
-                      switch (snapshots.connectionState) {
-                        case ConnectionState.waiting:
-                          return const Center(child: CircularProgressIndicator());
-                        default:
-                          if (snapshots.hasError) {
-                            return buildText('Something Went Wrong Try later');
-                          } else {
-                            return messageData!.isEmpty
-                                ? buildText('Say Hi..')
-                                : ListView.builder(
-                                    physics: const BouncingScrollPhysics(),
-                                    reverse: true,
-                                    itemCount: messageData.length,
-                                    itemBuilder: (context, index) {
-                                      final message = messageData[index];
-                                      print(message['nickName']);
+                padding: const EdgeInsets.all(10),
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(25),
+                    topRight: Radius.circular(25),
+                  ),
+                ),
+                child: StreamBuilder(
+                  stream: FirebaseFirestore.instance
+                      .collection('Chats')
+                      .doc(widget.userid)
+                      .collection('messages')
+                      .snapshots(),
+                  builder: (context, AsyncSnapshot<QuerySnapshot> snapshots) {
+                    final messageData = snapshots.data?.docs;
+                    switch (snapshots.connectionState) {
+                      case ConnectionState.waiting:
+                        return const Center(child: CircularProgressIndicator());
+                      default:
+                        if (snapshots.hasError) {
+                          return buildText('Something Went Wrong Try later');
+                        } else {
+                          return messageData!.isEmpty
+                              ? buildText('Say Hi..')
+                              : ListView.builder(
+                                  physics: const BouncingScrollPhysics(),
+                                  reverse: true,
+                                  itemCount: messageData.length,
+                                  itemBuilder: (context, index) {
+                                    final message = messageData[index];
 
-                                      return MessageWidget(
-                                        message: message,
-                                        isMe: message['senderUid'] == senderUid,
-                                      );
-                                    },
-                                  );
-                          }
-                      }
-                    },
-                  ))),
-          Row(
-            children: [
-              Expanded(child: inputMessageFeild),
-              const SizedBox(width: 10),
-              sendMessageButton
-            ],
-          ),
-        ],
-      )),
+                                    return MessageWidget(
+                                      message: message,
+                                      isMe: message['senderUid'] == senderUid,
+                                    );
+                                  },
+                                );
+                        }
+                    }
+                  },
+                ),
+              ),
+            ),
+            Row(
+              children: [
+                Expanded(child: inputMessageFeild),
+                const SizedBox(width: 10),
+                sendMessageButton
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 
   Widget buildText(String text) => Center(
         child: Text(
           text,
-          style: TextStyle(fontSize: 24),
+          style: const TextStyle(fontSize: 24),
         ),
       );
 }

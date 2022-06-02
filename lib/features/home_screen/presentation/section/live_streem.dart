@@ -38,7 +38,7 @@ class _LiveStreemState extends ConsumerState<LiveStreem> {
               log('Warning error alert !!!');
               return const SizedBox();
             } else if (snapshot.hasData) {
-              final _videosData = snapshot.data as QuerySnapshot;
+              final _videosData = snapshot.data! as QuerySnapshot;
               return SingleChildScrollView(
                 child: SizedBox(
                   height: widget.mediaQuery.height,
@@ -49,8 +49,8 @@ class _LiveStreemState extends ConsumerState<LiveStreem> {
                       final _data = _videosData.docs[index];
                       return Video(
                         mediaQuery: widget.mediaQuery,
-                        videoUrl: _data['videoUrl'],
-                        title: _data['videotitle'],
+                        videoUrl: '${_data['videoUrl']}',
+                        title: '${_data['videotitle']}',
                       );
                     },
                     separatorBuilder: (ctx, a) {
@@ -65,7 +65,6 @@ class _LiveStreemState extends ConsumerState<LiveStreem> {
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
                 child: ListView.separated(
                   physics: const BouncingScrollPhysics(),
-                  shrinkWrap: false,
                   itemCount: 4,
                   itemBuilder: (context, index) {
                     return Column(
@@ -107,56 +106,58 @@ class Video extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Builder(builder: (context) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(5),
-            margin: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.shade500,
-                  offset: const Offset(4.0, 4.0),
-                  blurRadius: 15.0,
-                  spreadRadius: 1.0,
-                ),
-                const BoxShadow(
-                  color: Colors.white,
-                  offset: Offset(-4.0, -4.0),
-                  blurRadius: 15.0,
-                  spreadRadius: 1.0,
-                ),
-              ],
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(width: 3),
-            ),
-            child: Center(
-              child: AspectRatio(
-                aspectRatio: 16 / 9,
-                child: VideoPlayer(
-                  url: videoUrl.toString(),
+    return Builder(
+      builder: (context) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(5),
+              margin: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.shade500,
+                    offset: const Offset(4, 4),
+                    blurRadius: 15,
+                    spreadRadius: 1,
+                  ),
+                  const BoxShadow(
+                    color: Colors.white,
+                    offset: Offset(-4, -4),
+                    blurRadius: 15,
+                    spreadRadius: 1,
+                  ),
+                ],
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(width: 3),
+              ),
+              child: Center(
+                child: AspectRatio(
+                  aspectRatio: 16 / 9,
+                  child: VideoPlayer(
+                    url: videoUrl,
+                  ),
                 ),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: Text(
-              title,
-              style: GoogleFonts.baskervville(
-                textStyle: Theme.of(context).textTheme.subtitle1?.copyWith(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 13,
-                    ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: Text(
+                title,
+                style: GoogleFonts.baskervville(
+                  textStyle: Theme.of(context).textTheme.subtitle1?.copyWith(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 13,
+                      ),
+                ),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
               ),
-              overflow: TextOverflow.ellipsis,
-              maxLines: 2,
-            ),
-          )
-        ],
-      );
-    });
+            )
+          ],
+        );
+      },
+    );
   }
 }

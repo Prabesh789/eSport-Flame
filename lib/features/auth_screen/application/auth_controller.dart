@@ -82,7 +82,9 @@ class AuthController<T> extends StateNotifier<BaseState> {
     final response = await _repo.logout();
 
     state = response.fold(
-        (success) => const BaseState.success(), (r) => BaseState.error(r));
+      (success) => const BaseState<dynamic>.success(),
+      (r) => BaseState<dynamic>.error(r),
+    );
   }
 
   String? getUserId() {

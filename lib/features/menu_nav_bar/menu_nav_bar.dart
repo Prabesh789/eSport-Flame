@@ -13,7 +13,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 final logOutUserController =
     StateNotifierProvider.autoDispose<AuthController, BaseState>(
-        authController);
+  authController,
+);
 
 class MenuNavBar extends ConsumerStatefulWidget {
   const MenuNavBar({Key? key, this.isFromAdminPannel = false})
@@ -55,15 +56,24 @@ class _MenuNavBarState extends ConsumerState<MenuNavBar> {
     final mediaQuery = MediaQuery.of(context).size;
     ref.listen<BaseState>(logOutUserController, (oldState, state) {
       state.maybeWhen(
-        success: (_) {
+        success: (dynamic _) {
           context.showSnackBar(
-              'Logout', Icons.check_circle, AppColors.greencolor);
+            'Logout',
+            Icons.check_circle,
+            AppColors.greencolor,
+          );
           Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (_) => const SignInScreen()));
+            MaterialPageRoute<SignInScreen>(
+              builder: (_) => const SignInScreen(),
+            ),
+          );
         },
         error: (_) {
           context.showSnackBar(
-              'Something went wrong !!!', Icons.error, AppColors.redColor);
+            'Something went wrong !!!',
+            Icons.error,
+            AppColors.redColor,
+          );
         },
         orElse: () {},
       );
@@ -162,7 +172,7 @@ class _MenuNavBarState extends ConsumerState<MenuNavBar> {
                       ),
                       onTap: () {
                         Navigator.of(context).push(
-                          MaterialPageRoute(
+                          MaterialPageRoute<DataPolicyScreen>(
                             builder: (_) => const DataPolicyScreen(),
                           ),
                         );
@@ -191,7 +201,7 @@ class _MenuNavBarState extends ConsumerState<MenuNavBar> {
                       ),
                       onTap: () {
                         Navigator.of(context).push(
-                          MaterialPageRoute(
+                          MaterialPageRoute<AboutAppScreen>(
                             builder: (_) => const AboutAppScreen(),
                           ),
                         );
@@ -222,7 +232,9 @@ class _MenuNavBarState extends ConsumerState<MenuNavBar> {
                       child: Icon(Icons.logout),
                     ),
                     onTap: () async {
-                      ref.read(logOutUserController.notifier).logOutUser();
+                      await ref
+                          .read(logOutUserController.notifier)
+                          .logOutUser();
                     },
                     title: Text(
                       'Logout',

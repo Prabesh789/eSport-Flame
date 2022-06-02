@@ -21,7 +21,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 final logOutAdminController =
     StateNotifierProvider.autoDispose<AuthController, BaseState>(
-        authController);
+  authController,
+);
 
 class AdminDashboardScreen extends ConsumerStatefulWidget {
   const AdminDashboardScreen({Key? key}) : super(key: key);
@@ -44,15 +45,24 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
     final mediaQuery = MediaQuery.of(context).size;
     ref.listen<BaseState>(logOutAdminController, (oldState, state) {
       state.maybeWhen(
-        success: (_) {
+        success: (dynamic _) {
           context.showSnackBar(
-              'Logout', Icons.check_circle, AppColors.greencolor);
+            'Logout',
+            Icons.check_circle,
+            AppColors.greencolor,
+          );
           Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (_) => const SignInScreen()));
+            MaterialPageRoute<SignInScreen>(
+              builder: (_) => const SignInScreen(),
+            ),
+          );
         },
         error: (_) {
           context.showSnackBar(
-              'Something went wrong !!!', Icons.error, AppColors.redColor);
+            'Something went wrong !!!',
+            Icons.error,
+            AppColors.redColor,
+          );
         },
         orElse: () {},
       );
@@ -84,7 +94,6 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
               itemCount: adminPannelButtonData.length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                childAspectRatio: 4 / 4,
                 crossAxisSpacing: 20,
                 mainAxisSpacing: 20,
               ),
@@ -95,28 +104,40 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
                   onTap: () {
                     log('$index');
                     if (index == 0) {
-                      Navigator.of(context).push(MaterialPageRoute(
+                      Navigator.of(context).push(
+                        MaterialPageRoute<AddAds>(
                           builder: (_) => AddAds(
-                                mediaQuery: mediaQuery,
-                              )));
+                            mediaQuery: mediaQuery,
+                          ),
+                        ),
+                      );
                     } else if (index == 1) {
-                      Navigator.of(context).push(MaterialPageRoute(
+                      Navigator.of(context).push(
+                        MaterialPageRoute<AddTournaments>(
                           builder: (_) => AddTournaments(
-                                mediaQuery: mediaQuery,
-                              )));
+                            mediaQuery: mediaQuery,
+                          ),
+                        ),
+                      );
                     } else if (index == 2) {
-                      Navigator.of(context).push(MaterialPageRoute(
+                      Navigator.of(context).push(
+                        MaterialPageRoute<AddPopularGames>(
                           builder: (_) => AddPopularGames(
-                                mediaQuery: mediaQuery,
-                              )));
+                            mediaQuery: mediaQuery,
+                          ),
+                        ),
+                      );
                     } else if (index == 3) {
-                      Navigator.of(context).push(MaterialPageRoute(
+                      Navigator.of(context).push(
+                        MaterialPageRoute<AddVideos>(
                           builder: (_) => AddVideos(
-                                mediaQuery: mediaQuery,
-                              )));
+                            mediaQuery: mediaQuery,
+                          ),
+                        ),
+                      );
                     }
                   },
-                  text: data['buttonText'],
+                  text: '${data['buttonText']}',
                 );
               },
             ),
@@ -128,7 +149,6 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
               itemCount: adminPannelListButtonData.length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                childAspectRatio: 4 / 4,
                 crossAxisSpacing: 20,
                 mainAxisSpacing: 20,
               ),
@@ -140,21 +160,30 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
                     log('$index');
                     if (index == 0) {
                       Navigator.of(context).push(
-                          MaterialPageRoute(builder: (_) => const UserList()));
+                        MaterialPageRoute<UserList>(
+                          builder: (_) => const UserList(),
+                        ),
+                      );
                     } else if (index == 1) {
-                      Navigator.of(context).push(MaterialPageRoute(
+                      Navigator.of(context).push(
+                        MaterialPageRoute<PlayTournaments>(
                           builder: (_) => PlayTournaments(
-                                mediaQuery: mediaQuery,
-                                title: 'Tournaments List',
-                              )));
+                            mediaQuery: mediaQuery,
+                            title: 'Tournaments List',
+                          ),
+                        ),
+                      );
                     } else if (index == 2) {
-                      Navigator.of(context).push(MaterialPageRoute(
+                      Navigator.of(context).push(
+                        MaterialPageRoute<LiveStreem>(
                           builder: (_) => LiveStreem(
-                                mediaQuery: mediaQuery,
-                              )));
+                            mediaQuery: mediaQuery,
+                          ),
+                        ),
+                      );
                     }
                   },
-                  text: data['buttonText'],
+                  text: '${data['buttonText']}',
                 );
               },
             ),
@@ -190,22 +219,22 @@ class AdminPannelCards extends StatelessWidget {
           boxShadow: [
             BoxShadow(
               color: Colors.grey.shade500,
-              offset: const Offset(4.0, 4.0),
-              blurRadius: 15.0,
-              spreadRadius: 1.0,
+              offset: const Offset(4, 4),
+              blurRadius: 15,
+              spreadRadius: 1,
             ),
             const BoxShadow(
               color: Colors.white,
-              offset: Offset(-4.0, -4.0),
-              blurRadius: 15.0,
-              spreadRadius: 1.0,
+              offset: Offset(-4, -4),
+              blurRadius: 15,
+              spreadRadius: 1,
             ),
           ],
         ),
         child: Center(
           child: Align(
             child: Padding(
-              padding: const EdgeInsets.all(2.0),
+              padding: const EdgeInsets.all(2),
               child: Text(
                 text,
                 style: GoogleFonts.tinos(

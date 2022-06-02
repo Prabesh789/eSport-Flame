@@ -1,33 +1,41 @@
 {
   "project_info": {
-    "project_number": "750136314549",
-    "project_id": "e-sport-flame",
-    "storage_bucket": "e-sport-flame.appspot.com"
+    "project_number": "913651957561",
+    "project_id": "e-sport-7ce0b",
+    "storage_bucket": "e-sport-7ce0b.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:750136314549:android:767c8b2553acc05ed9ccfc",
+        "mobilesdk_app_id": "1:913651957561:android:0b4ab03bef08769eecf2e8",
         "android_client_info": {
           "package_name": "com.esport.esport_flame"
         }
       },
       "oauth_client": [
         {
-          "client_id": "750136314549-v474khn9icfbuegj6dtlarvmf5qtgdi1.apps.googleusercontent.com",
+          "client_id": "913651957561-jhv1t9p5bpb9s0q9gsgdeirujhmhiu6v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.esport.esport_flame",
+            "certificate_hash": "9db7854394ba74a29a69fd336b8e74c94ffe34a6"
+          }
+        },
+        {
+          "client_id": "913651957561-2u4o1rdhrmej3cj868j3m9c0is4p1038.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB5hL7ZahX0tww9sxQOwejxej24JWEgb80"
+          "current_key": "AIzaSyDChZXtl3b0LtQwe5gDCy99f1CrtUT7X2c"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "750136314549-v474khn9icfbuegj6dtlarvmf5qtgdi1.apps.googleusercontent.com",
+              "client_id": "913651957561-2u4o1rdhrmej3cj868j3m9c0is4p1038.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
