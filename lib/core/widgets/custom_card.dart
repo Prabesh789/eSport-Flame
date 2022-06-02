@@ -31,7 +31,6 @@ class CustomCard extends StatelessWidget {
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(13),
@@ -89,7 +88,6 @@ class CustomProductDetails extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 10),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Text(
             productTitle,

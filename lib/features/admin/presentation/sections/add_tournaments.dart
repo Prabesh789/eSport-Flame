@@ -20,11 +20,13 @@ import 'package:intl/intl.dart';
 
 final addTournamentsController =
     StateNotifierProvider.autoDispose<AdminController, BaseState>(
-        adminController);
+  adminController,
+);
 
 final updateTournamentsController =
     StateNotifierProvider.autoDispose<AdminController, BaseState>(
-        adminController);
+  adminController,
+);
 
 class AddTournaments extends ConsumerStatefulWidget {
   const AddTournaments({
@@ -73,11 +75,12 @@ class _AddTournamentsState extends ConsumerState<AddTournaments> {
   late String _imageUrl;
 
   Future<void> _selectDate(BuildContext context, int dateStatus) async {
-    final DateTime? _datePicker = await showDatePicker(
-        context: context,
-        initialDate: selectedDate,
-        firstDate: DateTime.now(),
-        lastDate: DateTime(2101));
+    final _datePicker = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2101),
+    );
     if (_datePicker != null && _datePicker != selectedDate) {
       setState(() {
         selectedDate = _datePicker;
@@ -116,7 +119,7 @@ class _AddTournamentsState extends ConsumerState<AddTournaments> {
   Widget build(BuildContext context) {
     ref.listen<BaseState>(addTournamentsController, (oldState, state) {
       state.maybeWhen(
-        success: (_) {
+        success: (dynamic _) {
           context.showSnackBar(
             'Tournaments Successfully Added !!!',
             Icons.check_circle,
@@ -130,16 +133,20 @@ class _AddTournamentsState extends ConsumerState<AddTournaments> {
         },
         error: (_) {
           context.showSnackBar(
-              'Something went wrong !!!', Icons.error, AppColors.redColor);
+            'Something went wrong !!!',
+            Icons.error,
+            AppColors.redColor,
+          );
         },
         orElse: () => const LinearProgressIndicator(
           backgroundColor: AppColors.blueColor,
         ),
       );
     });
+
     ref.listen<BaseState>(updateTournamentsController, (oldState, state) {
       state.maybeWhen(
-        success: (_) {
+        success: (dynamic _) {
           context.showSnackBar(
             'Tournaments Successfully Updated !!!',
             Icons.check_circle,
@@ -153,7 +160,10 @@ class _AddTournamentsState extends ConsumerState<AddTournaments> {
         },
         error: (_) {
           context.showSnackBar(
-              'Something went wrong !!!', Icons.error, AppColors.redColor);
+            'Something went wrong !!!',
+            Icons.error,
+            AppColors.redColor,
+          );
         },
         orElse: () => const LinearProgressIndicator(
           backgroundColor: AppColors.blueColor,
@@ -381,7 +391,7 @@ class _AddTournamentsState extends ConsumerState<AddTournaments> {
                           chooseImg(ImageSource.gallery);
                         },
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(8),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
@@ -422,7 +432,7 @@ class _AddTournamentsState extends ConsumerState<AddTournaments> {
                               width: widget.mediaQuery!.width / 1.2,
                               imageUrl: _imageUrl,
                               fit: BoxFit.cover,
-                              errorWidget: (ctx, str, dy) {
+                              errorWidget: (ctx, str, dynamic dy) {
                                 return CustomShimmer(
                                   width: widget.mediaQuery!.width,
                                   height: widget.mediaQuery!.width,
@@ -439,11 +449,12 @@ class _AddTournamentsState extends ConsumerState<AddTournaments> {
                           InkWell(
                             onTap: () {
                               tournamentEditStateProvider.isEdit(
-                                  updatedValue: false);
+                                updatedValue: false,
+                              );
                               chooseImg(ImageSource.gallery);
                             },
                             child: Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: const EdgeInsets.all(8),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
@@ -477,8 +488,10 @@ class _AddTournamentsState extends ConsumerState<AddTournaments> {
                     width: widget.mediaQuery!.width / 1.2,
                     child: CustomButton(
                       isLoading: state.maybeMap(
-                          orElse: () => false, loading: (_) => true),
-                      buttonText: widget.isEdit ? "Update" : 'Add +',
+                        orElse: () => false,
+                        loading: (_) => true,
+                      ),
+                      buttonText: widget.isEdit ? 'Update' : 'Add +',
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           if (!widget.isEdit) {
@@ -532,7 +545,7 @@ class _AddTournamentsState extends ConsumerState<AddTournaments> {
 
   //taking a picture from camera or gallery
 
-  void chooseImg(ImageSource source) async {
+  Future chooseImg(ImageSource source) async {
     final pickedFile = await _picker.pickImage(
       source: source,
     );

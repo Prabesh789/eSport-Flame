@@ -25,17 +25,21 @@ class HomeScreenRepository implements IHomeRepository {
 
   @override
   Future<Either<void, Failure>> participantStatus(
-      String docId, String userId) async {
+    String docId,
+    String userId,
+  ) async {
     try {
-      CollectionReference tournaments =
+      final CollectionReference tournaments =
           FirebaseFirestore.instance.collection('tournaments');
       final updatedData = tournaments
           .doc(docId)
           .update({
-            'participants': FieldValue.arrayUnion([userId])
+            'participants': FieldValue.arrayUnion(<String>[userId])
           })
-          .then((value) => log("Status Updated"))
-          .catchError((error) => log("Failed to update Status: $error"));
+          .then((value) => log('Status Updated'))
+          .catchError(
+            (dynamic error) => log('Failed to update Status: $error'),
+          );
       return Left(updatedData);
     } on FirebaseAuthException catch (e) {
       return Right(
@@ -56,13 +60,15 @@ class HomeScreenRepository implements IHomeRepository {
   @override
   Future<Either<void, Failure>> removeParticipant(String docId) async {
     try {
-      CollectionReference tournaments =
+      final CollectionReference tournaments =
           FirebaseFirestore.instance.collection('tournaments');
       final updatedData = tournaments
           .doc(docId)
           .update({'participants': ''})
-          .then((value) => log("Status Updated"))
-          .catchError((error) => log("Failed to update Status: $error"));
+          .then((value) => log('Status Updated'))
+          .catchError(
+            (dynamic error) => log('Failed to update Status: $error'),
+          );
       return Left(updatedData);
     } on FirebaseAuthException catch (e) {
       return Right(

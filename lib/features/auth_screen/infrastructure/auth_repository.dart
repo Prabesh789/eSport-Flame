@@ -17,8 +17,9 @@ abstract class IAuthRepository {
   Future<Either<Unit, Failure>> logout();
 
   /* Signup new user */
-  Future<Either<SignupResponse, Failure>> signupNewUser(
-      {required SignupRequest newSignupRequest});
+  Future<Either<SignupResponse, Failure>> signupNewUser({
+    required SignupRequest newSignupRequest,
+  });
 
   /* Signup new user */
   Future<Either<LoginResponse, Failure>> loginUser({
@@ -38,15 +39,18 @@ class AuthRepository implements IAuthRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   @override
-  Future<Either<SignupResponse, Failure>> signupNewUser(
-      {required SignupRequest newSignupRequest}) async {
+  Future<Either<SignupResponse, Failure>> signupNewUser({
+    required SignupRequest newSignupRequest,
+  }) async {
     try {
       await _auth.createUserWithEmailAndPassword(
         email: newSignupRequest.email,
         password: newSignupRequest.password,
       );
       final user = _auth.currentUser;
-      newSignupRequest.toJson().removeWhere((key, value) => key == 'password');
+      newSignupRequest
+          .toJson()
+          .removeWhere((key, dynamic value) => key == 'password');
       await _firestore.collection('users').doc(user?.uid).set(
             newSignupRequest.toJson(),
           );
@@ -79,8 +83,9 @@ class AuthRepository implements IAuthRepository {
   }
 
   @override
-  Future<Either<LoginResponse, Failure>> loginUser(
-      {required LoginRequest loginRequest}) async {
+  Future<Either<LoginResponse, Failure>> loginUser({
+    required LoginRequest loginRequest,
+  }) async {
     try {
       final response = await _auth.signInWithEmailAndPassword(
         email: loginRequest.email,
@@ -92,7 +97,7 @@ class AuthRepository implements IAuthRepository {
       final data = user.data();
       data?.putIfAbsent('userId', () => user.id);
 
-      final result = LoginResponse.fromJson(data as Map<String, dynamic>);
+      final result = LoginResponse.fromJson(data!);
       return Left(result);
     } on FirebaseAuthException catch (e) {
       return Right(

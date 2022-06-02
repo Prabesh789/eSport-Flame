@@ -49,7 +49,7 @@ class _PopularSectionState extends ConsumerState<PopularSection> {
               log('Warning error alert for popular games snapshot data !!!');
               return const SizedBox();
             } else if (snapshot.hasData) {
-              final _popularGamesData = snapshot.data as QuerySnapshot;
+              final _popularGamesData = snapshot.data! as QuerySnapshot;
 
               return GridView.builder(
                 controller: _scrollController,
@@ -146,7 +146,7 @@ class CustomCard extends StatelessWidget {
                   ),
                 );
               },
-              errorWidget: (context, error, url) {
+              errorWidget: (context, error, dynamic url) {
                 return CustomShimmer(
                   height: mediaQuery.width - 50,
                   width: mediaQuery.width,

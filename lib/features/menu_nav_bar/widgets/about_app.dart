@@ -13,7 +13,6 @@ class AboutAppScreen extends StatefulWidget {
 class _AboutAppScreenState extends State<AboutAppScreen> {
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -31,11 +30,11 @@ class _AboutAppScreenState extends State<AboutAppScreen> {
         itemBuilder: (ctx, index) {
           final _data = aboutApp[index];
           return Padding(
-            padding: const EdgeInsets.all(15.0),
+            padding: const EdgeInsets.all(15),
             child: AppDataCard(
-              img: _data['img'],
-              policyTitle: _data['title'],
-              policyDes: _data['description'],
+              img: '${_data['img']}',
+              policyTitle: '${_data['title']}',
+              policyDes: '${_data['description']}',
             ),
           );
         },

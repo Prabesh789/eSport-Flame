@@ -121,6 +121,8 @@ class _ImgSection extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final userId = ref.watch(userIdProvider.notifier).state;
     final _useStatus = ref.watch(isUserAdminProvider);
+    final _isParticipated =
+        tournamentData['participants'].contains(userId) as bool;
     log('=> $userId');
     return Container(
       width: mediaQuery!.width,
@@ -128,7 +130,7 @@ class _ImgSection extends ConsumerWidget {
       child: Column(
         children: [
           Text(
-            tournamentData['gameTitle'],
+            '${tournamentData['gameTitle']}',
             style: GoogleFonts.merriweather(
               textStyle: Theme.of(context).textTheme.bodyText2?.copyWith(
                     fontWeight: FontWeight.bold,
@@ -142,16 +144,15 @@ class _ImgSection extends ConsumerWidget {
           ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(12),
                 child: CachedNetworkImage(
                   width: mediaQuery!.width / 2,
                   height: mediaQuery!.width / 2.4,
-                  imageUrl: tournamentData['posterImage'],
+                  imageUrl: '${tournamentData['posterImage']}',
                   fit: BoxFit.cover,
-                  errorWidget: (ctx, str, dy) {
+                  errorWidget: (ctx, str, dynamic dy) {
                     return CustomShimmer(
                       width: mediaQuery!.width,
                       height: mediaQuery!.width,
@@ -176,30 +177,31 @@ class _ImgSection extends ConsumerWidget {
                   ),
                   _Details(
                     title: 'Started date',
-                    subTitle: tournamentData['matchDate'],
+                    subTitle: '${tournamentData['matchDate']}',
                   ),
                   _Details(
                     title: 'Booking open',
-                    subTitle: tournamentData['bookingOpenDate'],
+                    subTitle: '${tournamentData['bookingOpenDate']}',
                   ),
                   _Details(
                     title: 'Date-line',
-                    subTitle: tournamentData['deadLineDate'],
+                    subTitle: '${tournamentData['deadLineDate']}',
                   ),
                   _Details(
                     title: 'Winner Prize',
-                    subTitle: tournamentData['winnerPrize'],
+                    subTitle: '${tournamentData['winnerPrize']}',
                   ),
-                  tournamentData['participants'].contains(userId)
-                      ? const _Details(
-                          title: 'Participation',
-                          subTitle: '',
-                          widget: Icon(
-                            Icons.check_circle,
-                            color: AppColors.greencolor,
-                          ),
-                        )
-                      : const SizedBox()
+                  if (_isParticipated)
+                    const _Details(
+                      title: 'Participation',
+                      subTitle: '',
+                      widget: Icon(
+                        Icons.check_circle,
+                        color: AppColors.greencolor,
+                      ),
+                    )
+                  else
+                    const SizedBox()
                 ],
               ),
               const Spacer(),
@@ -210,24 +212,23 @@ class _ImgSection extends ConsumerWidget {
                     TournamentAlertBox.showAlert(
                       docId: tournamentData.id,
                       context: context,
-                      description: tournamentData['gameInfo'],
-                      gameTitle: tournamentData['gameTitle'],
-                      isParticipant:
-                          tournamentData['participants'].contains(userId),
+                      description: '${tournamentData['gameInfo']}',
+                      gameTitle: '${tournamentData['gameTitle']}',
+                      isParticipant: _isParticipated,
                     );
                   } else {
                     Navigator.of(context).push(
-                      MaterialPageRoute(
+                      MaterialPageRoute<AddTournaments>(
                         builder: (_) => AddTournaments(
                           isEdit: true,
                           mediaQuery: mediaQuery,
-                          title: tournamentData['gameTitle'],
-                          description: tournamentData['gameInfo'],
-                          matchDate: tournamentData['matchDate'],
-                          bookingDate: tournamentData['bookingOpenDate'],
-                          deadLine: tournamentData['deadLineDate'],
-                          prize: tournamentData['winnerPrize'],
-                          imgUrl: tournamentData['posterImage'],
+                          title: '${tournamentData['gameTitle']}',
+                          description: '${tournamentData['gameInfo']}',
+                          matchDate: '${tournamentData['matchDate']}',
+                          bookingDate: '${tournamentData['bookingOpenDate']}',
+                          deadLine: '${tournamentData['deadLineDate']}',
+                          prize: '${tournamentData['winnerPrize']}',
+                          imgUrl: '${tournamentData['posterImage']}',
                           docId: tournamentData.id,
                         ),
                       ),

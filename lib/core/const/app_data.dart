@@ -1,4 +1,4 @@
-final List<Map<String, dynamic>> dataPloicy = [
+final List<Map<String, String>> dataPloicy = [
   {
     'img': 'assets/data_policy.svg',
     'title': 'Account Protection',
@@ -19,7 +19,7 @@ final List<Map<String, dynamic>> dataPloicy = [
   },
 ];
 
-final List<Map<String, dynamic>> aboutApp = [
+final List<Map<String, String>> aboutApp = [
   {
     'img': 'assets/app.svg',
     'title': 'E-sport App',

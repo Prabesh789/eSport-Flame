@@ -35,14 +35,14 @@ class _BottomNavBarState extends State<BottomNavBar> {
       ),
       bottomNavigationBar: ClipRRect(
         borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(15.0),
-          topRight: Radius.circular(15.0),
+          topLeft: Radius.circular(15),
+          topRight: Radius.circular(15),
         ),
         child: SizedBox(
           child: BottomNavigationBar(
             currentIndex: _selectedIndex,
             onTap: _onTap,
-            elevation: 10.0,
+            elevation: 10,
             type: BottomNavigationBarType.fixed,
             backgroundColor: AppColors.blackColor,
             iconSize: 27,

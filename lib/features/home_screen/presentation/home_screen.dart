@@ -20,7 +20,8 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 final userIdController =
     StateNotifierProvider.autoDispose<AuthController, BaseState>(
-        authController);
+  authController,
+);
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -75,8 +76,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       body: CustomBodyWidget(
         child: SmartRefresher(
           controller: _refreshController,
-          enablePullDown: true,
-          enablePullUp: false,
           onRefresh: _onRefresh,
           onLoading: () => _onLoading,
           // ignore: prefer_const_constructors
@@ -107,7 +106,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           onTap: (index) {},
                           autoplayDelay: 500,
                           duration: 1000,
-                          loop: true,
                           physics: const BouncingScrollPhysics(),
                           autoplay: true,
                           controller: _swiperController,
@@ -125,7 +123,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                       child: CachedNetworkImage(
                                         imageUrl: '${_data['image']}',
                                         fit: BoxFit.cover,
-                                        errorWidget: (ctx, str, dy) {
+                                        errorWidget: (ctx, str, dynamic dy) {
                                           return CustomShimmer(
                                             height: mediaQuery.height / 3.5,
                                             width: mediaQuery.width - 15,
@@ -220,17 +218,19 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   },
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(15.0),
+                  padding: const EdgeInsets.all(15),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Buttons(
                         onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
+                          Navigator.of(context).push(
+                            MaterialPageRoute<PlayTournaments>(
                               builder: (_) => PlayTournaments(
-                                    mediaQuery: mediaQuery,
-                                  )));
+                                mediaQuery: mediaQuery,
+                              ),
+                            ),
+                          );
                         },
                         text: 'Play Tournaments',
                       ),
@@ -238,7 +238,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       Buttons(
                         onTap: () {
                           Navigator.of(context).push(
-                            MaterialPageRoute(
+                            MaterialPageRoute<LiveStreem>(
                               builder: (_) => LiveStreem(
                                 mediaQuery: mediaQuery,
                               ),

@@ -15,7 +15,8 @@ import 'package:image_picker/image_picker.dart';
 
 final addPopularGamesController =
     StateNotifierProvider.autoDispose<AdminController, BaseState>(
-        adminController);
+  adminController,
+);
 
 class AddPopularGames extends ConsumerStatefulWidget {
   const AddPopularGames({Key? key, this.mediaQuery}) : super(key: key);
@@ -38,7 +39,7 @@ class _AddPopularGamesState extends ConsumerState<AddPopularGames> {
   Widget build(BuildContext context) {
     ref.listen<BaseState>(addPopularGamesController, (oldState, state) {
       state.maybeWhen(
-        success: (_) {
+        success: (dynamic _) {
           context.showSnackBar(
             'Games Successfully Added !!!',
             Icons.check_circle,
@@ -52,7 +53,10 @@ class _AddPopularGamesState extends ConsumerState<AddPopularGames> {
         },
         error: (_) {
           context.showSnackBar(
-              'Something went wrong !!!', Icons.error, AppColors.redColor);
+            'Something went wrong !!!',
+            Icons.error,
+            AppColors.redColor,
+          );
         },
         orElse: () => const LinearProgressIndicator(
           backgroundColor: AppColors.blueColor,
@@ -75,7 +79,7 @@ class _AddPopularGamesState extends ConsumerState<AddPopularGames> {
       body: Form(
         key: _formKey,
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(20),
           child: SingleChildScrollView(
             child: Column(
               children: [
@@ -150,32 +154,34 @@ class _AddPopularGamesState extends ConsumerState<AddPopularGames> {
                     ),
                   ),
                   child: InkWell(
-                      onTap: () {
-                        chooseImg(ImageSource.gallery);
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            const Icon(
-                              Icons.image,
-                              color: AppColors.blackColor,
+                    onTap: () {
+                      chooseImg(ImageSource.gallery);
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          const Icon(
+                            Icons.image,
+                            color: AppColors.blackColor,
+                          ),
+                          Text(
+                            'From Gallery',
+                            style: GoogleFonts.baskervville(
+                              textStyle: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1
+                                  ?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,
+                                  ),
                             ),
-                            Text(
-                              'From Gallery',
-                              style: GoogleFonts.baskervville(
-                                textStyle: Theme.of(context)
-                                    .textTheme
-                                    .bodyText1
-                                    ?.copyWith(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14),
-                              ),
-                            )
-                          ],
-                        ),
-                      )),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
                 SizedBox(
                   height: widget.mediaQuery!.height / 5,
@@ -209,7 +215,7 @@ class _AddPopularGamesState extends ConsumerState<AddPopularGames> {
 
   //taking a picture from camera or gallery
 
-  void chooseImg(ImageSource source) async {
+  Future chooseImg(ImageSource source) async {
     final pickedFile = await _picker.pickImage(
       source: source,
     );

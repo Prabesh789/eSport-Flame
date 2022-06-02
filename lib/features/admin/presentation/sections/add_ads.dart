@@ -16,7 +16,8 @@ import 'package:image_picker/image_picker.dart';
 
 final addAdsController =
     StateNotifierProvider.autoDispose<AdminController, BaseState>(
-        adminController);
+  adminController,
+);
 
 class AddAds extends ConsumerStatefulWidget {
   const AddAds({Key? key, this.mediaQuery}) : super(key: key);
@@ -49,7 +50,7 @@ class _AddAdsState extends ConsumerState<AddAds> {
   Widget build(BuildContext context) {
     ref.listen<BaseState>(addAdsController, (oldState, state) {
       state.maybeWhen(
-        success: (_) {
+        success: (dynamic _) {
           context.showSnackBar(
             'Ads Successfully Added !!!',
             Icons.check_circle,
@@ -63,7 +64,10 @@ class _AddAdsState extends ConsumerState<AddAds> {
         },
         error: (_) {
           context.showSnackBar(
-              'Something went wrong !!!', Icons.error, AppColors.redColor);
+            'Something went wrong !!!',
+            Icons.error,
+            AppColors.redColor,
+          );
         },
         orElse: () => const LinearProgressIndicator(
           backgroundColor: AppColors.blueColor,
@@ -87,7 +91,7 @@ class _AddAdsState extends ConsumerState<AddAds> {
         child: Form(
           key: _formKey,
           child: Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.all(20),
             child: SingleChildScrollView(
               child: Column(
                 children: [
@@ -167,7 +171,7 @@ class _AddAdsState extends ConsumerState<AddAds> {
                         chooseImg(ImageSource.gallery);
                       },
                       child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(8),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
@@ -182,8 +186,9 @@ class _AddAdsState extends ConsumerState<AddAds> {
                                     .textTheme
                                     .bodyText1
                                     ?.copyWith(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14,
+                                    ),
                               ),
                             )
                           ],
@@ -196,7 +201,9 @@ class _AddAdsState extends ConsumerState<AddAds> {
                   ),
                   CustomButton(
                     isLoading: state.maybeMap(
-                        orElse: () => false, loading: (_) => true),
+                      orElse: () => false,
+                      loading: (_) => true,
+                    ),
                     buttonText: 'Add +',
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
@@ -222,7 +229,7 @@ class _AddAdsState extends ConsumerState<AddAds> {
 
   //taking a picture from camera or gallery
 
-  void chooseImg(ImageSource source) async {
+  Future chooseImg(ImageSource source) async {
     final pickedFile = await _picker.pickImage(
       source: source,
     );

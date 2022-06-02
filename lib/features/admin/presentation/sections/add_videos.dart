@@ -14,7 +14,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final addVideosController =
     StateNotifierProvider.autoDispose<AdminController, BaseState>(
-        adminController);
+  adminController,
+);
 
 class AddVideos extends ConsumerStatefulWidget {
   const AddVideos({Key? key, this.mediaQuery}) : super(key: key);
@@ -35,7 +36,7 @@ class _AddVideosState extends ConsumerState<AddVideos> {
   Widget build(BuildContext context) {
     ref.listen<BaseState>(addVideosController, (oldState, state) {
       state.maybeWhen(
-        success: (_) {
+        success: (dynamic _) {
           context.showSnackBar(
             'Videos Successfully Added !!!',
             Icons.check_circle,
@@ -49,7 +50,10 @@ class _AddVideosState extends ConsumerState<AddVideos> {
         },
         error: (_) {
           context.showSnackBar(
-              'Something went wrong !!!', Icons.error, AppColors.redColor);
+            'Something went wrong !!!',
+            Icons.error,
+            AppColors.redColor,
+          );
         },
         orElse: () => const LinearProgressIndicator(
           backgroundColor: AppColors.blueColor,
@@ -73,7 +77,7 @@ class _AddVideosState extends ConsumerState<AddVideos> {
         key: _formKey,
         child: CustomBodyWidget(
           child: Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.all(20),
             child: SingleChildScrollView(
               child: Column(
                 children: [
@@ -126,7 +130,9 @@ class _AddVideosState extends ConsumerState<AddVideos> {
                   ),
                   CustomButton(
                     isLoading: state.maybeMap(
-                        orElse: () => false, loading: (_) => true),
+                      orElse: () => false,
+                      loading: (_) => true,
+                    ),
                     buttonText: 'Add +',
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {

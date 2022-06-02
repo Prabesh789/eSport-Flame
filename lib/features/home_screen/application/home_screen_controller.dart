@@ -27,8 +27,8 @@ class HomeScreenController<T> extends StateNotifier<BaseState> {
     final response = await _homeScreenRepo.participantStatus(docId, userId);
 
     state = response.fold(
-      (success) => const BaseState.success(),
-      (error) => BaseState.error(error),
+      (success) => const BaseState<dynamic>.success(),
+      (error) => BaseState<dynamic>.error(error),
     );
   }
 
@@ -37,8 +37,8 @@ class HomeScreenController<T> extends StateNotifier<BaseState> {
     final response = await _homeScreenRepo.removeParticipant(docId);
 
     state = response.fold(
-      (success) => const BaseState.success(),
-      (error) => BaseState.error(error),
+      (success) => const BaseState<dynamic>.success(),
+      (error) => BaseState<dynamic>.error(error),
     );
   }
 }
