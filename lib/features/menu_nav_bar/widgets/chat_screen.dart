@@ -42,7 +42,6 @@ class _ChatScreenState extends State<ChatScreen> {
         }
       },
     );
-
     getUserDetail();
     super.initState();
   }
@@ -53,7 +52,7 @@ class _ChatScreenState extends State<ChatScreen> {
         .doc(senderUid)
         .get()
         .then((value) {
-      messagemodel = MessageModel.fromMap(value.data());
+      messagemodel = MessageModel.fromMap(value.data()!);
     });
   }
 

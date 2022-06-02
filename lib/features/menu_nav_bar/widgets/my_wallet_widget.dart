@@ -51,7 +51,6 @@ class _MenuNavBarState extends ConsumerState<Mywallet> {
         }
       },
     );
-
     getAmmountDetail();
     super.initState();
   }
@@ -80,7 +79,7 @@ class _MenuNavBarState extends ConsumerState<Mywallet> {
         .doc(userId)
         .get()
         .then((value) {
-      ammountmodel = AmmountModel.fromMap(value.data());
+      ammountmodel = AmmountModel.fromMap(value.data()!);
       setState(() {
         ammount = ammountmodel.ammount!;
       });
